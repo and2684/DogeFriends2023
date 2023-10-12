@@ -5,6 +5,8 @@ VisualStudioVersion = 17.7.34018.315
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BreedService", "BreedService\BreedService.csproj", "{1892B274-6B09-481D-8C9A-879EEAF0E916}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SettingsService", "SettingsService\SettingsService.csproj", "{325742BF-85BB-410B-807F-55952AE56765}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{1892B274-6B09-481D-8C9A-879EEAF0E916}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1892B274-6B09-481D-8C9A-879EEAF0E916}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1892B274-6B09-481D-8C9A-879EEAF0E916}.Release|Any CPU.Build.0 = Release|Any CPU
+		{325742BF-85BB-410B-807F-55952AE56765}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{325742BF-85BB-410B-807F-55952AE56765}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{325742BF-85BB-410B-807F-55952AE56765}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{325742BF-85BB-410B-807F-55952AE56765}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
