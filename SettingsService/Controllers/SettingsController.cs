@@ -16,6 +16,11 @@ namespace SettingsService.Controllers
             _settingsRepo = settingsRepo;
         }
 
+        /// <summary>
+        /// Получает настройку по ключу.
+        /// </summary>
+        /// <param name="key">Ключ настройки.</param>
+        /// <returns>Значение настройки.</returns>
         [HttpGet("{key}")]
         public async Task<IActionResult> GetSetting(string key)
         {
@@ -31,6 +36,11 @@ namespace SettingsService.Controllers
             }
         }
 
+        /// <summary>
+        /// Устанавливает настройку.
+        /// </summary>
+        /// <param name="setting">Модель настройки.</param>
+        /// <returns>Результат установки настройки.</returns>
         [HttpPost]
         public async Task<IActionResult> SetSetting([FromBody] Setting setting)
         {
@@ -46,6 +56,11 @@ namespace SettingsService.Controllers
             }
         }
 
+        /// <summary>
+        /// Удаляет настройку по ключу.
+        /// </summary>
+        /// <param name="key">Ключ настройки.</param>
+        /// <returns>Результат удаления настройки.</returns>
         [HttpDelete("{key}")]
         public async Task<IActionResult> DeleteSetting(string key)
         {

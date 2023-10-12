@@ -1,5 +1,7 @@
+using Microsoft.OpenApi.Models;
 using SettingsService.Data.Repositories.SettingsRepo;
 using SettingsService.Services;
+using System.Reflection;
 
 namespace SettingsService
 {
@@ -18,6 +20,19 @@ namespace SettingsService
 
             builder.Services.AddSingleton<RedisSetupService>();
             builder.Services.AddScoped<ISettingsRepo, SettingsRepo>();
+
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "SettingsService",
+                    Description = "Сервис для хранения настроек микросервисов приложения."
+                });
+
+                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+            });
 
             var app = builder.Build();
 
