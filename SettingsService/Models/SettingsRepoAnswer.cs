@@ -1,4 +1,4 @@
-﻿namespace SettingsService.Data
+﻿namespace SettingsService.Models
 {
     public enum RepoAnswer
     {

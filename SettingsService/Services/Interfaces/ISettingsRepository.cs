@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using SettingsService.Models;
+﻿using SettingsService.Models;
 
-namespace SettingsService.Data.Repositories.SettingsRepo
+namespace SettingsService.Services.Interfaces
 {
-    public interface ISettingsRepo
+    public interface ISettingsRepository
     {
         public Task<(string?, RepoAnswer)> GetSettingAsync(string key);
         public Task<(Setting?, RepoAnswer)> SetSettingAsync(string key, string value);

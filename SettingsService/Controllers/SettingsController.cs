@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SettingsService.Data;
-using SettingsService.Data.Repositories.SettingsRepo;
 using SettingsService.Models;
+using SettingsService.Services.Interfaces;
 
 namespace SettingsService.Controllers
 {
@@ -9,9 +8,9 @@ namespace SettingsService.Controllers
     [ApiController]
     public class SettingsController : ControllerBase
     {
-        private readonly ISettingsRepo _settingsRepo;
+        private readonly ISettingsRepository _settingsRepo;
 
-        public SettingsController(ISettingsRepo settingsRepo)
+        public SettingsController(ISettingsRepository settingsRepo)
         {
             _settingsRepo = settingsRepo;
         }
