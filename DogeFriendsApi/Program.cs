@@ -17,6 +17,7 @@ namespace DogeFriendsApi
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddHttpClient<ISettingsService, SettingsService>();
             builder.Services.AddScoped<ISettingsService, SettingsService>();
 
             DbContextConfiguration.ConfigureDbContext(builder.Services, builder.Configuration); // Вызов метода для настройки DbContext - с помощью него мы вычитываем ConnectionString из SettingsService

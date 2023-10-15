@@ -6,13 +6,12 @@ namespace DogeFriendsApi.Services
     {
         public string SettingsServiceUrl { get; set; }
         private readonly HttpClient _httpClient;
-        public SettingsService(IConfiguration config)
+
+        public SettingsService(IConfiguration config, IHttpClientFactory httpClientFactory)
         {
             SettingsServiceUrl = config.GetSection("SettingsService").GetValue<string>("SettingsServiceUrl")!;
-            _httpClient = new HttpClient
-            {
-                BaseAddress = new Uri($"{SettingsServiceUrl}/api/settings/")
-            };
+            _httpClient = httpClientFactory.CreateClient();
+            _httpClient.BaseAddress = new Uri($"{SettingsServiceUrl}/api/settings/");
         }
 
         public async Task<string?> GetConnectionStringAsync(string key)
