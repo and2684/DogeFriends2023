@@ -8,8 +8,6 @@ namespace DogeFriendsApi.Data
 {
     public class DataContext : DbContext
     {
-        private static string? _connectionString = string.Empty;
-
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
 
@@ -48,21 +46,6 @@ namespace DogeFriendsApi.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.SeedCoatsAndSizes(); // Добавим размеры собак и виды шерсти по умолчанию
-        }
-
-        // Метод для конфигурации DbContext - лезем в сторонний сервис, где хранятся настройки и оттуда получаем строку подключения к БД
-        public static void ConfigureDbContext(IServiceCollection services, IConfiguration config)
-        {
-            if (_connectionString.IsNullOrEmpty())
-            {
-                var settingsService = services.BuildServiceProvider().GetRequiredService<ISettingsService>();
-                _connectionString = settingsService.GetConnectionStringAsync(config.GetSection("SettingsService").GetValue<string>("ConnectionStringSettingKey")!).GetAwaiter().GetResult();
-            }
-
-            services.AddDbContext<DataContext>(options =>
-            {
-                options.UseSqlServer(_connectionString);
-            });
         }
     }
 }
