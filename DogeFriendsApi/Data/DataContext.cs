@@ -2,11 +2,14 @@
 using DogeFriendsApi.Models;
 using DogeFriendsApi.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace DogeFriendsApi.Data
 {
     public class DataContext : DbContext
     {
+        private static string? _connectionString = string.Empty;
+
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
 
@@ -50,12 +53,15 @@ namespace DogeFriendsApi.Data
         // Метод для конфигурации DbContext - лезем в сторонний сервис, где хранятся настройки и оттуда получаем строку подключения к БД
         public static void ConfigureDbContext(IServiceCollection services, IConfiguration config)
         {
-            services.AddDbContext<DataContext>(options =>
+            if (_connectionString.IsNullOrEmpty())
             {
                 var settingsService = services.BuildServiceProvider().GetRequiredService<ISettingsService>();
-                var connectionString = settingsService.GetConnectionStringAsync(config.GetSection("SettingsService").GetValue<string>("ConnectionStringSettingKey")!).GetAwaiter().GetResult();
+                _connectionString = settingsService.GetConnectionStringAsync(config.GetSection("SettingsService").GetValue<string>("ConnectionStringSettingKey")!).GetAwaiter().GetResult();
+            }
 
-                options.UseSqlServer(connectionString);
+            services.AddDbContext<DataContext>(options =>
+            {
+                options.UseSqlServer(_connectionString);
             });
         }
     }
