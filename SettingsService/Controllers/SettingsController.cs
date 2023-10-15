@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SettingsService.Models;
+using SettingsService.Data.Models;
 using SettingsService.Services.Interfaces;
 
 namespace SettingsService.Controllers
@@ -13,6 +13,25 @@ namespace SettingsService.Controllers
         public SettingsController(ISettingsRepository settingsRepo)
         {
             _settingsRepo = settingsRepo;
+        }
+
+        /// <summary>
+        /// Получает все настройки.
+        /// </summary>
+        /// <returns>Список всех настроек</returns>
+        [HttpGet]
+        public async Task<IActionResult> GetAllSettings()
+        {
+            var (settings, answerCode) = await _settingsRepo.GetAllSettingsAsync();
+            switch (answerCode)
+            {
+                case RepoAnswer.NotFound:
+                    return NotFound("Settings not found.");
+                case RepoAnswer.Success:
+                    return Ok(settings);
+                default:
+                    return StatusCode(500, $"An error occurred while retrieving the settings.");
+            }
         }
 
         /// <summary>

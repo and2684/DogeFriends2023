@@ -1,12 +1,12 @@
 ﻿using StackExchange.Redis;
 
-namespace SettingsService.Services;
+namespace SettingsService.Data;
 
-public class RedisSetupService
+public class RedisSetup
 {
     private readonly IConfiguration _configuration;
 
-    public RedisSetupService(IConfiguration configuration)
+    public RedisSetup(IConfiguration configuration)
     {
         _configuration = configuration;
     }

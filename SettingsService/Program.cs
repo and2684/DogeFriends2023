@@ -1,10 +1,11 @@
 using FluentValidation;
 using Microsoft.OpenApi.Models;
-using SettingsService.Models;
 using SettingsService.Services;
 using SettingsService.Services.Interfaces;
 using System.Reflection;
 using SettingsService.Services.Repository;
+using SettingsService.Data.Models;
+using SettingsService.Data;
 
 namespace SettingsService
 {
@@ -21,7 +22,7 @@ namespace SettingsService
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddSingleton<RedisSetupService>();
+            builder.Services.AddSingleton<RedisSetup>();
             builder.Services.AddScoped<IValidator<Setting>, SettingsValidatorService >();
             builder.Services.AddScoped<ISettingsRepository, SettingsRepository>();
 

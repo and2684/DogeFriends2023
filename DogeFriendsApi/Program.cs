@@ -1,5 +1,8 @@
+using DogeFriendsApi.Data;
+using DogeFriendsApi.Interfaces;
+using DogeFriendsApi.Services;
 
-namespace BreedService
+namespace DogeFriendsApi
 {
     public class Program
     {
@@ -14,6 +17,9 @@ namespace BreedService
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddScoped<ISettingsService, SettingsService>();
+
+            DataContext.ConfigureDbContext(builder.Services, builder.Configuration); // Вызов метода для настройки DbContext - с помощью него мы вычитываем ConnectionString из SettingsService
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -33,4 +39,5 @@ namespace BreedService
             app.Run();
         }
     }
+
 }

@@ -1,4 +1,4 @@
-﻿namespace SettingsService.Models;
+﻿namespace SettingsService.Data.Models;
 
 public class Setting
 {

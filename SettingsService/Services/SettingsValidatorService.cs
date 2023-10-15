@@ -1,7 +1,7 @@
 ﻿namespace SettingsService.Services
 {
     using FluentValidation;
-    using SettingsService.Models;
+    using SettingsService.Data.Models;
 
     public class SettingsValidatorService : AbstractValidator<Setting>
     {

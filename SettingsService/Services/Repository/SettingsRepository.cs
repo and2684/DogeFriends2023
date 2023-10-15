@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
-using SettingsService.Models;
+using SettingsService.Data;
+using SettingsService.Data.Models;
 using SettingsService.Services.Interfaces;
 using StackExchange.Redis;
 
@@ -8,16 +9,35 @@ namespace SettingsService.Services.Repository
 
     public class SettingsRepository : ISettingsRepository
     {
-        private readonly RedisSetupService _redisSetupService;
+        private readonly RedisSetup _redisSetupService;
         private readonly IDatabase _redisDatabase;
         private readonly IValidator<Setting> _settingValidator;
 
-        public SettingsRepository(RedisSetupService redisSetupService, IValidator<Setting> settingValidator)
+        public SettingsRepository(RedisSetup redisSetupService, IValidator<Setting> settingValidator)
         {
             _redisSetupService = redisSetupService;
             _redisDatabase = _redisSetupService.InitializeRedisSettings("settingsdb");
 
             _settingValidator = settingValidator;
+        }
+
+        public async Task<(List<Setting>, RepoAnswer)> GetAllSettingsAsync()
+        {
+            var settings = new List<Setting>();
+            var keys = await _redisDatabase.ExecuteAsync("KEYS", "*"); // Получаем все ключи
+
+            foreach (var key in (string[])keys!)
+            {
+                var value = await _redisDatabase.StringGetAsync(key);
+                settings.Add(new Setting { Key = key, Value = value! });
+            }
+
+            if (settings.Count > 0)
+            {
+                return (settings, RepoAnswer.Success);
+            }
+
+            return (settings, RepoAnswer.NotFound);
         }
 
         public async Task<(string?, RepoAnswer)> GetSettingAsync(string key)
