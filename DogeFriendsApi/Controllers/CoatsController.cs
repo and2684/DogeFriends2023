@@ -1,4 +1,7 @@
 ﻿using DogeFriendsApi.Data;
+using DogeFriendsApi.Dto;
+using DogeFriendsApi.Interfaces;
+using DogeFriendsApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -9,43 +12,93 @@ namespace DogeFriendsApi.Controllers
     [ApiController]
     public class CoatsController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly ICoatsRepository _coatsRepository;
 
-        public CoatsController(DataContext context)
+        public CoatsController(ICoatsRepository coatsRepository)
         {
-            _context = context;
+            _coatsRepository = coatsRepository;
         }
 
         // GET: api/<CoatsController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> GetAllCoats()
         {
-            return _context.Coats.Select(x => x.Name).ToList();
+            var (coats, answerCode) = await _coatsRepository.GetAllCoatsAsync();
+            switch (answerCode)
+            {
+                case RepoAnswer.NotFound:
+                    return NotFound("No coats found.");
+                case RepoAnswer.Success:
+                    return Ok(coats);
+                default:
+                    return StatusCode(500, "An error occurred while retrieving the coats.");
+            }
         }
 
         // GET api/<CoatsController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetCoat(int id)
         {
-            return "value";
+            var (coat, answerCode) = await _coatsRepository.GetCoatAsync(id);
+            switch (answerCode)
+            {
+                case RepoAnswer.NotFound:
+                    return NotFound($"Coat with id = {id} not found.");
+                case RepoAnswer.Success:
+                    return Ok(coat);
+                default:
+                    return StatusCode(500, $"An error occurred while retrieving the coat with id = {id}.");
+            }
         }
 
         // POST api/<CoatsController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> CreateCoat([FromBody] CoatDto coat)
         {
+            var (newCoat, answerCode) = await _coatsRepository.CreateCoatAsync(coat);
+            switch (answerCode)
+            {
+                case RepoAnswer.AlreadyExist:
+                    return Conflict("Coat already exists.");
+                case RepoAnswer.Success:
+                    return Ok(newCoat);
+                default:
+                    return StatusCode(500, "An error occurred while creating coat.");
+            }
         }
 
         // PUT api/<CoatsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> UpdateCoat(int id, [FromBody] CoatDto coat)
         {
+            var (updatedCoat, answerCode) = await _coatsRepository.UpdateCoatAsync(id, coat);
+            switch (answerCode)
+            {
+                case RepoAnswer.AlreadyExist:
+                    return Conflict($"Coat with name {coat.Name} already exists.");
+                case RepoAnswer.NotFound:
+                    return NotFound($"Coat with id = {id} not found");
+                case RepoAnswer.Success:
+                    return Ok(updatedCoat);
+                default:
+                    return StatusCode(500, "An error occurred while creating coat.");
+            }
         }
 
         // DELETE api/<CoatsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteCoat(int id)
         {
+            var (deleted, answerCode) = await _coatsRepository.DeleteCoatAsync(id);
+            switch (answerCode)
+            {
+                case RepoAnswer.NotFound:
+                    return NotFound($"Coat with id = {id} not found.");
+                case RepoAnswer.Success:
+                    return Ok();
+                default:
+                    return StatusCode(500, $"An error occurred while retrieving the coat with id = {id}.");
+            }
         }
     }
 }

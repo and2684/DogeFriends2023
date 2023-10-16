@@ -30,7 +30,7 @@ namespace SettingsService.Controllers
                 case RepoAnswer.Success:
                     return Ok(settings);
                 default:
-                    return StatusCode(500, $"An error occurred while retrieving the settings.");
+                    return StatusCode(500, "An error occurred while retrieving the settings.");
             }
         }
 

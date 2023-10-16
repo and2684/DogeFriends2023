@@ -8,7 +8,7 @@ namespace DogeFriendsApi.Data
     {
         private static string? _connectionString = string.Empty;
 
-        // Метод для конфигурации DbContext - лезем в сторонний сервис, где хранятся настройки и оттуда получаем строку подключения к БД
+        // Метод для конфигурации DbContext - лезем в SettingsService, где хранятся настройки и оттуда получаем строку подключения к БД
         public static void ConfigureDbContext(IServiceCollection services, IConfiguration config)
         {
             if (_connectionString.IsNullOrEmpty())

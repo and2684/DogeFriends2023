@@ -9,14 +9,12 @@ namespace SettingsService.Services.Repository
 
     public class SettingsRepository : ISettingsRepository
     {
-        private readonly RedisSetup _redisSetupService;
         private readonly IDatabase _redisDatabase;
         private readonly IValidator<Setting> _settingValidator;
 
         public SettingsRepository(RedisSetup redisSetupService, IValidator<Setting> settingValidator)
         {
-            _redisSetupService = redisSetupService;
-            _redisDatabase = _redisSetupService.InitializeRedisSettings("settingsdb");
+            _redisDatabase = redisSetupService.InitializeRedisSettings("settingsdb");
 
             _settingValidator = settingValidator;
         }
@@ -32,12 +30,7 @@ namespace SettingsService.Services.Repository
                 settings.Add(new Setting { Key = key, Value = value! });
             }
 
-            if (settings.Count > 0)
-            {
-                return (settings, RepoAnswer.Success);
-            }
-
-            return (settings, RepoAnswer.NotFound);
+            return settings.Count > 0 ? (settings, RepoAnswer.Success) : (settings, RepoAnswer.NotFound);
         }
 
         public async Task<(string?, RepoAnswer)> GetSettingAsync(string key)
@@ -56,19 +49,14 @@ namespace SettingsService.Services.Repository
             key = key.Trim();
             value = value.Trim();
             var setting = new Setting { Key = key, Value = value };
-            var validationResult = _settingValidator.Validate(setting);
+            var validationResult = await _settingValidator.ValidateAsync(setting);
             if (!validationResult.IsValid)
             {
                 return (null, RepoAnswer.ActionFailed); // Валидация не прошла
             }
 
             var settingCorrectlySet = await _redisDatabase.StringSetAsync(setting.Key, setting.Value);
-            if (!settingCorrectlySet)
-            {
-                return (null, RepoAnswer.ActionFailed);
-            }
-
-            return (setting, RepoAnswer.Success);
+            return !settingCorrectlySet ? (null, RepoAnswer.ActionFailed) : (setting, RepoAnswer.Success);
         }
 
         public async Task<RepoAnswer> DeleteSettingAsync(string key)
@@ -76,11 +64,7 @@ namespace SettingsService.Services.Repository
             key = key.Trim();
             var settingCorrectlyDeleted = await _redisDatabase.KeyDeleteAsync(key);
 
-            if (!settingCorrectlyDeleted)
-            {
-                return RepoAnswer.ActionFailed;
-            }
-            return RepoAnswer.Success;
+            return !settingCorrectlyDeleted ? RepoAnswer.ActionFailed : RepoAnswer.Success;
         }
     }
 }
