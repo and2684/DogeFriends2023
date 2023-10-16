@@ -2,6 +2,7 @@ using DogeFriendsApi.Configuration;
 using DogeFriendsApi.Data;
 using DogeFriendsApi.Interfaces;
 using DogeFriendsApi.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace DogeFriendsApi
 {

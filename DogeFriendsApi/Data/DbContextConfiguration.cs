@@ -19,7 +19,8 @@ namespace DogeFriendsApi.Data
 
             services.AddDbContext<DataContext>(options =>
             {
-                options.UseSqlServer(_connectionString);
+                //options.UseSqlServer(_connectionString);
+                options.UseNpgsql(_connectionString);
             });
         }
     }
