@@ -1,8 +1,6 @@
-﻿using DogeFriendsApi.Interfaces;
-using DogeFriendsApi.Models;
+﻿using DogeFriendsApi.Models;
 using DogeFriendsApi.Extensions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 
 namespace DogeFriendsApi.Data
 {

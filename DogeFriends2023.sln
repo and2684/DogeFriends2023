@@ -5,7 +5,10 @@ VisualStudioVersion = 17.7.34018.315
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SettingsService", "SettingsService\SettingsService.csproj", "{325742BF-85BB-410B-807F-55952AE56765}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DogeFriendsApi", "DogeFriendsApi\DogeFriendsApi.csproj", "{600A05A2-8B45-4FA3-A834-3A9269A56D4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DogeFriendsApi", "DogeFriendsApi\DogeFriendsApi.csproj", "{600A05A2-8B45-4FA3-A834-3A9269A56D4A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{325742BF-85BB-410B-807F-55952AE56765} = {325742BF-85BB-410B-807F-55952AE56765}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
