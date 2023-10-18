@@ -10,6 +10,9 @@ namespace DogeFriendsApi.Configuration
         {
             CreateMap<Coat, CoatDto>();
             CreateMap<CoatDto, Coat>();
+
+            CreateMap<Size, SizeDto>();
+            CreateMap<SizeDto, Size>();
         }
     }
 }

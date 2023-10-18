@@ -89,7 +89,7 @@ namespace DogeFriendsApi.Controllers
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteCoat(int id)
         {
-            var (deleted, answerCode) = await _coatsRepository.DeleteCoatAsync(id);
+            var answerCode = await _coatsRepository.DeleteCoatAsync(id);
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:

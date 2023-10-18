@@ -1,8 +1,9 @@
-﻿using DogeFriendsApi.Interfaces;
+﻿using DogeFriendsApi.Data;
+using DogeFriendsApi.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
-namespace DogeFriendsApi.Data
+namespace DogeFriendsApi.Configuration
 {
     public static class DbContextConfiguration
     {

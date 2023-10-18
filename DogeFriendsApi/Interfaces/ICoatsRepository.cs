@@ -9,6 +9,6 @@ namespace DogeFriendsApi.Interfaces
         Task<(IEnumerable<CoatDto>?, RepoAnswer)> GetAllCoatsAsync();
         Task<(CoatDto?, RepoAnswer)> CreateCoatAsync(CoatDto coat);
         Task<(CoatDto?, RepoAnswer)> UpdateCoatAsync(int id, CoatDto coat);
-        Task<(bool, RepoAnswer)> DeleteCoatAsync(int id);
+        Task<RepoAnswer> DeleteCoatAsync(int id);
     }
 }
