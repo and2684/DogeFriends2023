@@ -29,7 +29,7 @@ namespace DogeFriendsApi.Data
 
         public async Task<(IEnumerable<SizeDto>?, RepoAnswer)> GetAllSizesAsync()
         {
-            var result = await _context.Coats.ToListAsync();
+            var result = await _context.Sizes.ToListAsync();
             if (result.Any())
             {
                 return (result.Select(size => _mapper.Map<SizeDto>(size)), RepoAnswer.Success);
@@ -40,7 +40,7 @@ namespace DogeFriendsApi.Data
 
         public async Task<(SizeDto?, RepoAnswer)> CreateSizeAsync(SizeDto size)
         {
-            var alreadyExist = await _context.Sizes.AnyAsync(x => x.Name == size.Name);
+            var alreadyExist = await _context.Sizes.AnyAsync(x => x.Name.ToLower() == size.Name.ToLower());
             if (alreadyExist)
             {
                 return (null, RepoAnswer.AlreadyExist);
@@ -55,16 +55,16 @@ namespace DogeFriendsApi.Data
 
         public async Task<(SizeDto?, RepoAnswer)> UpdateSizeAsync(int id, SizeDto size)
         {
-            var foundSize = await _context.Coats.FindAsync(id);
+            var foundSize = await _context.Sizes.FindAsync(id);
             if (foundSize == null)
             {
                 return (null, RepoAnswer.NotFound);
             }
 
-            var existingCoatWithSameName = await _context.Coats.FirstOrDefaultAsync(c => c.Name == size.Name && c.Id != id);
-            if (existingCoatWithSameName != null)
+            var existingSizeWithSameName = await _context.Sizes.FirstOrDefaultAsync(c => c.Name.ToLower() == size.Name.ToLower() && c.Id != id);
+            if (existingSizeWithSameName != null)
             {
-                return (_mapper.Map<SizeDto>(existingCoatWithSameName), RepoAnswer.AlreadyExist);
+                return (_mapper.Map<SizeDto>(existingSizeWithSameName), RepoAnswer.AlreadyExist);
             }
 
             foundSize.Name = size.Name;
@@ -73,17 +73,17 @@ namespace DogeFriendsApi.Data
             return (_mapper.Map<SizeDto>(foundSize), RepoAnswer.Success);
         }
 
-        public async Task<(bool, RepoAnswer)> DeleteSizeAsync(int id)
+        public async Task<RepoAnswer> DeleteSizeAsync(int id)
         {
             var foundSize = await _context.Sizes.FindAsync(id);
             if (foundSize == null)
             {
-                return (false, RepoAnswer.NotFound);
+                return RepoAnswer.NotFound;
             }
 
             _context.Sizes.Remove(foundSize);
             await _context.SaveChangesAsync();
-            return (true, RepoAnswer.Success);
+            return RepoAnswer.Success;
         }
     }
 }

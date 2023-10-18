@@ -73,17 +73,17 @@ namespace DogeFriendsApi.Data
             return (_mapper.Map<CoatDto>(foundCoat), RepoAnswer.Success);
         }
 
-        public async Task<(bool, RepoAnswer)> DeleteCoatAsync(int id)
+        public async Task<RepoAnswer> DeleteCoatAsync(int id)
         {
             var foundCoat = await _context.Coats.FindAsync(id);
             if (foundCoat == null)
             {
-                return (false, RepoAnswer.NotFound);
+                return RepoAnswer.NotFound;
             }
 
             _context.Coats.Remove(foundCoat);
             await _context.SaveChangesAsync();
-            return (true, RepoAnswer.Success);
+            return RepoAnswer.Success;
         }
     }
 }
