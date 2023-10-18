@@ -6,6 +6,7 @@
         AlreadyExist,
         NotFound,
         ActionFailed,
-        ConnectionFailed
+        ConnectionFailed,
+        EmailTaken
     }
 }

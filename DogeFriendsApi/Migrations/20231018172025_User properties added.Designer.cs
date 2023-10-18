@@ -3,6 +3,7 @@ using System;
 using DogeFriendsApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DogeFriendsApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231018172025_User properties added")]
+    partial class Userpropertiesadded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -124,29 +127,6 @@ namespace DogeFriendsApi.Migrations
                     b.ToTable("Dogs");
                 });
 
-            modelBuilder.Entity("DogeFriendsApi.Models.Friendship", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("FriendId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FriendId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Friendship");
-                });
-
             modelBuilder.Entity("DogeFriendsApi.Models.Size", b =>
                 {
                     b.Property<int>("Id")
@@ -192,10 +172,6 @@ namespace DogeFriendsApi.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<Guid>("ExternalId")
                         .HasColumnType("uuid");
 
@@ -210,11 +186,16 @@ namespace DogeFriendsApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.HasIndex("Username")
                         .IsUnique();
@@ -260,23 +241,11 @@ namespace DogeFriendsApi.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DogeFriendsApi.Models.Friendship", b =>
+            modelBuilder.Entity("DogeFriendsApi.Models.User", b =>
                 {
-                    b.HasOne("DogeFriendsApi.Models.User", "Friend")
-                        .WithMany("FriendOf")
-                        .HasForeignKey("FriendId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("DogeFriendsApi.Models.User", "User")
+                    b.HasOne("DogeFriendsApi.Models.User", null)
                         .WithMany("Friends")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Friend");
-
-                    b.Navigation("User");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("DogeFriendsApi.Models.Breed", b =>
@@ -297,8 +266,6 @@ namespace DogeFriendsApi.Migrations
             modelBuilder.Entity("DogeFriendsApi.Models.User", b =>
                 {
                     b.Navigation("Dogs");
-
-                    b.Navigation("FriendOf");
 
                     b.Navigation("Friends");
                 });
