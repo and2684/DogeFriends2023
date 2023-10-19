@@ -5,7 +5,7 @@ using SettingsService.Services.Interfaces;
 using System.Reflection;
 using SettingsService.Services.Repository;
 using SettingsService.Data.Models;
-using SettingsService.Data;
+using SettingsService.Configuration;
 
 namespace SettingsService
 {
@@ -25,6 +25,7 @@ namespace SettingsService
             builder.Services.AddSingleton<RedisSetup>();
             builder.Services.AddScoped<IValidator<Setting>, SettingsValidatorService >();
             builder.Services.AddScoped<ISettingsRepository, SettingsRepository>();
+            builder.Services.AddDataProtection();
 
             builder.Services.AddSwaggerGen(options =>
             {

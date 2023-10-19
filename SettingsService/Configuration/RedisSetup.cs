@@ -1,6 +1,6 @@
 ﻿using StackExchange.Redis;
 
-namespace SettingsService.Data;
+namespace SettingsService.Configuration;
 
 public class RedisSetup
 {

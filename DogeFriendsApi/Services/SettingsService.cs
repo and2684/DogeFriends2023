@@ -14,9 +14,11 @@ namespace DogeFriendsApi.Services
             _httpClient.BaseAddress = new Uri($"{SettingsServiceUrl}/api/settings/");
         }
 
-        public async Task<string?> GetConnectionStringAsync(string key)
+        public async Task<string?> GetConnectionStringAsync(string key, string encryptionKey)
         {
-            HttpResponseMessage response = await _httpClient.GetAsync(key);
+            _httpClient.DefaultRequestHeaders.Add("Key", key);
+            _httpClient.DefaultRequestHeaders.Add("EncryptionKey", encryptionKey);
+            HttpResponseMessage response = await _httpClient.GetAsync(_httpClient.BaseAddress);
 
             if (response.IsSuccessStatusCode)
             {

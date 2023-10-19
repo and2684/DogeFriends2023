@@ -1,5 +1,4 @@
-﻿using DogeFriendsApi.Data;
-using DogeFriendsApi.Dto;
+﻿using DogeFriendsApi.Dto;
 using DogeFriendsApi.Interfaces;
 using DogeFriendsApi.Models;
 using Microsoft.AspNetCore.Mvc;

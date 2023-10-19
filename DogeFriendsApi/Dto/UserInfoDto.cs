@@ -1,6 +1,4 @@
-﻿using DogeFriendsApi.Models;
-
-namespace DogeFriendsApi.Dto
+﻿namespace DogeFriendsApi.Dto
 {
     public class UserInfoDto
     {

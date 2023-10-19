@@ -2,7 +2,6 @@ using DogeFriendsApi.Configuration;
 using DogeFriendsApi.Data;
 using DogeFriendsApi.Interfaces;
 using DogeFriendsApi.Services;
-using Microsoft.EntityFrameworkCore;
 
 namespace DogeFriendsApi
 {
@@ -24,6 +23,8 @@ namespace DogeFriendsApi
 
             builder.Services.AddScoped<ICoatsRepository, CoatsRepository>();
             builder.Services.AddScoped<ISizesRepository, SizesRepository>();
+            builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+            builder.Services.AddScoped<IFriendshipsRepository, FriendshipsRepository>();
             builder.Services.AddAutoMapper(typeof(AutomapperProfiler).Assembly);
 
             DbContextConfiguration.ConfigureDbContext(builder.Services, builder.Configuration); // Вызов метода для настройки DbContext - с помощью него мы вычитываем ConnectionString из SettingsService
