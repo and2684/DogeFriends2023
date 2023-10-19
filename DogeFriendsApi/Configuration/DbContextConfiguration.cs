@@ -10,19 +10,19 @@ namespace DogeFriendsApi.Configuration
         private static string? _connectionString = string.Empty;
 
         // Метод для конфигурации DbContext - лезем в SettingsService, где хранятся настройки и оттуда получаем строку подключения к БД
-        public static void ConfigureDbContext(IServiceCollection services, IConfiguration config)
+        public static async Task ConfigureDbContextAsync(IServiceCollection services, IConfiguration config)
         {
             if (_connectionString.IsNullOrEmpty())
             {
                 var settingsService = services.BuildServiceProvider().GetRequiredService<ISettingsService>();
-                _connectionString = settingsService.GetConnectionStringAsync(config.GetSection("SettingsService").GetValue<string>("ConnectionStringSettingKey")!,
-                                                                           config.GetSection("SettingsService").GetValue<string>("SettingsEncryptionKey")!)
-                                                                                 .GetAwaiter().GetResult();
+                _connectionString = await settingsService.GetConnectionStringAsync(
+                    config.GetSection("SettingsService").GetValue<string>("ConnectionStringSettingKey")!,
+                    config.GetSection("SettingsService").GetValue<string>("SettingsEncryptionKey")!
+                );
             }
 
             services.AddDbContext<DataContext>(options =>
             {
-                //options.UseSqlServer(_connectionString);
                 options.UseNpgsql(_connectionString);
             });
         }

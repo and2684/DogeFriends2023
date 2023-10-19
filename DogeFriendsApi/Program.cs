@@ -7,7 +7,7 @@ namespace DogeFriendsApi
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +27,7 @@ namespace DogeFriendsApi
             builder.Services.AddScoped<IFriendshipsRepository, FriendshipsRepository>();
             builder.Services.AddAutoMapper(typeof(AutomapperProfiler).Assembly);
 
-            DbContextConfiguration.ConfigureDbContext(builder.Services, builder.Configuration); // Вызов метода для настройки DbContext - с помощью него мы вычитываем ConnectionString из SettingsService
+            await DbContextConfiguration.ConfigureDbContextAsync(builder.Services, builder.Configuration); // Вызов метода для настройки DbContext - с помощью него мы вычитываем ConnectionString из SettingsService
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
