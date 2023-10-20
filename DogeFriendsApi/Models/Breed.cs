@@ -3,13 +3,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DogeFriendsApi.Models
 {
-    [Index(nameof(BreedName), IsUnique = true)]
+    [Index(nameof(Name), IsUnique = true)]
     public class Breed
     {
         public int Id { get; set; }
         [Required]
-        public string BreedName { get; set; } = string.Empty;
-        public string BreedNameRu { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
         public List<Dog>? Dogs { get; set; }
         // Тип шерсти
         public int CoatId { get; set; }
