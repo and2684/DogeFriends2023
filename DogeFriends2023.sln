@@ -10,6 +10,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DogeFriendsApi", "DogeFrien
 		{325742BF-85BB-410B-807F-55952AE56765} = {325742BF-85BB-410B-807F-55952AE56765}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BreedsToJsonParser", "BreedsToJsonParser\BreedsToJsonParser.csproj", "{A060E7F4-9464-48ED-AE5A-61DAF4985C75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +26,10 @@ Global
 		{600A05A2-8B45-4FA3-A834-3A9269A56D4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{600A05A2-8B45-4FA3-A834-3A9269A56D4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{600A05A2-8B45-4FA3-A834-3A9269A56D4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A060E7F4-9464-48ED-AE5A-61DAF4985C75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A060E7F4-9464-48ED-AE5A-61DAF4985C75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A060E7F4-9464-48ED-AE5A-61DAF4985C75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A060E7F4-9464-48ED-AE5A-61DAF4985C75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

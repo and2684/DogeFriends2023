@@ -1,14 +1,10 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using SettingsService.Configuration;
 using SettingsService.Data.Models;
 using SettingsService.Dto;
 using SettingsService.Services.Interfaces;
 using StackExchange.Redis;
-using System;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace SettingsService.Services.Repository
 {
