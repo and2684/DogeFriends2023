@@ -1,8 +1,6 @@
-﻿using DogeFriendsApi.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
 using DogeFriendsApi.Models;
-using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using DogeFriendsApi.Interfaces;
 
 namespace DogeFriendsApi.Controllers
 {
@@ -17,6 +15,10 @@ namespace DogeFriendsApi.Controllers
             _seedService = seedService;
         }
 
+        /// <summary>
+        /// Запускает процесс сидирования пород собак.
+        /// </summary>
+        /// <returns>Результат выполнения сидирования.</returns>
         [HttpPost("SeedBreeds")]
         public async Task<IActionResult> SeedBreeds()
         {
@@ -25,11 +27,11 @@ namespace DogeFriendsApi.Controllers
             switch (result)
             {
                 case RepoAnswer.Success:
-                    return Ok("Breeds seeded successfully.");
+                    return Ok("Породы успешно сидированы.");
                 case RepoAnswer.NotFound:
-                    return NotFound("Breeds JSON file not found.");
+                    return NotFound("JSON файл с породами собак не найден.");
                 default:
-                    return StatusCode(500, "An error occurred while seeding breeds.");
+                    return StatusCode(500, "Произошла ошибка во время сидирования пород собак.");
             }
         }
     }

@@ -45,7 +45,6 @@ namespace DogeFriendsApi.Data
                 .HasForeignKey(k => k.SizeId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-
             // Поработаем с дружбой
             modelBuilder.Entity<Friendship>()
                 .HasOne(x => x.User)

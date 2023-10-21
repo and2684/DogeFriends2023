@@ -19,7 +19,11 @@ namespace DogeFriendsApi.Data
 
         public async Task<(IEnumerable<BreedDto>?, RepoAnswer)> GetAllBreedsAsync()
         {
-            var result = await _context.Breeds.ToListAsync();
+            var result = await _context.Breeds
+                .Include(b => b.BreedGroups)
+                .Include(b => b.Coat)
+                .Include(b => b.Size)
+                .ToListAsync();
             if (result.Any())
             {
                 return (result.Select(breed => _mapper.Map<BreedDto>(breed)), RepoAnswer.Success);
@@ -29,7 +33,11 @@ namespace DogeFriendsApi.Data
 
         public async Task<(BreedDto?, RepoAnswer)> GetBreedAsync(int id)
         {
-            var result = await _context.Breeds.FindAsync(id);
+            var result = await _context.Breeds
+                .Include(b => b.BreedGroups)
+                .Include(b => b.Coat)
+                .Include(b => b.Size)
+                .FirstOrDefaultAsync(b => b.Id == id);
             if (result != null)
             {
                 return (_mapper.Map<BreedDto>(result), RepoAnswer.Success);
@@ -49,8 +57,8 @@ namespace DogeFriendsApi.Data
             { 
                 Name = breed.Name, 
                 Description = breed.Description,  
-                CoatId = breed.CoatId,
-                SizeId = breed.SizeId
+                CoatId = _context.Coats.Where(x => x.Name == breed.Coat).Select(x => x.Id).FirstOrDefault(),
+                SizeId = _context.Coats.Where(x => x.Name == breed.Size).Select(x => x.Id).FirstOrDefault()
             };
 
             _context.Breeds.Add(newBreed);
@@ -75,8 +83,8 @@ namespace DogeFriendsApi.Data
 
             foundBreed.Name = breed.Name;
             foundBreed.Description = breed.Description;
-            foundBreed.CoatId = breed.CoatId;
-            foundBreed.SizeId = breed.SizeId;
+            foundBreed.CoatId = _context.Coats.Where(x => x.Name == breed.Coat).Select(x => x.Id).FirstOrDefault();
+            foundBreed.SizeId = _context.Coats.Where(x => x.Name == breed.Size).Select(x => x.Id).FirstOrDefault();
 
             await _context.SaveChangesAsync();
 

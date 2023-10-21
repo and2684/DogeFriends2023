@@ -15,6 +15,11 @@ namespace DogeFriendsApi.Controllers
             _friendshipsRepository = friendshipsRepository;
         }
 
+        /// <summary>
+        /// Получает информацию о дружбе пользователя.
+        /// </summary>
+        /// <param name="userId">Идентификатор пользователя.</param>
+        /// <returns>Список друзей пользователя.</returns>
         [HttpGet]
         public async Task<IActionResult> GetFriendships(int userId)
         {
@@ -22,14 +27,20 @@ namespace DogeFriendsApi.Controllers
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:
-                    return NotFound($"No friends found. That's sad.");
+                    return NotFound($"Друзей не найдено. Это грустно.");
                 case RepoAnswer.Success:
                     return Ok(friendships);
                 default:
-                    return StatusCode(500, $"An error occurred while getting friends.");
+                    return StatusCode(500, $"Произошла ошибка при получении списка друзей.");
             }
         }
 
+        /// <summary>
+        /// Создает дружбу между пользователями.
+        /// </summary>
+        /// <param name="userId">Идентификатор пользователя.</param>
+        /// <param name="friendId">Идентификатор друга.</param>
+        /// <returns>Результат создания дружбы.</returns>
         [HttpPost]
         public async Task<IActionResult> CreateFriendship(int userId, int friendId)
         {
@@ -37,14 +48,20 @@ namespace DogeFriendsApi.Controllers
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:
-                    return NotFound($"User id or friend id not found.");
+                    return NotFound($"Идентификатор пользователя или друга не найден.");
                 case RepoAnswer.Success:
-                    return Ok("Now u are friends <3");
+                    return Ok("Теперь вы друзья <3");
                 default:
-                    return StatusCode(500, $"An error occurred while establishing friendship.");
+                    return StatusCode(500, $"Произошла ошибка при установлении дружбы.");
             }
         }
 
+        /// <summary>
+        /// Разрывает дружбу между пользователями.
+        /// </summary>
+        /// <param name="userId">Идентификатор пользователя.</param>
+        /// <param name="friendId">Идентификатор друга.</param>
+        /// <returns>Результат разрыва дружбы.</returns>
         [HttpDelete]
         public async Task<IActionResult> RemoveFriendship(int userId, int friendId)
         {
@@ -52,11 +69,11 @@ namespace DogeFriendsApi.Controllers
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:
-                    return NotFound($"User id or friend id not found.");
+                    return NotFound($"Идентификатор пользователя или друга не найден.");
                 case RepoAnswer.Success:
-                    return Ok("Friendship no more. :(");
+                    return Ok("Дружбы больше нет. :(");
                 default:
-                    return StatusCode(500, $"An error occurred while cancelling friendship.");
+                    return StatusCode(500, $"Произошла ошибка при отмене дружбы.");
             }
         }
     }

@@ -27,11 +27,11 @@ namespace SettingsService.Controllers
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:
-                    return NotFound("Settings not found.");
+                    return NotFound("Настройки не найдены.");
                 case RepoAnswer.Success:
                     return Ok(settings);
                 default:
-                    return StatusCode(500, "An error occurred while retrieving the settings.");
+                    return StatusCode(500, "Произошла ошибка при получении настроек.");
             }
         }
 
@@ -47,11 +47,11 @@ namespace SettingsService.Controllers
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:
-                    return NotFound($"Setting with key {getSetting.Key} not found.");
+                    return NotFound($"Настройка с ключом {getSetting.Key} не найдена.");
                 case RepoAnswer.Success:
                     return Ok(value);
                 default:
-                    return StatusCode(500, $"An error occurred while retrieving the {getSetting.Key} value.");
+                    return StatusCode(500, $"Произошла ошибка при получении значения настройки {getSetting.Key}.");
             }
         }
 
@@ -63,15 +63,15 @@ namespace SettingsService.Controllers
         [HttpPost]
         public async Task<IActionResult> SetSetting([FromBody] SetSettingDto setSetting)
         {
-            var(settingSet, answerCode) = await _settingsRepo.SetSettingAsync(setSetting);
+            var (settingSet, answerCode) = await _settingsRepo.SetSettingAsync(setSetting);
             switch (answerCode)
             {
                 case RepoAnswer.Success:
-                    return Ok($"Setting successfuly saved. ({settingSet!.Key} : {settingSet.Value}).");
+                    return Ok($"Настройка успешно сохранена. ({settingSet!.Key} : {settingSet.Value}).");
                 case RepoAnswer.ActionFailed:
-                    return BadRequest($"Bad request while setting the {setSetting.Key} value.");
+                    return BadRequest($"Неверный запрос при установке значения {setSetting.Key}.");
                 default:
-                    return StatusCode(500, $"An error occurred while setting the {setSetting.Key} value.");
+                    return StatusCode(500, $"Произошла ошибка при установке значения {setSetting.Key}.");
             }
         }
 
@@ -88,9 +88,9 @@ namespace SettingsService.Controllers
             switch (answerCode)
             {
                 case RepoAnswer.Success:
-                    return Ok($"Setting successfuly deleted. ({key}).");
+                    return Ok($"Настройка успешно удалена. ({key}).");
                 default:
-                    return StatusCode(500, $"An error occurred while deleting the {key} value.");
+                    return StatusCode(500, $"Произошла ошибка при удалении значения {key}.");
             }
         }
     }

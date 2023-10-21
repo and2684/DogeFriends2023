@@ -16,6 +16,10 @@ namespace DogeFriendsApi.Controllers
             _sizesRepository = sizesRepository;
         }
 
+        /// <summary>
+        /// Получает все размеры пород собак.
+        /// </summary>
+        /// <returns>Список всех размеров пород собак.</returns>
         [HttpGet]
         public async Task<IActionResult> GetAllSizes()
         {
@@ -23,14 +27,19 @@ namespace DogeFriendsApi.Controllers
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:
-                    return NotFound("No sizes found.");
+                    return NotFound("Размеры пород собак не найдены.");
                 case RepoAnswer.Success:
                     return Ok(sizes);
                 default:
-                    return StatusCode(500, "An error occurred while retrieving the sizes.");
+                    return StatusCode(500, "Произошла ошибка при получении размеров пород собак.");
             }
         }
 
+        /// <summary>
+        /// Получает размер породы собаки по его идентификатору.
+        /// </summary>
+        /// <param name="id">Идентификатор размера породы собаки.</param>
+        /// <returns>Размер породы собаки.</returns>
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetSize(int id)
         {
@@ -38,14 +47,19 @@ namespace DogeFriendsApi.Controllers
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:
-                    return NotFound($"Size with id = {id} not found.");
+                    return NotFound($"Размер породы собаки с идентификатором {id} не найден.");
                 case RepoAnswer.Success:
                     return Ok(size);
                 default:
-                    return StatusCode(500, $"An error occurred while retrieving the size with id = {id}.");
+                    return StatusCode(500, $"Произошла ошибка при получении размера породы собаки с идентификатором {id}.");
             }
         }
 
+        /// <summary>
+        /// Создает новый размер породы собаки.
+        /// </summary>
+        /// <param name="size">Модель размера породы собаки.</param>
+        /// <returns>Созданный размер породы собаки.</returns>
         [HttpPost]
         public async Task<IActionResult> CreateSize([FromBody] SizeDto size)
         {
@@ -53,14 +67,20 @@ namespace DogeFriendsApi.Controllers
             switch (answerCode)
             {
                 case RepoAnswer.AlreadyExist:
-                    return Conflict("Size already exists.");
+                    return Conflict("Размер породы собаки уже существует.");
                 case RepoAnswer.Success:
                     return Ok(newSize);
                 default:
-                    return StatusCode(500, "An error occurred while creating size.");
+                    return StatusCode(500, "Произошла ошибка при создании размера породы собаки.");
             }
         }
 
+        /// <summary>
+        /// Обновляет размер породы собаки по его идентификатору.
+        /// </summary>
+        /// <param name="id">Идентификатор размера породы собаки.</param>
+        /// <param name="size">Модель размера породы собаки.</param>
+        /// <returns>Обновленный размер породы собаки.</returns>
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateSize(int id, [FromBody] SizeDto size)
         {
@@ -68,16 +88,21 @@ namespace DogeFriendsApi.Controllers
             switch (answerCode)
             {
                 case RepoAnswer.AlreadyExist:
-                    return Conflict($"Size with name {size.Name} already exists.");
+                    return Conflict($"Размер породы собаки с именем {size.Name} уже существует.");
                 case RepoAnswer.NotFound:
-                    return NotFound($"Size with id = {id} not found");
+                    return NotFound($"Размер породы собаки с идентификатором {id} не найден.");
                 case RepoAnswer.Success:
                     return Ok(updatedSize);
                 default:
-                    return StatusCode(500, "An error occurred while creating size.");
+                    return StatusCode(500, "Произошла ошибка при обновлении размера породы собаки.");
             }
         }
 
+        /// <summary>
+        /// Удаляет размер породы собаки по его идентификатору.
+        /// </summary>
+        /// <param name="id">Идентификатор размера породы собаки.</param>
+        /// <returns>Результат удаления размера породы собаки.</returns>
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteSize(int id)
         {
@@ -85,11 +110,11 @@ namespace DogeFriendsApi.Controllers
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:
-                    return NotFound($"Size with id = {id} not found.");
+                    return NotFound($"Размер породы собаки с идентификатором {id} не найден.");
                 case RepoAnswer.Success:
                     return Ok();
                 default:
-                    return StatusCode(500, $"An error occurred while retrieving the size with id = {id}.");
+                    return StatusCode(500, $"Произошла ошибка при удалении размера породы собаки с идентификатором {id}.");
             }
         }
     }

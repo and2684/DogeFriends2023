@@ -2,8 +2,6 @@
 using DogeFriendsApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace DogeFriendsApi.Controllers
 {
     [Route("api/[controller]")]
@@ -17,6 +15,10 @@ namespace DogeFriendsApi.Controllers
             _usersRepository = usersRepository;
         }
 
+        /// <summary>
+        /// Получает всех пользователей.
+        /// </summary>
+        /// <returns>Список всех пользователей.</returns>
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
@@ -24,14 +26,19 @@ namespace DogeFriendsApi.Controllers
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:
-                    return NotFound("No users found.");
+                    return NotFound("Пользователи не найдены.");
                 case RepoAnswer.Success:
                     return Ok(users);
                 default:
-                    return StatusCode(500, "An error occurred while retrieving users.");
+                    return StatusCode(500, "Произошла ошибка при получении пользователей.");
             }
         }
 
+        /// <summary>
+        /// Получает пользователя по его идентификатору.
+        /// </summary>
+        /// <param name="id">Идентификатор пользователя.</param>
+        /// <returns>Пользователь.</returns>
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetUserById(int id)
         {
@@ -39,14 +46,19 @@ namespace DogeFriendsApi.Controllers
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:
-                    return NotFound($"User with id = {id} not found.");
+                    return NotFound($"Пользователь с идентификатором {id} не найден.");
                 case RepoAnswer.Success:
                     return Ok(user);
                 default:
-                    return StatusCode(500, $"An error occurred while retrieving user with id = {id}.");
+                    return StatusCode(500, $"Произошла ошибка при получении пользователя с идентификатором {id}.");
             }
         }
 
+        /// <summary>
+        /// Получает пользователя по его имени пользователя (username).
+        /// </summary>
+        /// <param name="username">Имя пользователя (username).</param>
+        /// <returns>Пользователь.</returns>
         [HttpGet("{username}")]
         public async Task<IActionResult> GetUserByUsername(string username)
         {
@@ -54,14 +66,19 @@ namespace DogeFriendsApi.Controllers
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:
-                    return NotFound($"Username {username} not found.");
+                    return NotFound($"Имя пользователя {username} не найдено.");
                 case RepoAnswer.Success:
                     return Ok(user);
                 default:
-                    return StatusCode(500, $"An error occurred while retrieving user {username}.");
+                    return StatusCode(500, $"Произошла ошибка при получении пользователя {username}.");
             }
         }
 
+        /// <summary>
+        /// Обновляет информацию о пользователе.
+        /// </summary>
+        /// <param name="user">Модель пользователя с обновленными данными.</param>
+        /// <returns>Обновленный пользователь.</returns>
         [HttpPut]
         public async Task<IActionResult> UpdateUser([FromBody] User user)
         {
@@ -69,13 +86,13 @@ namespace DogeFriendsApi.Controllers
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:
-                    return NotFound($"Username {user.Username} not found.");
+                    return NotFound($"Имя пользователя {user.Username} не найдено.");
                 case RepoAnswer.EmailTaken:
-                    return Conflict($"Email {user.Email} already taken.");
+                    return Conflict($"Email {user.Email} уже занят.");
                 case RepoAnswer.Success:
                     return Ok(updatedUser);
                 default:
-                    return StatusCode(500, $"An error occurred while updating user {user.Username}.");
+                    return StatusCode(500, $"Произошла ошибка при обновлении информации о пользователе {user.Username}.");
             }
         }
     }

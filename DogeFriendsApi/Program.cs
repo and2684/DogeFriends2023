@@ -2,6 +2,8 @@ using DogeFriendsApi.Configuration;
 using DogeFriendsApi.Data;
 using DogeFriendsApi.Interfaces;
 using DogeFriendsApi.Services;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 namespace DogeFriendsApi
 {
@@ -30,6 +32,20 @@ namespace DogeFriendsApi
             builder.Services.AddAutoMapper(typeof(AutomapperProfiler).Assembly);
 
             await DbContextConfiguration.ConfigureDbContextAsync(builder.Services, builder.Configuration); // Вызов метода для настройки DbContext - с помощью него мы вычитываем ConnectionString из SettingsService
+
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "DogeFriendsApi",
+                    Description = "Основной сервис приложения. Пользователи, собаки, породы и их свойства."
+                });
+
+                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

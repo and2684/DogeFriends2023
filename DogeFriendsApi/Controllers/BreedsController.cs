@@ -3,8 +3,6 @@ using DogeFriendsApi.Interfaces;
 using DogeFriendsApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace DogeFriendsApi.Controllers
 {
     [Route("api/[controller]")]
@@ -18,7 +16,10 @@ namespace DogeFriendsApi.Controllers
             _breedsRepository = breedsRepository;
         }
 
-        // GET: api/<BreedsController>
+        /// <summary>
+        /// Получает список всех пород собак.
+        /// </summary>
+        /// <returns>Список всех пород собак.</returns>
         [HttpGet]
         public async Task<IActionResult> GetAllBreeds()
         {
@@ -26,15 +27,19 @@ namespace DogeFriendsApi.Controllers
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:
-                    return NotFound("No breeds found.");
+                    return NotFound("Породы не найдены.");
                 case RepoAnswer.Success:
                     return Ok(breeds);
                 default:
-                    return StatusCode(500, "An error occurred while retrieving the breeds.");
+                    return StatusCode(500, "Произошла ошибка при получении списка пород собак.");
             }
         }
 
-        // GET api/<BreedsController>/5
+        /// <summary>
+        /// Получает информацию о породе собаки по её идентификатору.
+        /// </summary>
+        /// <param name="id">Идентификатор породы собаки.</param>
+        /// <returns>Информация о породе собаки.</returns>
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetBreed(int id)
         {
@@ -42,15 +47,19 @@ namespace DogeFriendsApi.Controllers
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:
-                    return NotFound($"Breed with id = {id} not found.");
+                    return NotFound($"Порода с идентификатором {id} не найдена.");
                 case RepoAnswer.Success:
                     return Ok(breed);
                 default:
-                    return StatusCode(500, $"An error occurred while retrieving the breed with id = {id}.");
+                    return StatusCode(500, $"Произошла ошибка при получении информации о породе собаки с идентификатором {id}.");
             }
         }
 
-        // POST api/<BreedsController>
+        /// <summary>
+        /// Создает новую породу собаки.
+        /// </summary>
+        /// <param name="breed">Модель данных для создания породы собаки.</param>
+        /// <returns>Созданная порода собаки.</returns>
         [HttpPost]
         public async Task<IActionResult> CreateBreed([FromBody] BreedDto breed)
         {
@@ -58,15 +67,20 @@ namespace DogeFriendsApi.Controllers
             switch (answerCode)
             {
                 case RepoAnswer.AlreadyExist:
-                    return Conflict("Breed already exists.");
+                    return Conflict("Порода собаки уже существует.");
                 case RepoAnswer.Success:
                     return Ok(newBreed);
                 default:
-                    return StatusCode(500, "An error occurred while creating breed.");
+                    return StatusCode(500, "Произошла ошибка при создании породы собаки.");
             }
         }
 
-        // PUT api/<BreedsController>/5
+        /// <summary>
+        /// Обновляет информацию о породе собаки по её идентификатору.
+        /// </summary>
+        /// <param name="id">Идентификатор породы собаки.</param>
+        /// <param name="breed">Модель данных для обновления породы собаки.</param>
+        /// <returns>Обновленная информация о породе собаки.</returns>
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateBreed(int id, [FromBody] BreedDto breed)
         {
@@ -74,17 +88,21 @@ namespace DogeFriendsApi.Controllers
             switch (answerCode)
             {
                 case RepoAnswer.AlreadyExist:
-                    return Conflict($"Breed with name {breed.Name} already exists.");
+                    return Conflict($"Порода с именем {breed.Name} уже существует.");
                 case RepoAnswer.NotFound:
-                    return NotFound($"Breed with id = {id} not found");
+                    return NotFound($"Порода с идентификатором {id} не найдена.");
                 case RepoAnswer.Success:
                     return Ok(updatedBreed);
                 default:
-                    return StatusCode(500, "An error occurred while creating breed.");
+                    return StatusCode(500, "Произошла ошибка при обновлении породы собаки.");
             }
         }
 
-        // DELETE api/<BreedsController>/5
+        /// <summary>
+        /// Удаляет породу собаки по её идентификатору.
+        /// </summary>
+        /// <param name="id">Идентификатор породы собаки для удаления.</param>
+        /// <returns>Результат удаления породы собаки.</returns>
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteBreed(int id)
         {
@@ -92,11 +110,11 @@ namespace DogeFriendsApi.Controllers
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:
-                    return NotFound($"Breed with id = {id} not found.");
+                    return NotFound($"Порода с идентификатором {id} не найдена.");
                 case RepoAnswer.Success:
                     return Ok();
                 default:
-                    return StatusCode(500, $"An error occurred while retrieving the breed with id = {id}.");
+                    return StatusCode(500, $"Произошла ошибка при удалении породы собаки с идентификатором {id}.");
             }
         }
     }

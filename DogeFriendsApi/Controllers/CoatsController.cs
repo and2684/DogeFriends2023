@@ -3,8 +3,6 @@ using DogeFriendsApi.Interfaces;
 using DogeFriendsApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace DogeFriendsApi.Controllers
 {
     [Route("api/[controller]")]
@@ -18,7 +16,10 @@ namespace DogeFriendsApi.Controllers
             _coatsRepository = coatsRepository;
         }
 
-        // GET: api/<CoatsController>
+        /// <summary>
+        /// Получает все виды шерсти собак.
+        /// </summary>
+        /// <returns>Список всех видов шерсти.</returns>
         [HttpGet]
         public async Task<IActionResult> GetAllCoats()
         {
@@ -26,15 +27,19 @@ namespace DogeFriendsApi.Controllers
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:
-                    return NotFound("No coats found.");
+                    return NotFound("Виды шерсти не найдены.");
                 case RepoAnswer.Success:
                     return Ok(coats);
                 default:
-                    return StatusCode(500, "An error occurred while retrieving the coats.");
+                    return StatusCode(500, "Произошла ошибка при получении видов шерсти.");
             }
         }
 
-        // GET api/<CoatsController>/5
+        /// <summary>
+        /// Получает вид шерсти собаки по его идентификатору.
+        /// </summary>
+        /// <param name="id">Идентификатор вид шерсти.</param>
+        /// <returns>Информация о виде шерсти.</returns>
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetCoat(int id)
         {
@@ -42,15 +47,19 @@ namespace DogeFriendsApi.Controllers
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:
-                    return NotFound($"Coat with id = {id} not found.");
+                    return NotFound($"Вид шерсти с идентификатором {id} не найден.");
                 case RepoAnswer.Success:
                     return Ok(coat);
                 default:
-                    return StatusCode(500, $"An error occurred while retrieving the coat with id = {id}.");
+                    return StatusCode(500, $"Произошла ошибка при получении информации о виде шерсти с идентификатором {id}.");
             }
         }
 
-        // POST api/<CoatsController>
+        /// <summary>
+        /// Создает новый вид шерсти собаки.
+        /// </summary>
+        /// <param name="coat">Модель с информацией о виде шерсти.</param>
+        /// <returns>Созданный вид шерсти.</returns>
         [HttpPost]
         public async Task<IActionResult> CreateCoat([FromBody] CoatDto coat)
         {
@@ -58,15 +67,20 @@ namespace DogeFriendsApi.Controllers
             switch (answerCode)
             {
                 case RepoAnswer.AlreadyExist:
-                    return Conflict("Coat already exists.");
+                    return Conflict("Вид шерсти уже существует.");
                 case RepoAnswer.Success:
                     return Ok(newCoat);
                 default:
-                    return StatusCode(500, "An error occurred while creating coat.");
+                    return StatusCode(500, "Произошла ошибка при создании вида шерсти.");
             }
         }
 
-        // PUT api/<CoatsController>/5
+        /// <summary>
+        /// Обновляет информацию о виде шерсти собаки.
+        /// </summary>
+        /// <param name="id">Идентификатор вид шерсти.</param>
+        /// <param name="coat">Модель с обновленной информацией.</param>
+        /// <returns>Обновленная информация о виде шерсти.</returns>
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateCoat(int id, [FromBody] CoatDto coat)
         {
@@ -74,17 +88,21 @@ namespace DogeFriendsApi.Controllers
             switch (answerCode)
             {
                 case RepoAnswer.AlreadyExist:
-                    return Conflict($"Coat with name {coat.Name} already exists.");
+                    return Conflict($"Вид шерсти с именем {coat.Name} уже существует.");
                 case RepoAnswer.NotFound:
-                    return NotFound($"Coat with id = {id} not found");
+                    return NotFound($"Вид шерсти с идентификатором {id} не найден.");
                 case RepoAnswer.Success:
                     return Ok(updatedCoat);
                 default:
-                    return StatusCode(500, "An error occurred while creating coat.");
+                    return StatusCode(500, "Произошла ошибка при обновлении информации о виде шерсти.");
             }
         }
 
-        // DELETE api/<CoatsController>/5
+        /// <summary>
+        /// Удаляет вид шерсти собаки по его идентификатору.
+        /// </summary>
+        /// <param name="id">Идентификатор вид шерсти.</param>
+        /// <returns>Результат удаления вид шерсти.</returns>
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteCoat(int id)
         {
@@ -92,11 +110,11 @@ namespace DogeFriendsApi.Controllers
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:
-                    return NotFound($"Coat with id = {id} not found.");
+                    return NotFound($"Вид шерсти с идентификатором {id} не найден.");
                 case RepoAnswer.Success:
                     return Ok();
                 default:
-                    return StatusCode(500, $"An error occurred while retrieving the coat with id = {id}.");
+                    return StatusCode(500, $"Произошла ошибка при удалении вид шерсти с идентификатором {id}.");
             }
         }
     }
