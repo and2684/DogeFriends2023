@@ -58,7 +58,7 @@ namespace DogeFriendsApi.Data
                 Name = breed.Name, 
                 Description = breed.Description,  
                 CoatId = _context.Coats.Where(x => x.Name == breed.Coat).Select(x => x.Id).FirstOrDefault(),
-                SizeId = _context.Coats.Where(x => x.Name == breed.Size).Select(x => x.Id).FirstOrDefault()
+                SizeId = _context.Sizes.Where(x => x.Name == breed.Size).Select(x => x.Id).FirstOrDefault()
             };
 
             _context.Breeds.Add(newBreed);
@@ -84,7 +84,7 @@ namespace DogeFriendsApi.Data
             foundBreed.Name = breed.Name;
             foundBreed.Description = breed.Description;
             foundBreed.CoatId = _context.Coats.Where(x => x.Name == breed.Coat).Select(x => x.Id).FirstOrDefault();
-            foundBreed.SizeId = _context.Coats.Where(x => x.Name == breed.Size).Select(x => x.Id).FirstOrDefault();
+            foundBreed.SizeId = _context.Sizes.Where(x => x.Name == breed.Size).Select(x => x.Id).FirstOrDefault();
 
             await _context.SaveChangesAsync();
 
