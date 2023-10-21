@@ -5,8 +5,20 @@ namespace DogeFriendsApi.Extensions
 {
     public static class ModelBuilderExtension
     {
-        public static void SeedCoatsAndSizes(this ModelBuilder modelBuilder)
+        public static void SeedGroupsCoatsAndSizes(this ModelBuilder modelBuilder)
         {
+            // Группы пород
+            modelBuilder.Entity<BreedGroup>()
+                .HasData(
+                    new BreedGroup { Id = 1, Name = "Компаньоны" },
+                    new BreedGroup { Id = 2, Name = "Декоративные" },
+                    new BreedGroup { Id = 3, Name = "Охотничьи" },
+                    new BreedGroup { Id = 4, Name = "Рабочие и служебные" },
+                    new BreedGroup { Id = 5, Name = "Пастушьи" },
+                    new BreedGroup { Id = 6, Name = "Гончая" },
+                    new BreedGroup { Id = 7, Name = "Сторожевые" }
+                );
+
             // Виды шерсти
             modelBuilder.Entity<Coat>()
                 .HasData(

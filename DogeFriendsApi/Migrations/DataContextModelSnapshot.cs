@@ -22,6 +22,21 @@ namespace DogeFriendsApi.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("BreedBreedGroup", b =>
+                {
+                    b.Property<int>("BreedGroupsId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("BreedsId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("BreedGroupsId", "BreedsId");
+
+                    b.HasIndex("BreedsId");
+
+                    b.ToTable("BreedBreedGroup");
+                });
+
             modelBuilder.Entity("DogeFriendsApi.Models.Breed", b =>
                 {
                     b.Property<int>("Id")
@@ -30,7 +45,7 @@ namespace DogeFriendsApi.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CoatId")
+                    b.Property<int?>("CoatId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Description")
@@ -44,7 +59,7 @@ namespace DogeFriendsApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("SizeId")
+                    b.Property<int?>("SizeId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -57,6 +72,63 @@ namespace DogeFriendsApi.Migrations
                     b.HasIndex("SizeId");
 
                     b.ToTable("Breeds");
+                });
+
+            modelBuilder.Entity("DogeFriendsApi.Models.BreedGroup", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("BreedGroups");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Компаньоны"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Декоративные"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Охотничьи"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Рабочие и служебные"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Пастушьи"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Гончая"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Сторожевые"
+                        });
                 });
 
             modelBuilder.Entity("DogeFriendsApi.Models.Coat", b =>
@@ -228,19 +300,32 @@ namespace DogeFriendsApi.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("BreedBreedGroup", b =>
+                {
+                    b.HasOne("DogeFriendsApi.Models.BreedGroup", null)
+                        .WithMany()
+                        .HasForeignKey("BreedGroupsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DogeFriendsApi.Models.Breed", null)
+                        .WithMany()
+                        .HasForeignKey("BreedsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("DogeFriendsApi.Models.Breed", b =>
                 {
                     b.HasOne("DogeFriendsApi.Models.Coat", "Coat")
                         .WithMany("Breeds")
                         .HasForeignKey("CoatId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("DogeFriendsApi.Models.Size", "Size")
                         .WithMany("Breeds")
                         .HasForeignKey("SizeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Coat");
 

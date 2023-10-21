@@ -9,7 +9,7 @@ namespace DogeFriendsApi.Services
 
         public SettingsService(IConfiguration config, IHttpClientFactory httpClientFactory)
         {
-            SettingsServiceUrl = config.GetSection("SettingsService").GetValue<string>("SettingsServiceUrl")!;
+            SettingsServiceUrl = config.GetSection("SettingsService:SettingsServiceUrl").Value!;
             _httpClient = httpClientFactory.CreateClient();
             _httpClient.BaseAddress = new Uri($"{SettingsServiceUrl}/api/settings/");
         }

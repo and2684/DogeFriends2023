@@ -1,9 +1,6 @@
 ﻿using HtmlAgilityPack;
 using Newtonsoft.Json;
-using System;
-using System.Net;
 using System.Text.RegularExpressions;
-using Formatting = System.Xml.Formatting;
 
 namespace BreedsToJsonParser
 {
@@ -32,7 +29,7 @@ namespace BreedsToJsonParser
                         // Картинка
                         string imgSrc = $"https://hvost.news{breedItem.SelectSingleNode(".//img").GetAttributeValue("data-src", "")}";
                         // Тип собаки
-                        string group = breedItem.SelectSingleNode(".//div[@class='breeds-list-i__label']").InnerText.Trim();
+                        string breedGroups = breedItem.SelectSingleNode(".//div[@class='breeds-list-i__label']").InnerText.Trim();
                         // Cсылка на страницу с описанием
                         string href = $"https://hvost.news{breedItem.GetAttributeValue("href", "")}";
                         var description = await ParseDescription(href);
@@ -46,7 +43,7 @@ namespace BreedsToJsonParser
                         dogBreeds.Add(new Breed
                         {
                             Name = breedName,
-                            Group = group,
+                            BreedGroups = breedGroups,
                             Description = description,
                             Base64Image = base64Image
                         });

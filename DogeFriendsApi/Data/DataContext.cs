@@ -17,6 +17,7 @@ namespace DogeFriendsApi.Data
         public DbSet<Coat> Coats => Set<Coat>();
         public DbSet<Size> Sizes => Set<Size>();
         public DbSet<Friendship> Friendships => Set<Friendship>();
+        public DbSet<BreedGroup> BreedGroups => Set<BreedGroup>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -58,7 +59,11 @@ namespace DogeFriendsApi.Data
                 .HasForeignKey(x => x.FriendId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.SeedCoatsAndSizes(); // Добавим размеры собак и виды шерсти по умолчанию
+            modelBuilder.Entity<Breed>()
+                .HasMany(b => b.BreedGroups)
+                .WithMany(bg => bg.Breeds);
+
+            modelBuilder.SeedGroupsCoatsAndSizes(); // Добавим группы, размеры собак и виды шерсти по умолчанию
         }
     }
 }

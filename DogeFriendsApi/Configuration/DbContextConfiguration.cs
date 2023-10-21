@@ -16,8 +16,8 @@ namespace DogeFriendsApi.Configuration
             {
                 var settingsService = services.BuildServiceProvider().GetRequiredService<ISettingsService>();
                 _connectionString = await settingsService.GetConnectionStringAsync(
-                    config.GetSection("SettingsService").GetValue<string>("ConnectionStringSettingKey")!,
-                    config.GetSection("SettingsService").GetValue<string>("SettingsEncryptionKey")!
+                    config.GetSection("SettingsService:ConnectionStringSettingKey").Value!,
+                    config.GetSection("SettingsService:SettingsEncryptionKey").Value!
                 );
             }
 

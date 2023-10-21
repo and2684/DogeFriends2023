@@ -10,6 +10,5 @@ namespace DogeFriendsApi.Interfaces
         Task<(BreedDto?, RepoAnswer)> CreateBreedAsync(BreedDto breed);
         Task<(BreedDto?, RepoAnswer)> UpdateBreedAsync(int id, BreedDto breed);
         Task<RepoAnswer> DeleteBreedAsync(int id);
-        Task<RepoAnswer> SeedBreedsFromFile(string file);
     }
 }

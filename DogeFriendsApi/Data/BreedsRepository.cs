@@ -95,10 +95,5 @@ namespace DogeFriendsApi.Data
             await _context.SaveChangesAsync();
             return RepoAnswer.Success;
         }
-
-        public Task<RepoAnswer> SeedBreedsFromFile(string file)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

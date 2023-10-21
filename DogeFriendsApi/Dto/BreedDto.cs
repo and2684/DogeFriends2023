@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DogeFriendsApi.Models;
 
 namespace DogeFriendsApi.Dto
 {
@@ -7,7 +7,8 @@ namespace DogeFriendsApi.Dto
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-        public int CoatId { get; set; }
-        public int SizeId { get; set; }
+        public int? CoatId { get; set; }
+        public int? SizeId { get; set; }
+        public string BreedGroups { get; set; } = string.Empty;
     }
 }

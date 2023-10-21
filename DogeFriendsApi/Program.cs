@@ -25,6 +25,8 @@ namespace DogeFriendsApi
             builder.Services.AddScoped<ISizesRepository, SizesRepository>();
             builder.Services.AddScoped<IUsersRepository, UsersRepository>();
             builder.Services.AddScoped<IFriendshipsRepository, FriendshipsRepository>();
+            builder.Services.AddScoped<IBreedsRepository, BreedsRepository>();
+            builder.Services.AddScoped<ISeedService, SeedService>();
             builder.Services.AddAutoMapper(typeof(AutomapperProfiler).Assembly);
 
             await DbContextConfiguration.ConfigureDbContextAsync(builder.Services, builder.Configuration); // Вызов метода для настройки DbContext - с помощью него мы вычитываем ConnectionString из SettingsService

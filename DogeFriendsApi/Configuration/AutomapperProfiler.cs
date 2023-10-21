@@ -16,6 +16,9 @@ namespace DogeFriendsApi.Configuration
 
             CreateMap<User, UserInfoDto>()
                 .ForMember(dest => dest.Showname, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));
+
+            CreateMap<Breed, BreedDto>();
+            CreateMap<BreedDto, Breed>();
         }
     }
 }
