@@ -1,4 +1,5 @@
-﻿using DogeFriendsApi.Interfaces;
+﻿using DogeFriendsApi.Dto;
+using DogeFriendsApi.Interfaces;
 using DogeFriendsApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -80,7 +81,7 @@ namespace DogeFriendsApi.Controllers
         /// <param name="user">Модель пользователя с обновленными данными.</param>
         /// <returns>Обновленный пользователь.</returns>
         [HttpPut]
-        public async Task<IActionResult> UpdateUser([FromBody] User user)
+        public async Task<IActionResult> UpdateUser([FromBody] UserInfoDto user)
         {
             var (updatedUser, answerCode) = await _usersRepository.UpdateUserAsync(user);
             switch (answerCode)
@@ -89,6 +90,8 @@ namespace DogeFriendsApi.Controllers
                     return NotFound($"Имя пользователя {user.Username} не найдено.");
                 case RepoAnswer.EmailTaken:
                     return Conflict($"Email {user.Email} уже занят.");
+                case RepoAnswer.ActionFailed:
+                    return BadRequest($"Произошла ошибка при обновлении информации о пользователе {user.Username}.");
                 case RepoAnswer.Success:
                     return Ok(updatedUser);
                 default:

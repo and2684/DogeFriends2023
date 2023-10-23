@@ -46,23 +46,28 @@ namespace DogeFriendsApi.Data
             return (null, RepoAnswer.NotFound);
         }
 
-        public async Task<(UserInfoDto?, RepoAnswer)> UpdateUserAsync(User user)
+        public async Task<(UserInfoDto?, RepoAnswer)> UpdateUserAsync(UserInfoDto user)
         {
-            var foundUser = await _context.Users.FindAsync(user.Id);
+            var foundUser = await _context.Users.Where(x => x.Username.ToLower() == user.Username.ToLower()).FirstOrDefaultAsync();
             if (foundUser == null)
             {
                 return (null, RepoAnswer.NotFound);
             }
 
-            var emailAlreadyTaken = await _context.Users.AnyAsync(x => x.Username.ToLower() == user.Username.ToLower());
+            var emailAlreadyTaken = await _context.Users.AnyAsync(x => x.Email.ToLower() == user.Email.ToLower() && x.Username.ToLower() != user.Username.ToLower());
             if (emailAlreadyTaken)
             {
                 return (null, RepoAnswer.EmailTaken);
             }
 
+            if ((new System.Net.Mail.MailAddress(user.Email)).Address != user.Email)
+            {
+                return (null, RepoAnswer.ActionFailed);
+            }
+
             foundUser.FirstName = user.FirstName;
             foundUser.LastName = user.LastName;
-            foundUser.Email = user.Email;
+            foundUser.Email = user.Email.ToLower();
             foundUser.Description = user.Description;
             foundUser.Hometown = user.Hometown;
             await _context.SaveChangesAsync();
