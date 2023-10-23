@@ -9,7 +9,5 @@ namespace DogeFriendsApi.Interfaces
         public Task<(UserInfoDto?, RepoAnswer)> GetUserByIdAsync(int id);
         public Task<(UserInfoDto?, RepoAnswer)> GetUserByUsernameAsync(string username);
         public Task<(UserInfoDto?, RepoAnswer)> UpdateUserAsync(User user);
-        public Task<RepoAnswer> CreateFriendshipAsync(int userId, int friendId);
-        public Task<RepoAnswer> RemoveFriendshipAsync(int userId, int friendId);
     }
 }

@@ -69,36 +69,5 @@ namespace DogeFriendsApi.Data
 
             return (_mapper.Map<UserInfoDto>(foundUser), RepoAnswer.Success);
         }
-
-        public async Task<RepoAnswer> CreateFriendshipAsync(int userId, int friendId)
-        {
-            var user = await _context.Users.FindAsync(userId);
-            var friend = await _context.Users.FindAsync(friendId);
-            if (user == null || friend == null)
-            {
-                return RepoAnswer.NotFound;
-            }
-
-            _context.Friendships.Add(new Friendship { UserId = userId, FriendId = friendId });
-            _context.Friendships.Add(new Friendship { FriendId = userId, UserId = friendId });
-            await _context.SaveChangesAsync();
-            return RepoAnswer.Success;
-        }
-
-        public async Task<RepoAnswer> RemoveFriendshipAsync(int userId, int friendId)
-        {
-            var friendship1 = await _context.Friendships.Where(x => x.UserId == userId && x.FriendId == friendId).FirstOrDefaultAsync();
-            var friendship2 = await _context.Friendships.Where(x => x.UserId == friendId && x.FriendId == userId).FirstOrDefaultAsync();
-
-            if (friendship1 == null || friendship2 == null)
-            {
-                return RepoAnswer.NotFound;
-            }
-
-            _context.Friendships.Remove(friendship1);
-            _context.Friendships.Remove(friendship2);
-            await _context.SaveChangesAsync();
-            return RepoAnswer.Success;
-        }
     }
 }
