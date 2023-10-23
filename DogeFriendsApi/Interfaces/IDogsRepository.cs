@@ -3,7 +3,7 @@ using DogeFriendsApi.Models;
 
 namespace DogeFriendsApi.Interfaces
 {
-    public interface IDogRepository
+    public interface IDogsRepository
     {
         Task<(DogDto?, RepoAnswer)> GetDogAsync(int id);
         Task<(IEnumerable<DogDto>?, RepoAnswer)> GetAllDogsAsync();

@@ -1,9 +1,7 @@
 using DogeFriendsApi.Configuration;
-using DogeFriendsApi.Data;
-using DogeFriendsApi.Interfaces;
-using DogeFriendsApi.Services;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using DogeFriendsApi.Extensions;
 
 namespace DogeFriendsApi
 {
@@ -20,16 +18,7 @@ namespace DogeFriendsApi
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddHttpClient<ISettingsService, SettingsService>();
-            builder.Services.AddScoped<ISettingsService, SettingsService>();
-
-            builder.Services.AddScoped<ICoatsRepository, CoatsRepository>();
-            builder.Services.AddScoped<ISizesRepository, SizesRepository>();
-            builder.Services.AddScoped<IUsersRepository, UsersRepository>();
-            builder.Services.AddScoped<IFriendshipsRepository, FriendshipsRepository>();
-            builder.Services.AddScoped<IBreedsRepository, BreedsRepository>();
-            builder.Services.AddScoped<ISeedService, SeedService>();
-            builder.Services.AddAutoMapper(typeof(AutomapperProfiler).Assembly);
+            builder.Services.AddDogeFriendsServices(); // Все сервисы приложения вынес в метод расширения
 
             await DbContextConfiguration.ConfigureDbContextAsync(builder.Services, builder.Configuration); // Вызов метода для настройки DbContext - с помощью него мы вычитываем ConnectionString из SettingsService
 

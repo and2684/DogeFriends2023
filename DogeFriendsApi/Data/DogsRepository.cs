@@ -6,12 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DogeFriendsApi.Data
 {
-    public class DogRepository : IDogRepository
+    public class DogsRepository : IDogsRepository
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
 
-        public DogRepository(DataContext context, IMapper mapper)
+        public DogsRepository(DataContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
