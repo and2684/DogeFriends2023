@@ -32,10 +32,17 @@ namespace DogeFriendsApi.Data
 
         public async Task<(DogDto?, RepoAnswer)> GetDogAsync(int id)
         {
-            var result = await _context.Dogs
-                .Include(b => b.User)
-                .Include(b => b.Breed)
-                .FirstOrDefaultAsync(b => b.Id == id);
+            //var result = await _context.Dogs
+            //    .Include(b => b.User)
+            //    .Include(b => b.Breed)
+            //    .FirstOrDefaultAsync(b => b.Id == id);
+
+            var result = await _context.Dogs.FirstOrDefaultAsync(b => b.Id == id);
+            if (result != null)
+            {
+                _context.Entry(result).Reference(b => b.User).Load();
+                _context.Entry(result).Reference(b => b.Breed).Load();
+            }
 
             if (result != null)
             {
