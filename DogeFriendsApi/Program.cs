@@ -2,6 +2,7 @@ using DogeFriendsApi.Configuration;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using DogeFriendsApi.Extensions;
+using DogeFriendsApi.Middleware;
 
 namespace DogeFriendsApi
 {
@@ -48,6 +49,7 @@ namespace DogeFriendsApi
 
             app.UseAuthorization();
 
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.MapControllers();
 
