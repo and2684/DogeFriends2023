@@ -3,7 +3,6 @@ using DogeFriendsApi.Data;
 using DogeFriendsApi.Interfaces;
 using DogeFriendsApi.Services;
 using NLog;
-using NLog.Extensions.Logging;
 
 namespace DogeFriendsApi.Extensions
 {
@@ -24,13 +23,7 @@ namespace DogeFriendsApi.Extensions
             services.AddAutoMapper(typeof(AutomapperProfiler).Assembly);
 
             services.AddSingleton<ILoggerManager, LoggerManager>();
-
-            services.AddLogging(logging =>
-            {
-                logging.ClearProviders();
-                logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
-                logging.AddNLog();
-            });
+            LogManager.Setup().LoadConfigurationFromFile(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 
             return services;
         }

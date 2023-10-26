@@ -26,7 +26,7 @@ namespace DogeFriendsApi.Controllers
         public async Task<IActionResult> GetAllBreeds()
         {
             var (breeds, answerCode) = await _breedsRepository.GetAllBreedsAsync();
-            _logger.LogDebug( $"{DateTime.Now} Получен список всех пород собак.");
+            _logger.LogDebug( $"Получен список всех пород собак.");
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:
