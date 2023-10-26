@@ -23,7 +23,7 @@ namespace DogeFriendsApi.Extensions
             services.AddAutoMapper(typeof(AutomapperProfiler).Assembly);
 
             services.AddSingleton<ILoggerManager, LoggerManager>();
-            LogManager.Setup().LoadConfigurationFromFile(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
+            LogManager.Setup().LoadConfigurationFromFile("nlog.config");
 
             return services;
         }
