@@ -12,10 +12,7 @@ namespace DogeFriendsApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Configuration["ASPNETCORE_URLS"] = builder.Configuration.GetSection("ServerSettings:Urls").Value;
-
             // Add services to the container.
-
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

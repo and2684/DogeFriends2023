@@ -23,6 +23,8 @@ namespace DogeFriendsApi.Extensions
             services.AddScoped<ISeedService, SeedService>();
             services.AddAutoMapper(typeof(AutomapperProfiler).Assembly);
 
+            services.AddSingleton<ILoggerManager, LoggerManager>();
+
             services.AddLogging(logging =>
             {
                 logging.ClearProviders();

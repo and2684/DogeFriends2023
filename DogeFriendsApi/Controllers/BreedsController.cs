@@ -10,10 +10,12 @@ namespace DogeFriendsApi.Controllers
     public class BreedsController : ControllerBase
     {
         private readonly IBreedsRepository _breedsRepository;
+        private readonly ILoggerManager _logger;
 
-        public BreedsController(IBreedsRepository breedsRepository)
+        public BreedsController(IBreedsRepository breedsRepository, ILoggerManager logger)
         {
             _breedsRepository = breedsRepository;
+            _logger = logger;
         }
 
         /// <summary>
@@ -24,6 +26,7 @@ namespace DogeFriendsApi.Controllers
         public async Task<IActionResult> GetAllBreeds()
         {
             var (breeds, answerCode) = await _breedsRepository.GetAllBreedsAsync();
+            _logger.LogDebug( $"{DateTime.Now} Получен список всех пород собак.");
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:
