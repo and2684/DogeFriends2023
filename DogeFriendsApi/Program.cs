@@ -18,6 +18,7 @@ namespace DogeFriendsApi
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            //builder.Add; // !!! Добавить логгер
 
             builder.Services.AddDogeFriendsServices(); // Все сервисы приложения вынес в метод расширения
 
