@@ -10,6 +10,6 @@ namespace IdentityService.Data
 
         }
 
-        public DbSet<DogeFriendsUser> IdentityUsers => Set<DogeFriendsUser>();
+        public DbSet<DogeFriendsUser> DogeFriendsUsers => Set<DogeFriendsUser>();
     }
 }
