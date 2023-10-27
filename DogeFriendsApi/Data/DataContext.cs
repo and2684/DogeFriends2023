@@ -60,7 +60,8 @@ namespace DogeFriendsApi.Data
 
             modelBuilder.Entity<Breed>()
                 .HasMany(b => b.BreedGroups)
-                .WithMany(bg => bg.Breeds);
+                .WithMany(bg => bg.Breeds)
+                .UsingEntity(t => t.ToTable("BreedToGroup"));
 
             modelBuilder.SeedGroupsCoatsAndSizes(); // Добавим группы, размеры собак и виды шерсти по умолчанию
         }
