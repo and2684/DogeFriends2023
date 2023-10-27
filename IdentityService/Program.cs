@@ -1,8 +1,11 @@
 
 using IdentityService.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace IdentityService
 {
@@ -21,7 +24,7 @@ namespace IdentityService
 
             builder.Services.AddDbContext<DataContext>(options =>
             {
-                options.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
+                options.UseNpgsql(builder.Configuration.GetConnectionString("Default")); // Нужно забирать из SettingsService
             });
 
             builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
@@ -30,6 +33,25 @@ namespace IdentityService
             })
             .AddEntityFrameworkStores<DataContext>()
             .AddDefaultTokenProviders();
+
+            builder.Services.AddAuthentication(auth =>
+            {
+                auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters // Все ключи тоже хранить в SettingsService
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidAudience = "DogeFriendsAudience",
+                    ValidIssuer = "DogeFriendsIssuer",
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("DogeFriendsTokenKey")),
+                    RequireExpirationTime = true
+                };
+            });
 
             var app = builder.Build();
 
