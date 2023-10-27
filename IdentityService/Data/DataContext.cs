@@ -1,10 +1,9 @@
 ﻿using IdentityService.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace IdentityService.Data
 {
-    public class DataContext : IdentityDbContext
+    public class DataContext : Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityDbContext
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
