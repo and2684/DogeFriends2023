@@ -52,7 +52,7 @@ namespace IdentityService.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "IdentityUsers",
+                name: "DogeFriendsUsers",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -64,7 +64,7 @@ namespace IdentityService.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_IdentityUsers", x => x.Id);
+                    table.PrimaryKey("PK_DogeFriendsUsers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -230,7 +230,7 @@ namespace IdentityService.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "IdentityUsers");
+                name: "DogeFriendsUsers");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

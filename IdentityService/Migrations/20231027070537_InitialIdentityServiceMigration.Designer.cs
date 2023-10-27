@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IdentityService.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231027065848_InitialIdentityServiceMigration")]
+    [Migration("20231027070537_InitialIdentityServiceMigration")]
     partial class InitialIdentityServiceMigration
     {
         /// <inheritdoc />
@@ -51,7 +51,7 @@ namespace IdentityService.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("IdentityUsers");
+                    b.ToTable("DogeFriendsUsers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

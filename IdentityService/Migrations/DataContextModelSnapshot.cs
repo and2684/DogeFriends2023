@@ -48,7 +48,7 @@ namespace IdentityService.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("IdentityUsers");
+                    b.ToTable("DogeFriendsUsers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
