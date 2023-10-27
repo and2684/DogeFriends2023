@@ -46,6 +46,7 @@ namespace DogeFriendsApi
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseMiddleware<ExceptionMiddleware>();
