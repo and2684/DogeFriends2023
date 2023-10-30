@@ -98,5 +98,41 @@ namespace DogeFriendsApi.Controllers
                     return StatusCode(500, $"Произошла ошибка при обновлении информации о пользователе {user.Username}.");
             }
         }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> RegisterUser([FromBody] RegisterDto user)
+        {
+            var (registeredUser, answerCode) = await _usersRepository.RegisterUserAsync(user);
+            switch (answerCode)
+            {
+                case RepoAnswer.UsernameTaken:
+                    return NotFound($"Имя пользователя {user.Username} уже занято.");
+                case RepoAnswer.EmailTaken:
+                    return Conflict($"Email {user.Email} уже занят.");
+                case RepoAnswer.ActionFailed:
+                    return BadRequest($"Некорректный запрос на регистрацию.");
+                case RepoAnswer.Success:
+                    return Ok(registeredUser);
+                default:
+                    return StatusCode(500, $"Произошла ошибка при регистрации пользователя {user.Username}.");
+            }
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> LoginUser([FromBody] LoginDto user)
+        {
+            var (loggedUser, answerCode) = await _usersRepository.LoginUserAsync(user);
+            switch (answerCode)
+            {
+                case RepoAnswer.NotFound:
+                    return NotFound($"Пользователь {user.Username} не найден.");
+                case RepoAnswer.ActionFailed:
+                    return BadRequest($"Некорректный запрос на аутентификацию.");
+                case RepoAnswer.Success:
+                    return Ok(loggedUser);
+                default:
+                    return StatusCode(500, $"Произошла ошибка при аутентификации пользователя {user.Username}.");
+            }
+        }
     }
 }

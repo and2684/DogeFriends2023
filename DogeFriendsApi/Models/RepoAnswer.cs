@@ -7,6 +7,7 @@
         NotFound,
         ActionFailed,
         ConnectionFailed,
-        EmailTaken
+        EmailTaken,
+        UsernameTaken
     }
 }

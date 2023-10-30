@@ -74,5 +74,15 @@ namespace DogeFriendsApi.Data
 
             return (_mapper.Map<UserInfoDto>(foundUser), RepoAnswer.Success);
         }
+
+        public Task<(UserInfoDto?, RepoAnswer)> LoginUserAsync(LoginDto user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<(UserInfoDto?, RepoAnswer)> RegisterUserAsync(RegisterDto user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

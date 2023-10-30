@@ -8,6 +8,7 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DogeFriendsApi", "DogeFriendsApi\DogeFriendsApi.csproj", "{600A05A2-8B45-4FA3-A834-3A9269A56D4A}"
 	ProjectSection(ProjectDependencies) = postProject
 		{325742BF-85BB-410B-807F-55952AE56765} = {325742BF-85BB-410B-807F-55952AE56765}
+		{421F6A67-905E-435F-9143-09992FF9C64E} = {421F6A67-905E-435F-9143-09992FF9C64E}
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BreedsToJsonParser", "BreedsToJsonParser\BreedsToJsonParser.csproj", "{A060E7F4-9464-48ED-AE5A-61DAF4985C75}"
