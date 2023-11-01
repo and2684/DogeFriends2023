@@ -35,7 +35,8 @@ namespace IdentityService
                 options.Password.RequireNonAlphanumeric = false;
             })
             .AddEntityFrameworkStores<DataContext>()
-            .AddDefaultTokenProviders();
+            .AddDefaultTokenProviders()
+            .AddRoles<IdentityRole>();
 
             builder.Services.AddAuthentication(auth =>
             {

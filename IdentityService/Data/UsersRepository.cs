@@ -16,12 +16,8 @@ namespace IdentityService.Data
             _roleManager = roleManager;
         }
 
-        public Task<UserLoginResponseDto> LoginAsync([FromBody]LoginDto loginDto)
-        {
-            throw new NotImplementedException();
-        }
 
-        public async Task<UserLoginResponseDto> RegisterAsync([FromBody]RegisterDto registerDto)
+        public async Task<UserLoginResponseDto> RegisterAsync([FromBody] RegisterDto registerDto)
         {
             if (registerDto == null)
             {
@@ -66,6 +62,11 @@ namespace IdentityService.Data
             };
         }
 
+        public Task<bool> RemoveRole(string username, string role)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<bool> SeedRolesAsync()
         {
             var roleExists = await _roleManager.RoleExistsAsync("Admin");
@@ -90,6 +91,20 @@ namespace IdentityService.Data
             }
 
             return true;
+        }
+
+        public Task<bool> SetRole(string username, string role)
+        {
+            throw new NotImplementedException();
+        }
+        public Task<bool> ChangePasswordAsync(LoginDto loginDto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<UserLoginResponseDto> LoginAsync([FromBody] LoginDto loginDto)
+        {
+            throw new NotImplementedException();
         }
     }
 }

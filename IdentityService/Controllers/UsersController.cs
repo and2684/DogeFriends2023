@@ -1,9 +1,6 @@
 ﻿using DogeFriendsSharedClassLibrary;
 using IdentityService.Interfaces;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
-using System.Net.WebSockets;
 
 namespace IdentityService.Controllers
 {
@@ -18,20 +15,34 @@ namespace IdentityService.Controllers
             _userRepository = userRepository;
         }
 
+        // api/users/login
+        [HttpPost("login")]
+        public async Task<IActionResult> LoginUserAsync([FromBody] LoginDto loginDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest("Данные для входа пользователя не валидны.");
+
+            var result = await _userRepository.LoginAsync(loginDto);
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
         // api/users/register
         [HttpPost("register")]
-        public async Task<IActionResult> RegisterUserAsync([FromBody]RegisterDto registerDto)
+        public async Task<IActionResult> RegisterUserAsync([FromBody] RegisterDto registerDto)
         {
-            if(ModelState.IsValid)
+            if (!ModelState.IsValid)
+                return BadRequest("Данные для регистрации пользователя не валидны.");
+
+            var result = await _userRepository.RegisterAsync(registerDto);
+            if (result.IsSuccess)
             {
-                var result = await _userRepository.RegisterAsync(registerDto);
-                if(result.IsSuccess)
-                {
-                    return Ok(result);
-                }
-                return BadRequest(result);
+                return Ok(result);
             }
-            return BadRequest("Данные для регистрации пользователя не валидны.");
+            return BadRequest(result);
         }
 
         //api/users/seedroles
