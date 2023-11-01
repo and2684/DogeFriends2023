@@ -21,8 +21,6 @@ namespace IdentityService
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddScoped<IUserRepository, UserRepository>();
-
             builder.Services.AddDbContext<DataContext>(options =>
             {
                 options.UseNpgsql(builder.Configuration.GetConnectionString("Default")); // Нужно забирать из SettingsService
@@ -31,6 +29,10 @@ namespace IdentityService
             builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
                 options.Password.RequiredLength = 4;
+                options.Password.RequireDigit = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
             })
             .AddEntityFrameworkStores<DataContext>()
             .AddDefaultTokenProviders();
@@ -54,6 +56,8 @@ namespace IdentityService
                 };
             });
 
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -65,6 +69,7 @@ namespace IdentityService
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

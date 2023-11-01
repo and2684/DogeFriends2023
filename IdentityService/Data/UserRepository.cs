@@ -7,9 +7,9 @@ namespace IdentityService.Data
     public class UserRepository : IUserRepository
     {
         private UserManager<IdentityUser> _userManager;
-        private RoleManager<IdentityUser> _roleManager;
+        private RoleManager<IdentityRole> _roleManager;
 
-        public UserRepository(UserManager<IdentityUser> userManager, RoleManager<IdentityUser> roleManager)
+        public UserRepository(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;

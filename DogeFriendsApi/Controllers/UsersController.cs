@@ -111,7 +111,12 @@ namespace DogeFriendsApi.Controllers
                 case RepoAnswer.EmailTaken:
                     return Conflict($"Email {user.Email} уже занят.");
                 case RepoAnswer.ActionFailed:
-                    return BadRequest($"Некорректный запрос на регистрацию.");
+                    if (registeredUser?.Errors != null && registeredUser.Errors.Any())
+                    {
+                        var errorsMessage = string.Join(", ", registeredUser.Errors);
+                        return BadRequest($"Некорректный запрос на регистрацию. Ошибки: {errorsMessage}");
+                    }
+                    return BadRequest("Некорректный запрос на регистрацию, но не были предоставлены дополнительные сведения об ошибке.");
                 case RepoAnswer.Success:
                     return Ok(registeredUser);
                 default:
