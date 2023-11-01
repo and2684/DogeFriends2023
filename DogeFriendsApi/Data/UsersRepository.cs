@@ -109,6 +109,7 @@ namespace DogeFriendsApi.Data
 
             if (response.IsSuccessStatusCode)
                 return (userInfo, RepoAnswer.Success);
+
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                 return (null, RepoAnswer.NotFound);
 
