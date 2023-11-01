@@ -103,7 +103,7 @@ namespace DogeFriendsApi.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> RegisterUser([FromBody] RegisterDto user)
         {
-            var (registeredUser, answerCode) = await _usersRepository.RegisterUserAsync(user);
+            var (identityAnswer, answerCode) = await _usersRepository.RegisterUserAsync(user);
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:
@@ -113,16 +113,16 @@ namespace DogeFriendsApi.Controllers
                 case RepoAnswer.EmailTaken:
                     return Conflict($"Email {user.Email} уже занят.");
                 case RepoAnswer.ActionFailed:
-                    if (registeredUser?.Errors != null && registeredUser.Errors.Any())
+                    if (identityAnswer?.Errors != null && identityAnswer.Errors.Any())
                     {
-                        var errorsMessage = string.Join(", ", registeredUser.Errors);
-                        return BadRequest($"Некорректный запрос на регистрацию. Ошибки: {errorsMessage}");
+                        var errorsMessage = string.Join(", ", identityAnswer.Errors);
+                        return BadRequest($"Некорректный запрос на регистрацию. ({errorsMessage})");
                     }
-                    if (!string.IsNullOrEmpty(registeredUser?.Message))
-                        return BadRequest($"Некорректный запрос на регистрацию. Сообщение: {registeredUser.Message}");
+                    if (!string.IsNullOrEmpty(identityAnswer?.Message))
+                        return BadRequest($"Некорректный запрос на регистрацию. ({identityAnswer.Message})");
                     return BadRequest("Некорректный запрос на регистрацию, но не были предоставлены дополнительные сведения об ошибке.");
                 case RepoAnswer.Success:
-                    return Ok(registeredUser);
+                    return Ok(identityAnswer);
                 default:
                     return StatusCode(500, $"Произошла ошибка при регистрации пользователя {user.Username}.");
             }

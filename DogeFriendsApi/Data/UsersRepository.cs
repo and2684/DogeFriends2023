@@ -105,7 +105,10 @@ namespace DogeFriendsApi.Data
 
             var responseContent = await response.Content.ReadAsStringAsync();
             // Десериализация JSON в объект типа UserInfoDto
-            var userInfo = JsonSerializer.Deserialize<UserLoginResponseDto>(responseContent, new JsonSerializerOptions());
+            var userInfo = JsonSerializer.Deserialize<UserLoginResponseDto>(responseContent, new JsonSerializerOptions 
+            { 
+                PropertyNameCaseInsensitive = true 
+            });
 
             if (response.IsSuccessStatusCode)
                 return (userInfo, RepoAnswer.Success);

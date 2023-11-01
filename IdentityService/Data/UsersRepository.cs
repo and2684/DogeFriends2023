@@ -16,7 +16,6 @@ namespace IdentityService.Data
             _roleManager = roleManager;
         }
 
-
         public async Task<UserLoginResponseDto> RegisterAsync([FromBody] RegisterDto registerDto)
         {
             if (registerDto == null)
