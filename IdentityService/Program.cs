@@ -57,7 +57,7 @@ namespace IdentityService
                 };
             });
 
-            builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+            builder.Services.AddScoped<IIdentityRepository, IdentityRepository>();
 
             var app = builder.Build();
 

@@ -86,9 +86,33 @@ namespace DogeFriendsApi.Data
             return (_mapper.Map<UserInfoDto>(foundUser), RepoAnswer.Success);
         }
 
-        public Task<(UserLoginResponseDto?, RepoAnswer)> LoginUserAsync(LoginDto user)
+        public async Task<(UserLoginResponseDto?, RepoAnswer)> LoginUserAsync(LoginDto user)
         {
-            throw new NotImplementedException();
+            // Формирование данных для отправки
+            var content = new StringContent(
+                JsonSerializer.Serialize(user),
+                Encoding.UTF8,
+                "application/json"
+            );
+
+            // Отправка POST запроса на эндпоинт регистрации пользователя
+            var response = await _client.PostAsync("api/identity/login", content);
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            // Десериализация JSON в объект типа UserInfoDto
+            var userInfo = JsonSerializer.Deserialize<UserLoginResponseDto>(responseContent, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+            if (response.IsSuccessStatusCode)
+                return (userInfo, RepoAnswer.Success);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                return (null, RepoAnswer.NotFound);
+
+            // Обработка неудачного ответа
+            return (userInfo, RepoAnswer.ActionFailed);
         }
 
         public async Task<(UserLoginResponseDto?, RepoAnswer)> RegisterUserAsync(RegisterDto user)
@@ -101,7 +125,7 @@ namespace DogeFriendsApi.Data
             );
 
             // Отправка POST запроса на эндпоинт регистрации пользователя
-            var response = await _client.PostAsync("api/users/register", content);
+            var response = await _client.PostAsync("api/identity/register", content);
 
             var responseContent = await response.Content.ReadAsStringAsync();
             // Десериализация JSON в объект типа UserInfoDto

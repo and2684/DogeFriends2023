@@ -131,15 +131,15 @@ namespace DogeFriendsApi.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> LoginUser([FromBody] LoginDto user)
         {
-            var (loggedUser, answerCode) = await _usersRepository.LoginUserAsync(user);
+            var (identityAnswer, answerCode) = await _usersRepository.LoginUserAsync(user);
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:
                     return NotFound($"Пользователь {user.Username} не найден.");
                 case RepoAnswer.ActionFailed:
-                    return BadRequest($"Некорректный запрос на аутентификацию.");
+                    return BadRequest($"Некорректный запрос на аутентификацию. ({identityAnswer?.Message})");
                 case RepoAnswer.Success:
-                    return Ok(loggedUser);
+                    return Ok(identityAnswer);
                 default:
                     return StatusCode(500, $"Произошла ошибка при аутентификации пользователя {user.Username}.");
             }

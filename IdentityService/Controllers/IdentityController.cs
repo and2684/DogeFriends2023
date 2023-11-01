@@ -6,13 +6,13 @@ namespace IdentityService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class IdentityController : ControllerBase
     {
-        private readonly IUsersRepository _userRepository;
+        private readonly IIdentityRepository _identityRepository;
 
-        public UsersController(IUsersRepository userRepository)
+        public IdentityController(IIdentityRepository userRepository)
         {
-            _userRepository = userRepository;
+            _identityRepository = userRepository;
         }
 
         // api/users/login
@@ -22,7 +22,7 @@ namespace IdentityService.Controllers
             if (!ModelState.IsValid)
                 return BadRequest("Данные для входа пользователя не валидны.");
 
-            var result = await _userRepository.LoginAsync(loginDto);
+            var result = await _identityRepository.LoginAsync(loginDto);
             if (result.IsSuccess)
             {
                 return Ok(result);
@@ -37,7 +37,7 @@ namespace IdentityService.Controllers
             if (!ModelState.IsValid)
                 return BadRequest("Данные для регистрации пользователя не валидны.");
 
-            var result = await _userRepository.RegisterAsync(registerDto);
+            var result = await _identityRepository.RegisterAsync(registerDto);
             if (result.IsSuccess)
             {
                 return Ok(result);
@@ -49,7 +49,7 @@ namespace IdentityService.Controllers
         [HttpPost("seedroles")]
         public async Task<IActionResult> SeedRoles()
         {
-            var result = await _userRepository.SeedRolesAsync();
+            var result = await _identityRepository.SeedRolesAsync();
             if (result)
                 return Ok("Роли добавлены успешно.");
             return BadRequest("Произошла ошибка при добавлении ролей.");

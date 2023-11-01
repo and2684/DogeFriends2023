@@ -2,7 +2,7 @@
 
 namespace IdentityService.Interfaces
 {
-    public interface IUsersRepository
+    public interface IIdentityRepository
     {
         Task<UserLoginResponseDto> RegisterAsync(RegisterDto registerDto);
         Task<UserLoginResponseDto> LoginAsync(LoginDto loginDto);
