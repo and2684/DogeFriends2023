@@ -1,9 +1,8 @@
-
 using IdentityService.Data;
+using IdentityService.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -21,6 +20,8 @@ namespace IdentityService
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
 
             builder.Services.AddDbContext<DataContext>(options =>
             {
@@ -41,7 +42,7 @@ namespace IdentityService
             })
             .AddJwtBearer(options =>
             {
-                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters // Все ключи тоже хранить в SettingsService
+                options.TokenValidationParameters = new TokenValidationParameters // Все ключи тоже хранить в SettingsService
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,

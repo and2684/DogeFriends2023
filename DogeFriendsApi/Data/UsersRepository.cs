@@ -2,7 +2,11 @@
 using DogeFriendsApi.Dto;
 using DogeFriendsApi.Interfaces;
 using DogeFriendsApi.Models;
+using DogeFriendsSharedClassLibrary;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Text.Json;
 
 namespace DogeFriendsApi.Data
 {
@@ -10,12 +14,19 @@ namespace DogeFriendsApi.Data
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
+        private readonly HttpClient _client;
 
-        public UsersRepository(DataContext context, IMapper mapper)
+        public UsersRepository(DataContext context, IMapper mapper, IHttpClientFactory httpClientFactory)
         {
             _context = context;
             _mapper = mapper;
+            _client = httpClientFactory.CreateClient("RegisterClient");
+
+            _client.BaseAddress = new Uri("https://localhost:5101"); // URL Identity server (ХРАНИМ В SETTINGS SERVICE)
+            _client.DefaultRequestHeaders.Accept.Clear();
+            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
+
         public async Task<(IEnumerable<UserInfoDto>?, RepoAnswer)> GetAllUsersAsync()
         {
             var result = await _context.Users.ToListAsync();
@@ -75,14 +86,38 @@ namespace DogeFriendsApi.Data
             return (_mapper.Map<UserInfoDto>(foundUser), RepoAnswer.Success);
         }
 
-        public Task<(UserInfoDto?, RepoAnswer)> LoginUserAsync(LoginDto user)
+        public Task<(UserLoginResponseDto?, RepoAnswer)> LoginUserAsync(LoginDto user)
         {
             throw new NotImplementedException();
         }
 
-        public Task<(UserInfoDto?, RepoAnswer)> RegisterUserAsync(RegisterDto user)
+        public async Task<(UserLoginResponseDto?, RepoAnswer)> RegisterUserAsync(RegisterDto user)
         {
-            throw new NotImplementedException();
+            // Формирование данных для отправки
+            var content = new StringContent(
+                JsonSerializer.Serialize(user),
+                Encoding.UTF8,
+                "application/json"
+            );
+
+            // Отправка POST запроса на эндпоинт регистрации пользователя
+            var response = await _client.PostAsync("/register", content); 
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                // Десериализация JSON в объект типа UserInfoDto
+                var userInfo = JsonSerializer.Deserialize<UserLoginResponseDto>(responseContent, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true // Необязательно, для игнорирования регистра
+                });
+                return (userInfo, RepoAnswer.Success);
+            }
+            else
+            {
+                // Обработка неудачного ответа
+                return (null, RepoAnswer.ActionFailed);
+            }
         }
     }
 }

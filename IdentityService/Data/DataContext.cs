@@ -1,5 +1,4 @@
-﻿using IdentityService.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace IdentityService.Data
 {
@@ -9,7 +8,5 @@ namespace IdentityService.Data
         {
 
         }
-
-        public DbSet<DogeFriendsUser> DogeFriendsUsers => Set<DogeFriendsUser>();
     }
 }

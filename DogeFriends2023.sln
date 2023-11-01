@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DogeFriendsApi", "DogeFrien
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BreedsToJsonParser", "BreedsToJsonParser\BreedsToJsonParser.csproj", "{A060E7F4-9464-48ED-AE5A-61DAF4985C75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityService", "IdentityService\IdentityService.csproj", "{421F6A67-905E-435F-9143-09992FF9C64E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityService", "IdentityService\IdentityService.csproj", "{421F6A67-905E-435F-9143-09992FF9C64E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DogeFriendsSharedClassLibrary", "DogeFriendsSharedClassLibrary\DogeFriendsSharedClassLibrary.csproj", "{EF7CCD6A-B4DF-4FD0-AED3-5C4374C8F42B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +39,10 @@ Global
 		{421F6A67-905E-435F-9143-09992FF9C64E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{421F6A67-905E-435F-9143-09992FF9C64E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{421F6A67-905E-435F-9143-09992FF9C64E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF7CCD6A-B4DF-4FD0-AED3-5C4374C8F42B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF7CCD6A-B4DF-4FD0-AED3-5C4374C8F42B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF7CCD6A-B4DF-4FD0-AED3-5C4374C8F42B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF7CCD6A-B4DF-4FD0-AED3-5C4374C8F42B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

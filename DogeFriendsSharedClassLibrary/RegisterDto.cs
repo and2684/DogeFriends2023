@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DogeFriendsApi.Dto
+namespace DogeFriendsSharedClassLibrary
 {
     public class RegisterDto
     {
@@ -9,6 +9,8 @@ namespace DogeFriendsApi.Dto
         [Required]
         [StringLength(16, MinimumLength = 4)]
         public string Password { get; set; } = string.Empty;
+        [StringLength(16, MinimumLength = 4)]
+        public string ConfirmPassword { get; set; } = string.Empty;
         [Required]
         [EmailAddress]
         public string Email { get; set; } = string.Empty;

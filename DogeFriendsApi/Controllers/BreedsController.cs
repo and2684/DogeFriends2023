@@ -1,6 +1,7 @@
 ﻿using DogeFriendsApi.Dto;
 using DogeFriendsApi.Interfaces;
 using DogeFriendsApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogeFriendsApi.Controllers
@@ -22,6 +23,7 @@ namespace DogeFriendsApi.Controllers
         /// Получает список всех пород собак.
         /// </summary>
         /// <returns>Список всех пород собак.</returns>
+        [Authorize(Roles="Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAllBreeds()
         {
