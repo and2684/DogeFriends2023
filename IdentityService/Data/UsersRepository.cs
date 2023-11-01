@@ -1,29 +1,36 @@
 ﻿using DogeFriendsSharedClassLibrary;
 using IdentityService.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityService.Data
 {
-    public class UserRepository : IUserRepository
+    public class UsersRepository : IUsersRepository
     {
         private UserManager<IdentityUser> _userManager;
         private RoleManager<IdentityRole> _roleManager;
 
-        public UserRepository(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public UsersRepository(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
         }
 
-        public Task<UserLoginResponseDto> LoginAsync(LoginDto loginDto)
+        public Task<UserLoginResponseDto> LoginAsync([FromBody]LoginDto loginDto)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<UserLoginResponseDto> RegisterAsync(RegisterDto registerDto)
+        public async Task<UserLoginResponseDto> RegisterAsync([FromBody]RegisterDto registerDto)
         {
             if (registerDto == null)
-                throw new NullReferenceException("Нет данных для регистрации пользователя.");
+            {
+                return new UserLoginResponseDto
+                {
+                    Message = "Нет данных для регистрации пользователя.",
+                    IsSuccess = false
+                };
+            }
 
             if (registerDto.Password != registerDto.ConfirmPassword)
             {

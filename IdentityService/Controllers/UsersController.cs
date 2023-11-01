@@ -8,9 +8,9 @@ namespace IdentityService.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUsersRepository _userRepository;
 
-        public UsersController(IUserRepository userRepository)
+        public UsersController(IUsersRepository userRepository)
         {
             _userRepository = userRepository;
         }

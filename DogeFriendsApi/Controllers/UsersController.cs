@@ -106,8 +106,10 @@ namespace DogeFriendsApi.Controllers
             var (registeredUser, answerCode) = await _usersRepository.RegisterUserAsync(user);
             switch (answerCode)
             {
+                case RepoAnswer.NotFound:
+                    return NotFound($"Страница не найдена.");
                 case RepoAnswer.UsernameTaken:
-                    return NotFound($"Имя пользователя {user.Username} уже занято.");
+                    return Conflict($"Имя пользователя {user.Username} уже занято.");
                 case RepoAnswer.EmailTaken:
                     return Conflict($"Email {user.Email} уже занят.");
                 case RepoAnswer.ActionFailed:
@@ -116,6 +118,8 @@ namespace DogeFriendsApi.Controllers
                         var errorsMessage = string.Join(", ", registeredUser.Errors);
                         return BadRequest($"Некорректный запрос на регистрацию. Ошибки: {errorsMessage}");
                     }
+                    if (!string.IsNullOrEmpty(registeredUser?.Message))
+                        return BadRequest($"Некорректный запрос на регистрацию. Сообщение: {registeredUser.Message}");
                     return BadRequest("Некорректный запрос на регистрацию, но не были предоставлены дополнительные сведения об ошибке.");
                 case RepoAnswer.Success:
                     return Ok(registeredUser);

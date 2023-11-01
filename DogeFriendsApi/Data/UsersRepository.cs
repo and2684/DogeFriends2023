@@ -101,23 +101,19 @@ namespace DogeFriendsApi.Data
             );
 
             // Отправка POST запроса на эндпоинт регистрации пользователя
-            var response = await _client.PostAsync("/register", content); 
+            var response = await _client.PostAsync("api/users/register", content);
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            // Десериализация JSON в объект типа UserInfoDto
+            var userInfo = JsonSerializer.Deserialize<UserLoginResponseDto>(responseContent, new JsonSerializerOptions());
 
             if (response.IsSuccessStatusCode)
-            {
-                var responseContent = await response.Content.ReadAsStringAsync();
-                // Десериализация JSON в объект типа UserInfoDto
-                var userInfo = JsonSerializer.Deserialize<UserLoginResponseDto>(responseContent, new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true // Необязательно, для игнорирования регистра
-                });
                 return (userInfo, RepoAnswer.Success);
-            }
-            else
-            {
-                // Обработка неудачного ответа
-                return (null, RepoAnswer.ActionFailed);
-            }
+            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                return (null, RepoAnswer.NotFound);
+
+            // Обработка неудачного ответа
+            return (userInfo, RepoAnswer.ActionFailed);
         }
     }
 }
