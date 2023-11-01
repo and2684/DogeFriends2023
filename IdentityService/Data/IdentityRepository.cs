@@ -19,6 +19,7 @@ namespace IdentityService.Data
         public async Task<UserLoginResponseDto> RegisterAsync([FromBody] RegisterDto registerDto)
         {
             var result = new UserLoginResponseDto();
+
             if (registerDto == null)
             {
                 result.Message = "Нет данных для регистрации пользователя.";
