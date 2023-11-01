@@ -25,15 +25,12 @@ namespace DogeFriendsApi.Controllers
         public async Task<IActionResult> GetAllUsers()
         {
             var (users, answerCode) = await _usersRepository.GetAllUsersAsync();
-            switch (answerCode)
+            return answerCode switch
             {
-                case RepoAnswer.NotFound:
-                    return NotFound("Пользователи не найдены.");
-                case RepoAnswer.Success:
-                    return Ok(users);
-                default:
-                    return StatusCode(500, "Произошла ошибка при получении пользователей.");
-            }
+                RepoAnswer.NotFound => NotFound("Пользователи не найдены."),
+                RepoAnswer.Success => Ok(users),
+                _ => StatusCode(500, "Произошла ошибка при получении пользователей."),
+            };
         }
 
         /// <summary>
@@ -45,15 +42,12 @@ namespace DogeFriendsApi.Controllers
         public async Task<IActionResult> GetUserById(int id)
         {
             var (user, answerCode) = await _usersRepository.GetUserByIdAsync(id);
-            switch (answerCode)
+            return answerCode switch
             {
-                case RepoAnswer.NotFound:
-                    return NotFound($"Пользователь с идентификатором {id} не найден.");
-                case RepoAnswer.Success:
-                    return Ok(user);
-                default:
-                    return StatusCode(500, $"Произошла ошибка при получении пользователя с идентификатором {id}.");
-            }
+                RepoAnswer.NotFound => NotFound($"Пользователь с идентификатором {id} не найден."),
+                RepoAnswer.Success => Ok(user),
+                _ => StatusCode(500, $"Произошла ошибка при получении пользователя с идентификатором {id}."),
+            };
         }
 
         /// <summary>
@@ -65,15 +59,12 @@ namespace DogeFriendsApi.Controllers
         public async Task<IActionResult> GetUserByUsername(string username)
         {
             var (user, answerCode) = await _usersRepository.GetUserByUsernameAsync(username);
-            switch (answerCode)
+            return answerCode switch
             {
-                case RepoAnswer.NotFound:
-                    return NotFound($"Имя пользователя {username} не найдено.");
-                case RepoAnswer.Success:
-                    return Ok(user);
-                default:
-                    return StatusCode(500, $"Произошла ошибка при получении пользователя {username}.");
-            }
+                RepoAnswer.NotFound => NotFound($"Имя пользователя {username} не найдено."),
+                RepoAnswer.Success => Ok(user),
+                _ => StatusCode(500, $"Произошла ошибка при получении пользователя {username}."),
+            };
         }
 
         /// <summary>
@@ -85,64 +76,44 @@ namespace DogeFriendsApi.Controllers
         public async Task<IActionResult> UpdateUser([FromBody] UserInfoDto user)
         {
             var (updatedUser, answerCode) = await _usersRepository.UpdateUserAsync(user);
-            switch (answerCode)
+            return answerCode switch
             {
-                case RepoAnswer.NotFound:
-                    return NotFound($"Имя пользователя {user.Username} не найдено.");
-                case RepoAnswer.EmailTaken:
-                    return Conflict($"Email {user.Email} уже занят.");
-                case RepoAnswer.ActionFailed:
-                    return BadRequest($"Произошла ошибка при обновлении информации о пользователе {user.Username}.");
-                case RepoAnswer.Success:
-                    return Ok(updatedUser);
-                default:
-                    return StatusCode(500, $"Произошла ошибка при обновлении информации о пользователе {user.Username}.");
-            }
+                RepoAnswer.NotFound => NotFound($"Имя пользователя {user.Username} не найдено."),
+                RepoAnswer.EmailTaken => Conflict($"Email {user.Email} уже занят."),
+                RepoAnswer.ActionFailed => BadRequest($"Произошла ошибка при обновлении информации о пользователе {user.Username}."),
+                RepoAnswer.Success => Ok(updatedUser),
+                _ => StatusCode(500, $"Произошла ошибка при обновлении информации о пользователе {user.Username}."),
+            };
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> RegisterUser([FromBody] RegisterDto user)
         {
             var (identityAnswer, answerCode) = await _usersRepository.RegisterUserAsync(user);
-            switch (answerCode)
+            return answerCode switch
             {
-                case RepoAnswer.NotFound:
-                    return NotFound($"Страница не найдена.");
-                case RepoAnswer.UsernameTaken:
-                    return Conflict($"Имя пользователя {user.Username} уже занято.");
-                case RepoAnswer.EmailTaken:
-                    return Conflict($"Email {user.Email} уже занят.");
-                case RepoAnswer.ActionFailed:
-                    if (identityAnswer?.Errors != null && identityAnswer.Errors.Any())
-                    {
-                        var errorsMessage = string.Join(", ", identityAnswer.Errors);
-                        return BadRequest($"Некорректный запрос на регистрацию. ({errorsMessage})");
-                    }
-                    if (!string.IsNullOrEmpty(identityAnswer?.Message))
-                        return BadRequest($"Некорректный запрос на регистрацию. ({identityAnswer.Message})");
-                    return BadRequest("Некорректный запрос на регистрацию, но не были предоставлены дополнительные сведения об ошибке.");
-                case RepoAnswer.Success:
-                    return Ok(identityAnswer);
-                default:
-                    return StatusCode(500, $"Произошла ошибка при регистрации пользователя {user.Username}.");
-            }
+                RepoAnswer.NotFound => NotFound($"Страница не найдена."),
+                RepoAnswer.UsernameTaken => Conflict($"Имя пользователя {user.Username} уже занято."),
+                RepoAnswer.EmailTaken => Conflict($"Email {user.Email} уже занят."),
+                RepoAnswer.ActionFailed when identityAnswer?.Errors?.Any() == true => BadRequest($"Некорректный запрос на регистрацию. ({string.Join(", ", identityAnswer.Errors)})"),
+                RepoAnswer.ActionFailed when !string.IsNullOrEmpty(identityAnswer?.Message) => BadRequest($"Некорректный запрос на регистрацию. ({identityAnswer.Message})"),
+                RepoAnswer.ActionFailed => BadRequest("Некорректный запрос на регистрацию, но не были предоставлены дополнительные сведения об ошибке."),
+                RepoAnswer.Success => Ok(identityAnswer),
+                _ => StatusCode(500, $"Произошла ошибка при регистрации пользователя {user.Username}."),
+            };
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> LoginUser([FromBody] LoginDto user)
         {
             var (identityAnswer, answerCode) = await _usersRepository.LoginUserAsync(user);
-            switch (answerCode)
+            return answerCode switch
             {
-                case RepoAnswer.NotFound:
-                    return NotFound($"Пользователь {user.Username} не найден.");
-                case RepoAnswer.ActionFailed:
-                    return BadRequest($"Некорректный запрос на аутентификацию. ({identityAnswer?.Message})");
-                case RepoAnswer.Success:
-                    return Ok(identityAnswer);
-                default:
-                    return StatusCode(500, $"Произошла ошибка при аутентификации пользователя {user.Username}.");
-            }
+                RepoAnswer.NotFound => NotFound($"Пользователь {user.Username} не найден."),
+                RepoAnswer.ActionFailed => BadRequest($"Некорректный запрос на аутентификацию. ({identityAnswer?.Message})"),
+                RepoAnswer.Success => Ok(identityAnswer),
+                _ => StatusCode(500, $"Произошла ошибка при аутентификации пользователя {user.Username}."),
+            };
         }
     }
 }
