@@ -6,5 +6,6 @@ namespace IdentityService.Interfaces
     {
         Task<UserLoginResponseDto> RegisterAsync(RegisterDto registerDto);
         Task<UserLoginResponseDto> LoginAsync(LoginDto loginDto);
+        Task<bool> SeedRolesAsync();
     }
 }

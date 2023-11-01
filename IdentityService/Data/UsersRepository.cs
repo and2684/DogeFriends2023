@@ -65,5 +65,31 @@ namespace IdentityService.Data
                 Errors = result.Errors.Select(e => e.Description).ToList()
             };
         }
+
+        public async Task<bool> SeedRolesAsync()
+        {
+            var roleExists = await _roleManager.RoleExistsAsync("Admin");
+            if (!roleExists)
+            {
+                var role = new IdentityRole("Admin");
+                await _roleManager.CreateAsync(role);
+            }
+
+            roleExists = await _roleManager.RoleExistsAsync("User");
+            if (!roleExists)
+            {
+                var role = new IdentityRole("User");
+                await _roleManager.CreateAsync(role);
+            }
+
+            roleExists = await _roleManager.RoleExistsAsync("ContentManager");
+            if (!roleExists)
+            {
+                var role = new IdentityRole("ContentManager");
+                await _roleManager.CreateAsync(role);
+            }
+
+            return true;
+        }
     }
 }

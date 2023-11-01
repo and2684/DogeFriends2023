@@ -1,6 +1,9 @@
 ﻿using DogeFriendsSharedClassLibrary;
 using IdentityService.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using System.Net.WebSockets;
 
 namespace IdentityService.Controllers
 {
@@ -29,6 +32,16 @@ namespace IdentityService.Controllers
                 return BadRequest(result);
             }
             return BadRequest("Данные для регистрации пользователя не валидны.");
+        }
+
+        //api/users/seedroles
+        [HttpPost("seedroles")]
+        public async Task<IActionResult> SeedRoles()
+        {
+            var result = await _userRepository.SeedRolesAsync();
+            if (result)
+                return Ok("Роли добавлены успешно.");
+            return BadRequest("Произошла ошибка при добавлении ролей.");
         }
     }
 }
