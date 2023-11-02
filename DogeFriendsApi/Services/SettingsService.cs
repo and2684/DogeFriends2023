@@ -16,7 +16,7 @@ namespace DogeFriendsApi.Services
             _logger = logger;
         }
 
-        public async Task<string?> GetConnectionStringAsync(string key, string encryptionKey)
+        public async Task<string?> GetSettingValue(string key, string encryptionKey)
         {
             try
             {

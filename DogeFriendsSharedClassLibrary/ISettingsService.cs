@@ -2,6 +2,6 @@
 {
     public interface ISettingsService
     {
-        public Task<string?> GetConnectionStringAsync(string key, string encryptionKey);
+        public Task<string?> GetSettingValue(string key, string encryptionKey);
     }
 }
