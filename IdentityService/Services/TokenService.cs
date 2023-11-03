@@ -1,4 +1,4 @@
-﻿using DogeFriendsApi.Interfaces;
+﻿using DogeFriendsSharedClassLibrary.Interfaces;
 using IdentityService.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -10,31 +10,26 @@ namespace IdentityService.Services
 {
     public class TokenService : ITokenService
     {
-        private readonly SymmetricSecurityKey _signingKey; 
+        private readonly SymmetricSecurityKey _signingKey;
 
-        public TokenService(ISettingsService settingsService) 
+        public TokenService(ISettingsService settingsService, IConfiguration config) 
         {
-            _signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(settingsService.GetSettingValue("DogeFriendsSecretKey", "DogeFriendsEncryptionKey")));
+            _signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.GetSection("SettingsService:Secret").Value!));
         }
 
-        public async Task<string> GenerateTokenAsync(IdentityUser user)
+        public async Task<string> GenerateTokenAsync(ClaimsIdentity claims)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.NameIdentifier, user.Id),
-                    new Claim(ClaimTypes.Email, user.Email),
-                    // Другие необходимые клеймы
-                }),
+                Subject = claims,
                 Expires = DateTime.UtcNow.AddHours(1), // Время жизни токена (здесь - 1 час)
                 SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256Signature)
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            return await Task.FromResult(tokenHandler.WriteToken(token));
         }
     }
 }

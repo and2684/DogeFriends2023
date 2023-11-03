@@ -1,4 +1,4 @@
-﻿namespace DogeFriendsApi.Dto
+﻿namespace DogeFriendsSharedClassLibrary.Dto
 {
     public class UserInfoDto
     {

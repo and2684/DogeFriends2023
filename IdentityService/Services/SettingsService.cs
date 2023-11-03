@@ -1,20 +1,17 @@
-﻿using DogeFriendsApi.Interfaces;
-using DogeFriendsSharedClassLibrary.Interfaces;
+﻿using DogeFriendsSharedClassLibrary.Interfaces;
 
-namespace DogeFriendsApi.Services
+namespace IdentityService.Services
 {
     public class SettingsService : ISettingsService
     {
         public string SettingsServiceUrl { get; set; }
         private readonly HttpClient _httpClient;
-        private readonly ILoggerManager _logger;
 
-        public SettingsService(IConfiguration config, IHttpClientFactory httpClientFactory, ILoggerManager logger)
+        public SettingsService(IConfiguration config, IHttpClientFactory httpClientFactory)
         {
             SettingsServiceUrl = config.GetSection("SettingsService:SettingsServiceUrl").Value!;
             _httpClient = httpClientFactory.CreateClient();
             _httpClient.BaseAddress = new Uri($"{SettingsServiceUrl}/api/settings/");
-            _logger = logger;
         }
 
         public async Task<string?> GetSettingValue(string key, string encryptionKey)
@@ -32,9 +29,8 @@ namespace DogeFriendsApi.Services
 
                 return null;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                _logger.LogError(ex, ex.Message);
                 return null;
             }
         }

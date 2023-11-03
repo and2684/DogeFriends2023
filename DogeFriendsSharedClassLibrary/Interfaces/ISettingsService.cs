@@ -1,4 +1,4 @@
-﻿namespace DogeFriendsApi.Interfaces
+﻿namespace DogeFriendsSharedClassLibrary.Interfaces
 {
     public interface ISettingsService
     {

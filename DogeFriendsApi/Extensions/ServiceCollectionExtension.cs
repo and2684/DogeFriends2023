@@ -2,6 +2,7 @@
 using DogeFriendsApi.Data;
 using DogeFriendsApi.Interfaces;
 using DogeFriendsApi.Services;
+using DogeFriendsSharedClassLibrary.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using NLog;
 

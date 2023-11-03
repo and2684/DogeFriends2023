@@ -1,16 +1,12 @@
-using IdentityService.Data;
-using IdentityService.Interfaces;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using DogeFriendsSharedClassLibrary.Interfaces;
+using IdentityService.Configuration;
+using IdentityService.Extensions;
 
 namespace IdentityService
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -21,43 +17,11 @@ namespace IdentityService
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddDbContext<DataContext>(options =>
-            {
-                options.UseNpgsql(builder.Configuration.GetConnectionString("Default")); // Нужно забирать из SettingsService
-            });
 
-            builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
-            {
-                options.Password.RequiredLength = 4;
-                options.Password.RequireDigit = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-            })
-            .AddEntityFrameworkStores<DataContext>()
-            .AddDefaultTokenProviders()
-            .AddRoles<IdentityRole>();
+            builder.Services.AddCustomServices();
+            await DbContextConfiguration.ConfigureDbContextAsync(builder.Services, builder.Configuration); // Вызов метода для настройки DbContext - с помощью него мы вычитываем ConnectionString из SettingsService
 
-            builder.Services.AddAuthentication(auth =>
-            {
-                auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters // Все ключи тоже хранить в SettingsService
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidAudience = "DogeFriendsAudience",
-                    ValidIssuer = "DogeFriendsIssuer",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("DogeFriendsTokenKey")),
-                    RequireExpirationTime = true
-                };
-            });
-
-            builder.Services.AddScoped<IIdentityRepository, IdentityRepository>();
+            await builder.Services.AddCustomIdentity(builder.Configuration);
 
             var app = builder.Build();
 

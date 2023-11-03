@@ -1,7 +1,6 @@
-﻿using DogeFriendsApi.Dto;
-using DogeFriendsApi.Interfaces;
+﻿using DogeFriendsApi.Interfaces;
 using DogeFriendsApi.Models;
-using DogeFriendsSharedClassLibrary;
+using DogeFriendsSharedClassLibrary.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogeFriendsApi.Controllers

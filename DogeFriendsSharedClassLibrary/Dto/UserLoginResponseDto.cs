@@ -1,4 +1,4 @@
-﻿namespace DogeFriendsSharedClassLibrary
+﻿namespace DogeFriendsSharedClassLibrary.Dto
 {
     public class UserLoginResponseDto
     {

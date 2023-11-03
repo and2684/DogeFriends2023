@@ -1,4 +1,4 @@
-﻿using DogeFriendsSharedClassLibrary;
+﻿using DogeFriendsSharedClassLibrary.Dto;
 using IdentityService.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,13 +9,11 @@ namespace IdentityService.Data
     {
         private UserManager<IdentityUser> _userManager;
         private RoleManager<IdentityRole> _roleManager;
-        private ITokenService _tokenService;
 
-        public IdentityRepository(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, ITokenService tokenService)
+        public IdentityRepository(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
-            _tokenService = tokenService;
         }
 
         public async Task<UserLoginResponseDto> RegisterAsync([FromBody] RegisterDto registerDto)
@@ -41,10 +39,9 @@ namespace IdentityService.Data
             };
 
             var identityResult = await _userManager.CreateAsync(identityUser, registerDto.Password);
-            
+
             if (identityResult.Succeeded)
             {
-                result.Token = await _tokenService.GenerateTokenAsync(identityUser);
                 result.Message = "Пользователь успешно зарегистрирован";
                 result.IsSuccess = true;
                 return result;

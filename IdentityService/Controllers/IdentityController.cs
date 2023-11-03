@@ -1,4 +1,4 @@
-﻿using DogeFriendsSharedClassLibrary;
+﻿using DogeFriendsSharedClassLibrary.Dto;
 using IdentityService.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

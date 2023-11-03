@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using DogeFriendsApi.Dto;
 using DogeFriendsApi.Interfaces;
 using DogeFriendsApi.Models;
+using DogeFriendsSharedClassLibrary.Dto;
 using Microsoft.EntityFrameworkCore;
 
 namespace DogeFriendsApi.Data

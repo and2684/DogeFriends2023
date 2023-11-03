@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DogeFriendsApi.Dto;
 using DogeFriendsApi.Models;
+using DogeFriendsSharedClassLibrary.Dto;
 
 namespace DogeFriendsApi.Configuration
 {

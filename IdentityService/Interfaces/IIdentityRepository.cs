@@ -1,4 +1,4 @@
-﻿using DogeFriendsSharedClassLibrary;
+﻿using DogeFriendsSharedClassLibrary.Dto;
 
 namespace IdentityService.Interfaces
 {

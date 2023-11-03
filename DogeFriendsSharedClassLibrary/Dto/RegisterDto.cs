@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DogeFriendsSharedClassLibrary
+namespace DogeFriendsSharedClassLibrary.Dto
 {
     public class RegisterDto
     {
