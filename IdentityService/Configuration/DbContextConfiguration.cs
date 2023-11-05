@@ -1,8 +1,6 @@
 ﻿using DogeFriendsSharedClassLibrary.Interfaces;
 using IdentityService.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
 namespace IdentityService.Configuration

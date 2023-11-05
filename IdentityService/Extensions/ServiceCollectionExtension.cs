@@ -4,7 +4,7 @@ using IdentityService.Interfaces;
 using IdentityService.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -26,14 +26,35 @@ namespace IdentityService.Extensions
         {
             var settingsService = services.BuildServiceProvider().GetRequiredService<ISettingsService>();
 
+            // Инициализация настроек JWT
+            var encryptionKey = config.GetSection("SettingsService:SettingsEncryptionKey").Value!;
+
             var audience = await settingsService.GetSettingValue(config.GetSection("SettingsService:Audience").Value!,
-                                                                 config.GetSection("SettingsService:SettingsEncryptionKey").Value!);
+                                                                        encryptionKey);
 
             var issuer = await settingsService.GetSettingValue(config.GetSection("SettingsService:Issuer").Value!,
-                                                               config.GetSection("SettingsService:SettingsEncryptionKey").Value!);
+                                                                      encryptionKey);
 
             var secret = await settingsService.GetSettingValue(config.GetSection("SettingsService:Secret").Value!,
-                                                               config.GetSection("SettingsService:SettingsEncryptionKey").Value!);
+                                                                      encryptionKey);
+
+            var connectionString = await settingsService.GetSettingValue(config.GetSection("SettingsService:ConnectionStringSettingKey").Value!,
+                                                                         encryptionKey);
+            services.AddIdentityServer()
+            .AddConfigurationStore(options =>
+            {
+                options.ConfigureDbContext = builder =>
+                {
+                    builder.UseNpgsql(connectionString, sql => sql.MigrationsAssembly(typeof(DataContext).Assembly.FullName));
+                };                
+            })
+            .AddOperationalStore(options =>
+            {
+                options.ConfigureDbContext = builder =>
+                {
+                    builder.UseNpgsql(connectionString, sql => sql.MigrationsAssembly(typeof(DataContext).Assembly.FullName));
+                };
+            });
 
             services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
@@ -54,15 +75,15 @@ namespace IdentityService.Extensions
             })
             .AddJwtBearer(options =>
             {
-                options.TokenValidationParameters = new TokenValidationParameters // Все ключи тоже хранить в SettingsService
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateIssuerSigningKey = true,
+                    RequireExpirationTime = true,
                     ValidAudience = audience,
                     ValidIssuer = issuer,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret!)),
-                    RequireExpirationTime = true
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret!))
                 };
             });
 

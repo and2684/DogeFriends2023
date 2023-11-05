@@ -5,10 +5,12 @@ namespace IdentityService.Interfaces
     public interface IIdentityRepository
     {
         Task<UserLoginResponseDto> RegisterAsync(RegisterDto registerDto);
-        Task<UserLoginResponseDto> LoginAsync(LoginDto loginDto);
-        Task<bool> ChangePasswordAsync(LoginDto loginDto); // Для смены пароля воспользуемся тем же loginDto, что и при аутентификации
-        Task<bool> SetRole(string username, string role);
-        Task<bool> RemoveRole(string username, string role);
-        Task<bool> SeedRolesAsync();
+        Task<UserLoginResponseDto> LoginAsync(LoginDto? loginDto);
+        Task<UserLoginResponseDto> LogoutAsync(string username);
+        Task<UserLoginResponseDto> RefreshTokenAsync(string accessToken, string refreshToken);
+        Task<bool> ChangePasswordAsync(ChangePasswordDto changePasswordDto);
+        Task<bool> SetRoleAsync(string username, string role);
+        Task<bool> RemoveRoleAsync(string username, string role);
+        Task<bool> SeedAsync();
     }
 }

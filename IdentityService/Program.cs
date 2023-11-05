@@ -1,4 +1,3 @@
-using DogeFriendsSharedClassLibrary.Interfaces;
 using IdentityService.Configuration;
 using IdentityService.Extensions;
 
@@ -17,10 +16,11 @@ namespace IdentityService
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-
+            // Добавляем сервисы
             builder.Services.AddCustomServices();
-            await DbContextConfiguration.ConfigureDbContextAsync(builder.Services, builder.Configuration); // Вызов метода для настройки DbContext - с помощью него мы вычитываем ConnectionString из SettingsService
-
+            // Вызов метода для настройки DbContext - с помощью него мы вычитываем ConnectionString из SettingsService
+            await DbContextConfiguration.ConfigureDbContextAsync(builder.Services, builder.Configuration);
+            // Настройки Identity
             await builder.Services.AddCustomIdentity(builder.Configuration);
 
             var app = builder.Build();
@@ -37,10 +37,11 @@ namespace IdentityService
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseIdentityServer();
 
             app.MapControllers();
 
-            app.Run();
+            await app.RunAsync();
         }
     }
 }

@@ -18,6 +18,7 @@ namespace IdentityService.Services
         {
             try
             {
+                _httpClient.DefaultRequestHeaders.Clear(); // Каждое обращение к сервису должно быть отдельным
                 _httpClient.DefaultRequestHeaders.Add("Key", key);
                 _httpClient.DefaultRequestHeaders.Add("EncryptionKey", encryptionKey);
                 HttpResponseMessage response = await _httpClient.GetAsync(_httpClient.BaseAddress);

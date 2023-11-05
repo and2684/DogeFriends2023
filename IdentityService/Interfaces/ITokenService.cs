@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
 
 namespace IdentityService.Interfaces
 {
     public interface ITokenService
     {
-        Task<string> GenerateTokenAsync(ClaimsIdentity claims);
+        public Task<(string accessToken, string refreshToken)> GenerateTokenAsync(IdentityUser user);
+        public Task<(string accessToken, string refreshToken)> RefreshTokenAsync(string accessToken, string refreshToken);
+        public Task<bool> RemoveTokenForUserAsync(string userId);
     }
 }
