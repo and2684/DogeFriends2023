@@ -1,6 +1,5 @@
 ﻿using DogeFriendsSharedClassLibrary.Dto;
 using IdentityService.Interfaces;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityService.Controllers
