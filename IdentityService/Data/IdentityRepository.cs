@@ -194,6 +194,20 @@ namespace IdentityService.Data
                 await _roleManager.CreateAsync(role);
             }
 
+            roleExists = await _roleManager.RoleExistsAsync("User");
+            if (!roleExists)
+            {
+                var role = new IdentityRole("User");
+                await _roleManager.CreateAsync(role);
+            }
+
+            roleExists = await _roleManager.RoleExistsAsync("ContentManager");
+            if (!roleExists)
+            {
+                var role = new IdentityRole("ContentManager");
+                await _roleManager.CreateAsync(role);
+            }
+
             var scopeExists = await _configurationDbContext.ApiScopes.AnyAsync(s => s.Name == "DogeFriendsDictionary");
             if (!scopeExists)
             {
