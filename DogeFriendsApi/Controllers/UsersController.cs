@@ -85,6 +85,12 @@ namespace DogeFriendsApi.Controllers
             };
         }
 
+
+        /// <summary>
+        /// Регистрирует пользователя
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>Информация о новом пользователе + токены</returns>
         [HttpPost("register")]
         public async Task<IActionResult> RegisterUser([FromBody] RegisterDto user)
         {
@@ -102,6 +108,11 @@ namespace DogeFriendsApi.Controllers
             };
         }
 
+        /// <summary>
+        /// Аутентификация пользователя
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>Информация о вошедшем пользователе + токены</returns>
         [HttpPost("login")]
         public async Task<IActionResult> LoginUser([FromBody] LoginDto user)
         {
@@ -112,6 +123,24 @@ namespace DogeFriendsApi.Controllers
                 RepoAnswer.ActionFailed => BadRequest($"Некорректный запрос на аутентификацию. ({identityAnswer?.Message})"),
                 RepoAnswer.Success => Ok(identityAnswer),
                 _ => StatusCode(500, $"Произошла ошибка при аутентификации пользователя {user.Username}."),
+            };
+        }
+
+        /// <summary>
+        /// Выход из системы
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns>Информация об успешном выходе / ошибка</returns>
+        [HttpPost("logout")]
+        public async Task<IActionResult> LogoutUser([FromBody] string username)
+        {
+            var (identityAnswer, answerCode) = await _usersRepository.LogoutUserAsync(username);
+            return answerCode switch
+            {
+                RepoAnswer.NotFound => NotFound($"Пользователь {username} не найден."),
+                RepoAnswer.ActionFailed => BadRequest($"Некорректный запрос на выход. ({identityAnswer?.Message})"),
+                RepoAnswer.Success => Ok(identityAnswer),
+                _ => StatusCode(500, $"Произошла ошибка при выходе пользователя {username}."),
             };
         }
     }

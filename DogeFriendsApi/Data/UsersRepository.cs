@@ -150,5 +150,34 @@ namespace DogeFriendsApi.Data
             // Обработка неудачного ответа
             return (userInfo, RepoAnswer.ActionFailed);
         }
+
+        public async Task<(UserLoginResponseDto?, RepoAnswer)> LogoutUserAsync(string username)
+        {
+            // Формирование данных для отправки
+            var content = new StringContent(
+                JsonSerializer.Serialize(username),
+                Encoding.UTF8,
+                "application/json"
+            );
+
+            // Отправка POST запроса на эндпоинт логаута пользователя
+            var response = await _client.PostAsync("api/identity/logout", content);
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            // Десериализация JSON в объект типа UserInfoDto
+            var userInfo = JsonSerializer.Deserialize<UserLoginResponseDto>(responseContent, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+            if (response.IsSuccessStatusCode)
+                return (userInfo, RepoAnswer.Success);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                return (null, RepoAnswer.NotFound);
+
+            // Обработка неудачного ответа
+            return (userInfo, RepoAnswer.ActionFailed);
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using DogeFriendsSharedClassLibrary.Dto;
 using IdentityService.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace IdentityService.Controllers
 {
@@ -49,7 +50,7 @@ namespace IdentityService.Controllers
         [HttpPost("logout")]
         public async Task<IActionResult> LogoutUserAsync([FromBody] string username)
         {
-            var result = await _identityRepository.LogoutAsync(username);
+            var result = await _identityRepository.LogoutAsync(username!);
             if (result.IsSuccess)
             {
                 return Ok(result);
