@@ -94,8 +94,8 @@ namespace DogeFriendsApi.Data
                 "application/json"
             );
 
-            // Отправка POST запроса на эндпоинт регистрации пользователя
-            var response = await _client.PostAsync("api/identity/register", content);
+            // Отправка POST запроса на эндпоинт авторизации пользователя
+            var response = await _client.PostAsync("api/identity/login", content);
 
             var responseContent = await response.Content.ReadAsStringAsync();
             // Десериализация JSON в объект типа UserInfoDto
@@ -105,7 +105,9 @@ namespace DogeFriendsApi.Data
             });
 
             if (response.IsSuccessStatusCode)
+            {
                 return (userInfo, RepoAnswer.Success);
+            }
 
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                 return (null, RepoAnswer.NotFound);
@@ -134,7 +136,13 @@ namespace DogeFriendsApi.Data
             });
 
             if (response.IsSuccessStatusCode)
+            {
+                var newUser = _mapper.Map<User>(user);
+                await _context.Users.AddAsync(newUser);
+                await _context.SaveChangesAsync();
+
                 return (userInfo, RepoAnswer.Success);
+            }
 
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                 return (null, RepoAnswer.NotFound);
