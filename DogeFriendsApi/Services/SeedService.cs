@@ -1,17 +1,25 @@
-﻿using DogeFriendsApi.Dto;
+﻿using DogeFriendsApi.Data;
+using DogeFriendsApi.Dto;
 using DogeFriendsApi.Interfaces;
 using DogeFriendsApi.Models;
+using DogeFriendsSharedClassLibrary.Dto;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using System.Text;
 
-namespace DogeFriendsApi.Data
+namespace DogeFriendsApi.Services
 {
     public class SeedService : ISeedService
     {
         private readonly DataContext _context;
+        private readonly ILoggerManager _logger;
+        private readonly HttpClient _httpClient;
 
-        public SeedService(DataContext context)
+        public SeedService(DataContext context, IHttpClientFactory httpClientFactory, ILoggerManager logger)
         {
             _context = context;
+            _logger = logger;
+            _httpClient = httpClientFactory.CreateClient("ImageClient");
         }
 
         public async Task<RepoAnswer> SeedBreeds()
@@ -29,7 +37,7 @@ namespace DogeFriendsApi.Data
                 {
                     var breedGroupStringList = breedDto.BreedGroups.Split(',').Select(x => x.Trim()).ToList();
 
-                    Random random = new Random();
+                    var random = new Random();
 
                     var breed = new Breed
                     {
@@ -42,6 +50,27 @@ namespace DogeFriendsApi.Data
 
                     // Сохраним породу в базе данных
                     _context.Breeds.Add(breed);
+
+                    // Добавим фотку в базу данных ImageService
+                    if (breedDto.Base64Image.IsNullOrEmpty()) continue;
+
+                    // Отправка запроса к ImageService для добавления изображения
+                    var imageRequest = new AddImageDto
+                    {
+                        UID = breed.ExternalId.ToString(),
+                        EntityName = "Breed",
+                        Base64Data = breedDto.Base64Image,
+                        IsMain = true
+                    };
+
+                    var json = JsonConvert.SerializeObject(imageRequest);
+                    var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                    var response = await _httpClient.PostAsync("https://localhost:5201/api/images/add", content); // TODO: воткнуть в settings
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        _logger.LogWarn($"Не удалось сохранить картинку породы. Порода - {breed.Name}. Код ответа - {response.StatusCode}.");
+                    }
                 }
 
                 await _context.SaveChangesAsync(); // Сохранение изменений

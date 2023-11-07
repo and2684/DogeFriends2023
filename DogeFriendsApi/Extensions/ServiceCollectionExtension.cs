@@ -23,6 +23,7 @@ namespace DogeFriendsApi.Extensions
             services.AddScoped<IFriendshipsRepository, FriendshipsRepository>();
             services.AddScoped<IBreedsRepository, BreedsRepository>();
             services.AddScoped<IDogsRepository, DogsRepository>();
+            services.AddHttpClient<ISeedService, SeedService>();
             services.AddScoped<ISeedService, SeedService>();
             services.AddAutoMapper(typeof(AutomapperProfiler).Assembly);
 

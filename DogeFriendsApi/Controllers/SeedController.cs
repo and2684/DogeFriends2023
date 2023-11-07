@@ -24,15 +24,12 @@ namespace DogeFriendsApi.Controllers
         {
             var result = await _seedService.SeedBreeds();
 
-            switch (result)
+            return result switch
             {
-                case RepoAnswer.Success:
-                    return Ok("Породы успешно сидированы.");
-                case RepoAnswer.NotFound:
-                    return NotFound("JSON файл с породами собак не найден.");
-                default:
-                    return StatusCode(500, "Произошла ошибка во время сидирования пород собак.");
-            }
+                RepoAnswer.Success => Ok("Породы успешно сидированы."),
+                RepoAnswer.NotFound => NotFound("JSON файл с породами собак не найден."),
+                _ => StatusCode(500, "Произошла ошибка во время сидирования пород собак.")
+            };
         }
     }
 }

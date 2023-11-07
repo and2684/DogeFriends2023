@@ -44,7 +44,7 @@ namespace DogeFriendsApi
                                     Id = "Bearer"
                                 }
                         },
-                    new string[] {}
+                    Array.Empty<string>()
                 }
             };
             #endregion
