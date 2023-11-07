@@ -4,7 +4,9 @@ using DogeFriendsApi.Interfaces;
 using DogeFriendsApi.Services;
 using DogeFriendsSharedClassLibrary.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using NLog;
+using System.Text;
 
 namespace DogeFriendsApi.Extensions
 {
@@ -34,8 +36,16 @@ namespace DogeFriendsApi.Extensions
             })
             .AddJwtBearer(options =>
             {
-                options.Authority = "https://localhost:5101"; // URL нашего Identity Server (ХРАНИТЬ В SETTINGS SERVICE)
-                options.Audience = "DogeFriendsAudience"; // Значение аудитории должно соответствовать настройкам на стороне сервера (ХРАНИТЬ В SETTINGS SERVICE)
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = "DogeFriendsIssuer",
+                    ValidAudience = "DogeFriendsAudience",
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("DogeFriendsSecret"))
+                };
             });
 
             return services;

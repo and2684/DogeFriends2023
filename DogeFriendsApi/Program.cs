@@ -30,7 +30,7 @@ namespace DogeFriendsApi
                 Scheme = "bearer",
                 BearerFormat = "JWT",
                 In = ParameterLocation.Header,
-                Description = "JSON Web Token based security",
+                Description = "JSON Web Token based security"                
             };
 
             var securityReq = new OpenApiSecurityRequirement()
