@@ -95,7 +95,7 @@ namespace DogeFriendsApi.Data
             );
 
             // Отправка POST запроса на эндпоинт регистрации пользователя
-            var response = await _client.PostAsync("api/identity/login", content);
+            var response = await _client.PostAsync("api/identity/register", content);
 
             var responseContent = await response.Content.ReadAsStringAsync();
             // Десериализация JSON в объект типа UserInfoDto
