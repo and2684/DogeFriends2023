@@ -5,6 +5,7 @@ using DogeFriendsApi.Models;
 using DogeFriendsSharedClassLibrary.Dto;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using System.Net.WebSockets;
 using System.Text;
 
 namespace DogeFriendsApi.Services
@@ -13,12 +14,14 @@ namespace DogeFriendsApi.Services
     {
         private readonly DataContext _context;
         private readonly ILoggerManager _logger;
+        private readonly IConfiguration _config;
         private readonly HttpClient _httpClient;
 
-        public SeedService(DataContext context, IHttpClientFactory httpClientFactory, ILoggerManager logger)
+        public SeedService(DataContext context, IHttpClientFactory httpClientFactory, ILoggerManager logger, IConfiguration config)
         {
             _context = context;
             _logger = logger;
+            _config = config;
             _httpClient = httpClientFactory.CreateClient("ImageClient");
         }
 
@@ -65,8 +68,9 @@ namespace DogeFriendsApi.Services
 
                     var json = JsonConvert.SerializeObject(imageRequest);
                     var content = new StringContent(json, Encoding.UTF8, "application/json");
+                    var imageUrl = _config["ImageService:ImageUrl"];
 
-                    var response = await _httpClient.PostAsync("https://localhost:5201/api/images/add", content); // TODO: воткнуть в settings
+                    var response = await _httpClient.PostAsync($"{imageUrl}/api/images/add", content);
                     if (!response.IsSuccessStatusCode)
                     {
                         _logger.LogWarn($"Не удалось сохранить картинку породы. Порода - {breed.Name}. Код ответа - {response.StatusCode}.");

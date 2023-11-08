@@ -17,7 +17,7 @@ namespace ImageService.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult AddImage([FromBody] AddImageDto addImageDto)
+        public async Task<IActionResult> AddImage([FromBody] AddImageDto addImageDto)
         {
             var newImage = new ImageModel
             {
@@ -31,10 +31,10 @@ namespace ImageService.Controllers
             {
                 var filter = Builders<ImageModel>.Filter.Eq("UID", addImageDto.UID) & Builders<ImageModel>.Filter.Eq("EntityName", addImageDto.EntityName);
                 var update = Builders<ImageModel>.Update.Set("IsMain", false);
-                _imageCollection.UpdateMany(filter, update);
+                await _imageCollection.UpdateManyAsync(filter, update);
             }
 
-            _imageCollection.InsertOne(newImage);
+            await _imageCollection.InsertOneAsync(newImage);
 
             // Вернуть ID только если изображение установлено как основное
             if (addImageDto.IsMain)
@@ -47,20 +47,34 @@ namespace ImageService.Controllers
         }
 
         [HttpDelete("remove")]
-        public IActionResult RemoveImage(string uid, string entityname, string imageId)
+        public async Task<IActionResult> RemoveImage(string uid, string entityname, string imageId)
         {
-            var result = _imageCollection.DeleteOne(img => img.UID == uid && img.EntityName == entityname && img.Id == imageId);
+            var result = await _imageCollection.DeleteOneAsync(img => img.UID == uid && img.EntityName == entityname && img.Id == imageId);
             return Ok(result.DeletedCount > 0);
         }
 
         [HttpPost("setmain")]
-        public IActionResult SetMainImage(string uid, string entityname, int imageId)
+        public async Task<IActionResult> SetMainImage(string uid, string entityname, int imageId)
         {
             var filter = Builders<ImageModel>.Filter.Eq("UID", uid) & Builders<ImageModel>.Filter.Eq("EntityName", entityname) & Builders<ImageModel>.Filter.Eq("Id", imageId);
             var update = Builders<ImageModel>.Update.Set("IsMain", true);
-            _imageCollection.UpdateOne(filter, update);
+            await _imageCollection.UpdateOneAsync(filter, update);
 
             return Ok(true);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetImages([FromBody] GetImageDto getImageDto)
+        {
+            var images = await _imageCollection.Find(img => img.UID == getImageDto.UID && img.EntityName == getImageDto.EntityName).ToListAsync();
+            return Ok(images);
+        }
+
+        [HttpPost("getmain")]
+        public async Task<IActionResult> GetMainImage([FromBody] GetImageDto getImageDto)
+        {
+            var mainImage = await _imageCollection.Find(img => img.UID == getImageDto.UID && img.EntityName == getImageDto.EntityName && img.IsMain).FirstOrDefaultAsync();
+            return Ok(mainImage);
         }
     }
 }
