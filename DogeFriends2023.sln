@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.7.34018.315
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SettingsService", "SettingsService\SettingsService.csproj", "{325742BF-85BB-410B-807F-55952AE56765}"
+	ProjectSection(ProjectDependencies) = postProject
+		{EF7CCD6A-B4DF-4FD0-AED3-5C4374C8F42B} = {EF7CCD6A-B4DF-4FD0-AED3-5C4374C8F42B}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DogeFriendsApi", "DogeFriendsApi\DogeFriendsApi.csproj", "{600A05A2-8B45-4FA3-A834-3A9269A56D4A}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -14,10 +17,16 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BreedsToJsonParser", "BreedsToJsonParser\BreedsToJsonParser.csproj", "{A060E7F4-9464-48ED-AE5A-61DAF4985C75}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityService", "IdentityService\IdentityService.csproj", "{421F6A67-905E-435F-9143-09992FF9C64E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{325742BF-85BB-410B-807F-55952AE56765} = {325742BF-85BB-410B-807F-55952AE56765}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DogeFriendsSharedClassLibrary", "DogeFriendsSharedClassLibrary\DogeFriendsSharedClassLibrary.csproj", "{EF7CCD6A-B4DF-4FD0-AED3-5C4374C8F42B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageService", "ImageService\ImageService.csproj", "{5085590D-41D4-4D1C-A15E-477CB176EA51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageService", "ImageService\ImageService.csproj", "{5085590D-41D4-4D1C-A15E-477CB176EA51}"
+	ProjectSection(ProjectDependencies) = postProject
+		{325742BF-85BB-410B-807F-55952AE56765} = {325742BF-85BB-410B-807F-55952AE56765}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

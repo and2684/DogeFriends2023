@@ -24,15 +24,12 @@ namespace SettingsService.Controllers
         public async Task<IActionResult> GetAllSettings()
         {
             var (settings, answerCode) = await _settingsRepo.GetAllSettingsAsync();
-            switch (answerCode)
+            return answerCode switch
             {
-                case RepoAnswer.NotFound:
-                    return NotFound("Настройки не найдены.");
-                case RepoAnswer.Success:
-                    return Ok(settings);
-                default:
-                    return StatusCode(500, "Произошла ошибка при получении настроек.");
-            }
+                RepoAnswer.NotFound => NotFound("Настройки не найдены."),
+                RepoAnswer.Success => Ok(settings),
+                _ => StatusCode(500, "Произошла ошибка при получении настроек.")
+            };
         }
 
         /// <summary>
@@ -44,15 +41,12 @@ namespace SettingsService.Controllers
         public async Task<IActionResult> GetSetting([FromQuery] GetSettingDto getSetting)
         {
             var (value, answerCode) = await _settingsRepo.GetSettingAsync(getSetting);
-            switch (answerCode)
+            return answerCode switch
             {
-                case RepoAnswer.NotFound:
-                    return NotFound($"Настройка с ключом {getSetting.Key} не найдена.");
-                case RepoAnswer.Success:
-                    return Ok(value);
-                default:
-                    return StatusCode(500, $"Произошла ошибка при получении значения настройки {getSetting.Key}.");
-            }
+                RepoAnswer.NotFound => NotFound($"Настройка с ключом {getSetting.Key} не найдена."),
+                RepoAnswer.Success => Ok(value),
+                _ => StatusCode(500, $"Произошла ошибка при получении значения настройки {getSetting.Key}.")
+            };
         }
 
         /// <summary>
@@ -64,15 +58,12 @@ namespace SettingsService.Controllers
         public async Task<IActionResult> SetSetting([FromBody] SetSettingDto setSetting)
         {
             var (settingSet, answerCode) = await _settingsRepo.SetSettingAsync(setSetting);
-            switch (answerCode)
+            return answerCode switch
             {
-                case RepoAnswer.Success:
-                    return Ok($"Настройка успешно сохранена. ({settingSet!.Key} : {settingSet.Value}).");
-                case RepoAnswer.ActionFailed:
-                    return BadRequest($"Неверный запрос при установке значения {setSetting.Key}.");
-                default:
-                    return StatusCode(500, $"Произошла ошибка при установке значения {setSetting.Key}.");
-            }
+                RepoAnswer.Success => Ok($"Настройка успешно сохранена. ({settingSet!.Key} : {settingSet.Value})."),
+                RepoAnswer.ActionFailed => BadRequest($"Неверный запрос при установке значения {setSetting.Key}."),
+                _ => StatusCode(500, $"Произошла ошибка при установке значения {setSetting.Key}.")
+            };
         }
 
         /// <summary>
@@ -85,13 +76,11 @@ namespace SettingsService.Controllers
         {
             var answerCode = await _settingsRepo.DeleteSettingAsync(key);
 
-            switch (answerCode)
+            return answerCode switch
             {
-                case RepoAnswer.Success:
-                    return Ok($"Настройка успешно удалена. ({key}).");
-                default:
-                    return StatusCode(500, $"Произошла ошибка при удалении значения {key}.");
-            }
+                RepoAnswer.Success => Ok($"Настройка успешно удалена. ({key})."),
+                _ => StatusCode(500, $"Произошла ошибка при удалении значения {key}.")
+            };
         }
     }
 }

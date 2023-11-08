@@ -1,7 +1,6 @@
 ﻿using DogeFriendsSharedClassLibrary.Dto;
 using IdentityService.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
 
 namespace IdentityService.Controllers
 {
@@ -17,6 +16,9 @@ namespace IdentityService.Controllers
         }
 
         // api/users/login
+        /// <summary>
+        /// Вход пользователя.
+        /// </summary>
         [HttpPost("login")]
         public async Task<IActionResult> LoginUserAsync([FromBody] LoginDto? loginDto)
         {
@@ -32,6 +34,9 @@ namespace IdentityService.Controllers
         }
 
         // api/users/register
+        /// <summary>
+        /// Регистрация пользователя.
+        /// </summary>
         [HttpPost("register")]
         public async Task<IActionResult> RegisterUserAsync([FromBody] RegisterDto registerDto)
         {
@@ -47,6 +52,9 @@ namespace IdentityService.Controllers
         }
 
         // api/users/logout
+        /// <summary>
+        /// Выход пользователя.
+        /// </summary>
         [HttpPost("logout")]
         public async Task<IActionResult> LogoutUserAsync([FromBody] string username)
         {
@@ -59,6 +67,9 @@ namespace IdentityService.Controllers
         }
 
         // api/users/changepassword
+        /// <summary>
+        /// Изменение пароля пользователя.
+        /// </summary>
         [HttpPost("changepassword")]
         public async Task<IActionResult> ChangePasswordAsync([FromBody] ChangePasswordDto changePasswordDto)
         {
@@ -78,6 +89,9 @@ namespace IdentityService.Controllers
         }
 
         // api/users/refreshtoken
+        /// <summary>
+        /// Обновление токена доступа.
+        /// </summary>
         [HttpPost("refreshtoken")]
         public async Task<IActionResult> RefreshTokenAsync([FromHeader] string accessToken, [FromHeader] string refreshToken)
         {
@@ -90,6 +104,9 @@ namespace IdentityService.Controllers
         }
 
         // api/users/setrole
+        /// <summary>
+        /// Установка роли пользователю.
+        /// </summary>
         [HttpPost("setrole")]
         public async Task<IActionResult> SetRoleAsync([FromHeader] string username, [FromHeader] string role)
         {
@@ -102,6 +119,9 @@ namespace IdentityService.Controllers
         }
 
         // api/users/removerole
+        /// <summary>
+        /// Удаление роли у пользователя.
+        /// </summary>
         [HttpPost("removerole")]
         public async Task<IActionResult> RemoveRoleAsync([FromHeader] string username, [FromHeader] string role)
         {
@@ -114,6 +134,9 @@ namespace IdentityService.Controllers
         }
 
         //api/users/seed
+        /// <summary>
+        /// Заполнение базы IdentityServer начальными данными.
+        /// </summary>
         [HttpPost("seed")]
         public async Task<IActionResult> Seed()
         {

@@ -1,5 +1,7 @@
 using IdentityService.Configuration;
 using IdentityService.Extensions;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 namespace IdentityService
 {
@@ -22,6 +24,19 @@ namespace IdentityService
             await DbContextConfiguration.ConfigureDbContextAsync(builder.Services, builder.Configuration);
             // Настройки Identity
             await builder.Services.AddCustomIdentity(builder.Configuration);
+
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "IdentityService",
+                    Description = "Сервис авторизации."
+                });
+
+                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+            });
 
             var app = builder.Build();
 

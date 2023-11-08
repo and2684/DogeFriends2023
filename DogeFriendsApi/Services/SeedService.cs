@@ -5,7 +5,6 @@ using DogeFriendsApi.Models;
 using DogeFriendsSharedClassLibrary.Dto;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using System.Net.WebSockets;
 using System.Text;
 
 namespace DogeFriendsApi.Services
@@ -68,7 +67,7 @@ namespace DogeFriendsApi.Services
 
                     var json = JsonConvert.SerializeObject(imageRequest);
                     var content = new StringContent(json, Encoding.UTF8, "application/json");
-                    var imageUrl = _config["ImageService:ImageUrl"];
+                    var imageUrl = _config["ImageService:ImageServiceUrl"];
 
                     var response = await _httpClient.PostAsync($"{imageUrl}/api/images/add", content);
                     if (!response.IsSuccessStatusCode)

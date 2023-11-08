@@ -1,6 +1,6 @@
-
-using Microsoft.Extensions.Configuration;
+using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
+using System.Reflection;
 
 namespace ImageService
 {
@@ -21,8 +21,21 @@ namespace ImageService
             IMongoClient client = new MongoClient(connectionString);
             IMongoDatabase database = client.GetDatabase("DogeFriendsApiImages");
 
-            builder.Services.AddSingleton<IMongoDatabase>(database);
+            builder.Services.AddSingleton(database);
             builder.Services.AddScoped<Controllers.ImageController>();
+
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "ImageService",
+                    Description = "Сервис хранения изображений."
+                });
+
+                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+            });
 
             var app = builder.Build();
 

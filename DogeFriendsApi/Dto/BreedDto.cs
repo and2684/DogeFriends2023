@@ -1,6 +1,4 @@
-﻿using System.Buffers.Text;
-
-namespace DogeFriendsApi.Dto
+﻿namespace DogeFriendsApi.Dto
 {
     public class BreedDto
     {

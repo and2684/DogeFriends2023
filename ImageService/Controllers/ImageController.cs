@@ -16,6 +16,9 @@ namespace ImageService.Controllers
             _imageCollection = database.GetCollection<ImageModel>("Images");
         }
 
+        /// <summary>
+        /// Добавляет изображение в коллекцию.
+        /// </summary>
         [HttpPost("add")]
         public async Task<IActionResult> AddImage([FromBody] AddImageDto addImageDto)
         {
@@ -46,6 +49,9 @@ namespace ImageService.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Удаляет изображение из коллекции.
+        /// </summary>
         [HttpDelete("remove")]
         public async Task<IActionResult> RemoveImage(string uid, string entityname, string imageId)
         {
@@ -53,6 +59,9 @@ namespace ImageService.Controllers
             return Ok(result.DeletedCount > 0);
         }
 
+        /// <summary>
+        /// Устанавливает изображение как основное.
+        /// </summary>
         [HttpPost("setmain")]
         public async Task<IActionResult> SetMainImage(string uid, string entityname, int imageId)
         {
@@ -63,15 +72,21 @@ namespace ImageService.Controllers
             return Ok(true);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetImages([FromBody] GetImageDto getImageDto)
+        /// <summary>
+        /// Получает все изображения по указанным UID и EntityName.
+        /// </summary>
+        [HttpGet("getall")]
+        public async Task<IActionResult> GetImages([FromQuery] GetImageDto getImageDto)
         {
             var images = await _imageCollection.Find(img => img.UID == getImageDto.UID && img.EntityName == getImageDto.EntityName).ToListAsync();
             return Ok(images);
         }
 
-        [HttpPost("getmain")]
-        public async Task<IActionResult> GetMainImage([FromBody] GetImageDto getImageDto)
+        /// <summary>
+        /// Получает основное изображение по указанным UID и EntityName.
+        /// </summary>
+        [HttpGet("getmain")]
+        public async Task<IActionResult> GetMainImage([FromQuery] GetImageDto getImageDto)
         {
             var mainImage = await _imageCollection.Find(img => img.UID == getImageDto.UID && img.EntityName == getImageDto.EntityName && img.IsMain).FirstOrDefaultAsync();
             return Ok(mainImage);
