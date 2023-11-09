@@ -258,5 +258,10 @@ namespace IdentityService.Data
             return true;
         }
 
+        // Валидация токена
+        public async Task<bool> ValidateTokenAsync(string token)
+        {
+            return await _tokenService.ValidateAccessTokenAsync(token);            
+        }
     }
 }

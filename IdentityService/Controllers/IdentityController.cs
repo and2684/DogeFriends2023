@@ -88,20 +88,6 @@ namespace IdentityService.Controllers
             return BadRequest("Не удалось изменить пароль");
         }
 
-        // api/users/refreshtoken
-        /// <summary>
-        /// Обновление токена доступа.
-        /// </summary>
-        [HttpPost("refreshtoken")]
-        public async Task<IActionResult> RefreshTokenAsync([FromHeader] string accessToken, [FromHeader] string refreshToken)
-        {
-            var result = await _identityRepository.RefreshTokenAsync(accessToken, refreshToken);
-            if (result.IsSuccess)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
-        }
 
         // api/users/setrole
         /// <summary>
@@ -144,6 +130,34 @@ namespace IdentityService.Controllers
             if (result)
                 return Ok("Наполнение базы IdentityServer прошло успешно.");
             return BadRequest("Произошла ошибка при наполнении базы IdentityServer.");
+        }
+
+        //api/users/validatetoken
+        /// <summary>
+        /// Валидация токена.
+        /// </summary>
+        [HttpPost("validatetoken")]
+        public async Task<IActionResult> ValidateToken([FromBody] string accessToken)
+        {
+            var result = await _identityRepository.ValidateTokenAsync(accessToken);
+            if (result)
+                return Ok("Токен валиден.");
+            return BadRequest("Токен невалиден.");
+        }
+
+        // api/users/refreshtoken
+        /// <summary>
+        /// Обновление токена доступа.
+        /// </summary>
+        [HttpPost("refreshtoken")]
+        public async Task<IActionResult> RefreshTokenAsync([FromBody] TokensDto tokensDto)
+        {
+            var result = await _identityRepository.RefreshTokenAsync(tokensDto.AccessToken, tokensDto.RefreshToken);
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
     }
 }

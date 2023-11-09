@@ -7,5 +7,6 @@ namespace IdentityService.Interfaces
         public Task<(string accessToken, string refreshToken)> GenerateTokenAsync(IdentityUser user);
         public Task<(string accessToken, string refreshToken)> RefreshTokenAsync(string accessToken, string refreshToken);
         public Task<bool> RemoveTokenForUserAsync(string userId);
+        public Task<bool> ValidateAccessTokenAsync(string accessToken);
     }
 }

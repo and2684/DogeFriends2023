@@ -12,5 +12,6 @@ namespace IdentityService.Interfaces
         Task<bool> SetRoleAsync(string username, string role);
         Task<bool> RemoveRoleAsync(string username, string role);
         Task<bool> SeedAsync();
+        Task<bool> ValidateTokenAsync(string token); 
     }
 }

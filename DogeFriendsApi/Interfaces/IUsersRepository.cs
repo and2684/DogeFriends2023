@@ -11,6 +11,6 @@ namespace DogeFriendsApi.Interfaces
         public Task<(UserInfoDto?, RepoAnswer)> UpdateUserAsync(UserInfoDto user);
         public Task<(UserLoginResponseDto?, RepoAnswer)> RegisterUserAsync(RegisterDto user);
         public Task<(UserLoginResponseDto?, RepoAnswer)> LoginUserAsync(LoginDto user);
-        Task<(UserLoginResponseDto?, RepoAnswer)> LogoutUserAsync(string username);
+        public Task<(UserLoginResponseDto?, RepoAnswer)> LogoutUserAsync(string username);
     }
 }

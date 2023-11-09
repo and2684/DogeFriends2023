@@ -17,6 +17,9 @@ namespace DogeFriendsApi.Extensions
             services.AddHttpClient<ISettingsService, SettingsService>();
             services.AddScoped<ISettingsService, SettingsService>();
 
+            services.AddHttpClient<ITokenService, TokenService>();
+            services.AddScoped<ITokenService, TokenService>();
+
             services.AddScoped<ICoatsRepository, CoatsRepository>();
             services.AddScoped<ISizesRepository, SizesRepository>();
             services.AddScoped<IUsersRepository, UsersRepository>();

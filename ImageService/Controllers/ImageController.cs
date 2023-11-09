@@ -39,14 +39,8 @@ namespace ImageService.Controllers
 
             await _imageCollection.InsertOneAsync(newImage);
 
-            // Вернуть ID только если изображение установлено как основное
-            if (addImageDto.IsMain)
-            {
-                var insertedImage = _imageCollection.Find(img => img.UID == addImageDto.UID && img.EntityName == addImageDto.EntityName && img.IsMain).FirstOrDefault();
-                return Ok(insertedImage.Id);
-            }
-
-            return Ok();
+            // Вернуть ID
+            return Ok(newImage.Id);
         }
 
         /// <summary>

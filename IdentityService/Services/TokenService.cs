@@ -171,5 +171,15 @@ namespace IdentityService.Services
 
             return true; // Токены пользователя успешно удалены
         }
+
+        public async Task<bool> ValidateAccessTokenAsync(string accessToken)
+        {
+            var persistedGrants = await _persistedGrantStore.GetAllAsync(new PersistedGrantFilter { Type = "access_token" });
+
+            var tokenInDb = persistedGrants.FirstOrDefault(grant => grant.Data == accessToken);
+
+            if (tokenInDb == null) return false;
+            return tokenInDb.Expiration > DateTime.UtcNow;
+        }
     }
 }

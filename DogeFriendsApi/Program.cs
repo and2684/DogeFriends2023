@@ -80,6 +80,7 @@ namespace DogeFriendsApi
             app.UseAuthorization();
 
             app.UseMiddleware<ExceptionMiddleware>();
+            app.UseMiddleware<TokenValidationMiddleware>();
 
             app.MapControllers();
 

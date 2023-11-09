@@ -15,13 +15,13 @@ namespace DogeFriendsApi.Data
         private readonly IMapper _mapper;
         private readonly HttpClient _client;
 
-        public UsersRepository(DataContext context, IMapper mapper, IHttpClientFactory httpClientFactory)
+        public UsersRepository(DataContext context, IMapper mapper, IHttpClientFactory httpClientFactory, IConfiguration config)
         {
             _context = context;
             _mapper = mapper;
             _client = httpClientFactory.CreateClient("RegisterClient");
 
-            _client.BaseAddress = new Uri("https://localhost:5101"); // URL Identity server (ХРАНИМ В SETTINGS SERVICE)
+            _client.BaseAddress = new Uri(config["IdentityService:IdentityServiceUrl"]!); // URL Identity server
             _client.DefaultRequestHeaders.Accept.Clear();
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
