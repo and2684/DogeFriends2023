@@ -54,14 +54,14 @@ namespace DogeFriendsApi.Services
                     _context.Breeds.Add(breed);
 
                     // Добавим фотку в базу данных ImageService
-                    if (breedDto.Base64Image.IsNullOrEmpty()) continue;
+                    if (breedDto.MainImage.IsNullOrEmpty()) continue;
 
                     // Отправка запроса к ImageService для добавления изображения
                     var imageRequest = new AddImageDto
                     {
                         UID = breed.ExternalId.ToString(),
                         EntityName = "Breed",
-                        Base64Data = breedDto.Base64Image,
+                        Base64Data = breedDto.MainImage,
                         IsMain = true
                     };
 
