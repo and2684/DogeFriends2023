@@ -61,7 +61,7 @@ namespace DogeFriendsApi.Controllers
         /// <param name="dog">Модель с информацией о собаке.</param>
         /// <returns>Созданная собака.</returns>
         [HttpPost]
-        public async Task<IActionResult> CreateDog([FromBody] DogDto dog)
+        public async Task<IActionResult> CreateDog([FromBody] DogAddOrUpdateDto dog)
         {
             var (newDog, answerCode) = await _dogRepository.CreateDogAsync(dog);
             switch (answerCode)
@@ -82,7 +82,7 @@ namespace DogeFriendsApi.Controllers
         /// <param name="dog">Модель с обновленной информацией.</param>
         /// <returns>Обновленная информация о собаке.</returns>
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> UpdateDog(int id, [FromBody] DogDto dog)
+        public async Task<IActionResult> UpdateDog(int id, [FromBody] DogAddOrUpdateDto dog)
         {
             var (updatedDog, answerCode) = await _dogRepository.UpdateDogAsync(id, dog);
             switch (answerCode)

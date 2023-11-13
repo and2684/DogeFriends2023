@@ -29,21 +29,37 @@ namespace DogeFriendsApi.Data
 
         public async Task<RepoAnswer> CreateFriendshipAsync(int userId, int friendId)
         {
-            var user = await _context.Users.FindAsync(userId);
-            var friend = await _context.Users.FindAsync(friendId);
+            if (userId == friendId)
+            {
+                return RepoAnswer.ActionFailed; // Нельзя дружить с собой
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            var friend = await _context.Users.FirstOrDefaultAsync(u => u.Id == friendId);
+
             if (user == null || friend == null)
             {
                 return RepoAnswer.NotFound;
             }
 
-            _context.Friendships.Add(new Friendship { UserId = userId, FriendId = friendId });
-            _context.Friendships.Add(new Friendship { FriendId = userId, UserId = friendId });
+            var existingFriendships = await _context.Friendships
+                .AnyAsync(x => (x.UserId == userId && x.FriendId == friendId) || (x.UserId == friendId && x.FriendId == userId));
+            if (existingFriendships)
+            {
+                return RepoAnswer.AlreadyExist;
+            }
+
+            _context.Friendships.AddRange(
+                new Friendship { UserId = userId, FriendId = friendId },
+                new Friendship { UserId = friendId, FriendId = userId }
+            );
+
             await _context.SaveChangesAsync();
             return RepoAnswer.Success;
         }
 
         public async Task<RepoAnswer> RemoveFriendshipAsync(int userId, int friendId)
-        {
+        {            
             var friendship1 = await _context.Friendships.Where(x => x.UserId == userId && x.FriendId == friendId).FirstOrDefaultAsync();
             var friendship2 = await _context.Friendships.Where(x => x.UserId == friendId && x.FriendId == userId).FirstOrDefaultAsync();
 
@@ -52,8 +68,8 @@ namespace DogeFriendsApi.Data
                 return RepoAnswer.NotFound;
             }
 
-            _context.Friendships.Remove(friendship1);
-            _context.Friendships.Remove(friendship2);
+            _context.RemoveRange(friendship1, friendship2);
+
             await _context.SaveChangesAsync();
             return RepoAnswer.Success;
         }

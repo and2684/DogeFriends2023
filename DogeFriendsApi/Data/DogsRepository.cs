@@ -40,8 +40,8 @@ namespace DogeFriendsApi.Data
             var result = await _context.Dogs.FirstOrDefaultAsync(b => b.Id == id);
             if (result != null)
             {
-                _context.Entry(result).Reference(b => b.User).Load();
-                _context.Entry(result).Reference(b => b.Breed).Load();
+                await _context.Entry(result).Reference(b => b.User).LoadAsync();
+                await _context.Entry(result).Reference(b => b.Breed).LoadAsync();
             }
 
             if (result != null)
@@ -51,7 +51,7 @@ namespace DogeFriendsApi.Data
             return (null, RepoAnswer.NotFound);
         }
 
-        public async Task<(DogDto?, RepoAnswer)> CreateDogAsync(DogDto dog)
+        public async Task<(DogDto?, RepoAnswer)> CreateDogAsync(DogAddOrUpdateDto dog)
         {
             var alreadyExist = await _context.Dogs.AnyAsync(x => x.Name == dog.Name && x.UserId == dog.UserId);
             if (alreadyExist)
@@ -63,7 +63,9 @@ namespace DogeFriendsApi.Data
             {
                 Name = dog.Name,
                 BreedId = _context.Breeds.Where(x => x.Id == dog.BreedId).Select(x => x.Id).FirstOrDefault(),
-                UserId = _context.Users.Where(x => x.Id == dog.UserId).Select(x => x.Id).FirstOrDefault()
+                Breed = _context.Breeds.FirstOrDefault(x => x.Id == dog.BreedId),
+                UserId = _context.Users.Where(x => x.Id == dog.UserId).Select(x => x.Id).FirstOrDefault(),
+                User = _context.Users.FirstOrDefault(x => x.Id == dog.UserId)
             };
 
             _context.Dogs.Add(newDog);
@@ -72,7 +74,7 @@ namespace DogeFriendsApi.Data
             return (_mapper.Map<DogDto>(newDog), RepoAnswer.Success);
         }
 
-        public async Task<(DogDto?, RepoAnswer)> UpdateDogAsync(int id, DogDto dog)
+        public async Task<(DogDto?, RepoAnswer)> UpdateDogAsync(int id, DogAddOrUpdateDto dog)
         {
             var foundDog = await _context.Dogs.FindAsync(id);
             if (foundDog == null)

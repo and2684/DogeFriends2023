@@ -1,5 +1,8 @@
-﻿namespace DogeFriendsApi.Models
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace DogeFriendsApi.Models
 {
+    [Index(nameof(UserId), nameof(FriendId), IsUnique = true)] // Дружба не дублируется
     public class Friendship
     {
         public int Id { get; set; }

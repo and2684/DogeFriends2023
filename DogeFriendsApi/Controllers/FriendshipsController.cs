@@ -48,11 +48,13 @@ namespace DogeFriendsApi.Controllers
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:
-                    return NotFound($"Идентификатор пользователя или друга не найден.");
+                    return NotFound("Идентификатор пользователя или друга не найден.");
+                case RepoAnswer.AlreadyExist:
+                    return BadRequest("Пользователи уже являются друзьями.");
                 case RepoAnswer.Success:
                     return Ok("Теперь вы друзья <3");
                 default:
-                    return StatusCode(500, $"Произошла ошибка при установлении дружбы.");
+                    return StatusCode(500, "Произошла ошибка при установлении дружбы.");
             }
         }
 
@@ -69,11 +71,11 @@ namespace DogeFriendsApi.Controllers
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:
-                    return NotFound($"Идентификатор пользователя или друга не найден.");
+                    return NotFound("Идентификатор пользователя или друга не найден.");
                 case RepoAnswer.Success:
                     return Ok("Дружбы больше нет. :(");
                 default:
-                    return StatusCode(500, $"Произошла ошибка при отмене дружбы.");
+                    return StatusCode(500, "Произошла ошибка при отмене дружбы.");
             }
         }
     }
