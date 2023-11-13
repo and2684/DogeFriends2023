@@ -9,6 +9,6 @@
         public string Size { get; set; } = string.Empty;
         public string BreedGroups { get; set; } = string.Empty;
         public string ExternalId { get; set; } = string.Empty;
-        public string Base64Image { get; set; } = string.Empty;        
+        public string MainImage { get; set; } = string.Empty;        
     }
 }
