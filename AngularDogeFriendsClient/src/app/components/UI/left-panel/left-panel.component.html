@@ -1,4 +1,32 @@
-<mat-toolbar-row>
-  
-  <h1>DogeFriends</h1>
-</mat-toolbar-row>
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 200px; height:100%; padding-left: 20px;">
+  <mat-toolbar
+    style="background-color: #384d48; display: flex; align-items: start; justify-content: center;">
+    <div>
+      <img src="..\..\..\..\assets\Doge.png" alt="Logo" height="200" width="200">
+      <mat-nav-list>
+        <a mat-list-item routerLink="**" routerLinkActive="active">
+          <span class="menu-span" style="display: flex; font-size: 155%; font-weight: 500;">DogeFriends</span>
+        </a>
+        <mat-divider style="margin-top: 10px; background-color: #2c3c38;"></mat-divider>
+
+        <a mat-list-item routerLink="/user/1" routerLinkActive="active">
+          <mat-icon>person</mat-icon>
+          <span class="menu-span">Моя страница</span>
+        </a>
+
+        <a mat-list-item routerLink="/friends" routerLinkActive="active">
+          <mat-icon>group</mat-icon>
+          <span class="menu-span">Друзья</span>
+        </a>
+
+        <a mat-list-item routerLink="/breeds" routerLinkActive="active">
+          <mat-icon>pets</mat-icon>
+          <span class="menu-span">Породы</span>
+        </a>
+      </mat-nav-list>
+
+
+      <div class="footer-word">and2684 ©</div>
+    </div>
+  </mat-toolbar>
+</div>
