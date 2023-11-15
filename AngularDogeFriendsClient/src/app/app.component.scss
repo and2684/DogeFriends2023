@@ -1,15 +1,15 @@
 :host {
   display: flex;
-  height: 100vh; /* 100% высоты */
-  background-color: #faf0ca; /* Цвет фон */
+  background-color: #faf0ca;
+  min-height: 100vh;
+  height: auto;
 }
+
 
 /* Стили для левой панели */
 app-left-panel {
   flex: 0 0 auto; /* Левая панель не будет растягиваться */
   width: 200px; /* Устанавливаем ширину левой панели */
-  padding: 20px;
-  background-color: #384d48; /* Цвет фона левой панели */
 }
 
 /* Стили для основного контента, который будет в центре */

@@ -23,7 +23,7 @@ namespace DogeFriendsApi.Controllers
         /// Получает список всех пород собак.
         /// </summary>
         /// <returns>Список всех пород собак.</returns>
-        [Authorize(Roles="Admin")]
+        //[Authorize(Roles="Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAllBreeds()
         {

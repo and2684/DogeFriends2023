@@ -23,7 +23,9 @@ namespace DogeFriendsApi.Data
                 .Include(b => b.BreedGroups)
                 .Include(b => b.Coat)
                 .Include(b => b.Size)
+                .OrderBy(b => b.Name)
                 .ToListAsync();
+
             if (result.Any())
             {
                 return (result.Select(breed => _mapper.Map<BreedDto>(breed)), RepoAnswer.Success);

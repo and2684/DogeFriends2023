@@ -1,15 +1,20 @@
-<h3 style="justify-content: center; align-items: center;"> Породы собак </h3>
+<h3 style="text-align: center; font-size: 1cm"> Породы собак </h3>
 
-<!-- Cards with media area -->
-<mat-card class="example-card">
-  <mat-card-header>
-    <mat-card-title-group>
-      <mat-card-title>Шиба ину</mat-card-title>
-      <mat-card-subtitle>Компаньоны</mat-card-subtitle>
-      <img mat-card-sm-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" >
-    </mat-card-title-group>
-  </mat-card-header>
-  <mat-card-actions>
-    <button mat-raised-button color="primary" [routerLink]="['/breed-details', 1]">Подробнее</button>
-  </mat-card-actions>
-</mat-card>
+<div class="container">
+  <mat-card class="example-card" *ngFor="let breed of breeds">
+    <mat-card-header>
+      <mat-card-title-group>
+        <mat-card-title>{{breed.name}}</mat-card-title>
+        <mat-card-subtitle>{{breed.breedGroups}}</mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card-header>
+
+    <div style="padding: 8px;">
+      <img mat-card-lg-image [src]="getMainImage(breed)" *ngIf="getMainImage(breed)" style="border-radius: 8px; width: 100%; height: auto; object-fit: cover;">
+    </div>
+
+    <mat-card-actions style="display: flex; flex-direction: column; justify-content: flex-end; padding: 8px;">
+      <button mat-raised-button color="primary" [routerLink]="['/breed-details', breed.id]" style="width: 100%; border-radius: 8px; font-size: large;">Подробнее</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

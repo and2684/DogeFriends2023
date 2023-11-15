@@ -20,6 +20,8 @@ namespace DogeFriendsApi
 
             builder.Services.AddDogeFriendsServices(); // Все сервисы приложения вынес в метод расширения
 
+            builder.Services.AddCors();
+
             await DbContextConfiguration.ConfigureDbContextAsync(builder.Services, builder.Configuration); // Вызов метода для настройки DbContext - с помощью него мы вычитываем ConnectionString из SettingsService
 
             #region Настройки авторизации в Swagger
@@ -66,6 +68,9 @@ namespace DogeFriendsApi
             });
 
             var app = builder.Build();
+
+            app.UseCors(options =>
+                options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

@@ -57,7 +57,7 @@ namespace ImageService.Controllers
         /// Устанавливает изображение как основное.
         /// </summary>
         [HttpPost("setmain")]
-        public async Task<IActionResult> SetMainImage(string uid, string entityname, int imageId)
+        public async Task<IActionResult> SetMainImage(string uid, string entityname, string imageId)
         {
             var filter = Builders<ImageModel>.Filter.Eq("UID", uid) & Builders<ImageModel>.Filter.Eq("EntityName", entityname) & Builders<ImageModel>.Filter.Eq("Id", imageId);
             var update = Builders<ImageModel>.Update.Set("IsMain", true);
