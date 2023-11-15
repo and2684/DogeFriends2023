@@ -1,9 +1,14 @@
-<p>
-  breeds works!
-</p>
+<h3 style="justify-content: center; align-items: center;"> Породы собак </h3>
 
-<mat-card>
-  <mat-card-content>Такса</mat-card-content>
+<!-- Cards with media area -->
+<mat-card class="example-card">
+  <mat-card-header>
+    <mat-card-title-group>
+      <mat-card-title>Шиба ину</mat-card-title>
+      <mat-card-subtitle>Компаньоны</mat-card-subtitle>
+      <img mat-card-sm-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" >
+    </mat-card-title-group>
+  </mat-card-header>
   <mat-card-actions>
     <button mat-raised-button color="primary" [routerLink]="['/breed-details', 1]">Подробнее</button>
   </mat-card-actions>
