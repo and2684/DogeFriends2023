@@ -7,6 +7,7 @@ import { UserComponent } from './components/user/user.component';
 import { LeftPanelComponent } from './components/UI/left-panel/left-panel.component';
 import { BaseComponent } from './components/base/base.component';
 import { BreedsComponent } from './components/breeds/breeds.component';
+import { BreedDetailsComponent } from './components/breed-details/breed-details.component';
 import { FriendsComponent } from './components/friends/friends.component';
 import { MatSidenavModule} from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -15,6 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,7 @@ import { MatButtonModule } from '@angular/material/button';
     LeftPanelComponent,
     BaseComponent,
     BreedsComponent,
+    BreedDetailsComponent,
     FriendsComponent
   ],
   imports: [
@@ -34,7 +37,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatIconModule,
     MatListModule,
     MatDividerModule,
-    MatButtonModule
+    MatButtonModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
