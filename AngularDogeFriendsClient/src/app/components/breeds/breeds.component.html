@@ -1,20 +1,22 @@
-<h3 style="text-align: center; font-size: 1cm"> Породы собак </h3>
+<h3 style="text-align: center; font-size: 1cm; font-family: 'Montserrat'; font-weight: 700;"> Породы собак </h3>
 
 <div class="container">
   <mat-card class="example-card" *ngFor="let breed of breeds">
     <mat-card-header>
       <mat-card-title-group>
-        <mat-card-title>{{breed.name}}</mat-card-title>
-        <mat-card-subtitle>{{breed.breedGroups}}</mat-card-subtitle>
+        <mat-card-title style="font-family: 'Montserrat';">{{breed.name}}</mat-card-title>
+        <mat-card-subtitle style="font-family: 'Montserrat';">{{breed.breedGroups}}</mat-card-subtitle>
       </mat-card-title-group>
     </mat-card-header>
 
     <div style="padding: 8px;">
-      <img mat-card-lg-image [src]="getMainImage(breed)" *ngIf="getMainImage(breed)" style="border-radius: 8px; width: 100%; height: auto; object-fit: cover;">
+      <img mat-card-lg-image [src]="getMainImage(breed)" *ngIf="getMainImage(breed)"
+        style="border-radius: 8px; width: 100%; height: auto; object-fit: cover;">
     </div>
 
     <mat-card-actions style="display: flex; flex-direction: column; justify-content: flex-end; padding: 8px;">
-      <button mat-raised-button color="primary" (click)="openDetails(breed.id)" style="width: 100%; border-radius: 8px; font-size: large;">Подробнее</button>
+      <button mat-raised-button color="primary" (click)="openDetails(breed.id)"
+        style="width: 100%; border-radius: 8px; font-size: large; font-family: 'Montserrat'; font-weight: 700;">Подробнее</button>
     </mat-card-actions>
   </mat-card>
 </div>

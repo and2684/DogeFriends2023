@@ -1,8 +1,8 @@
-<div *ngIf="breed" style="font-size: 18px;">
+<div *ngIf="breed" style="font-size: 18px; font-family: 'Montserrat';">
   <mat-card>
     <mat-card-header>
       <mat-card-title-group>
-        <mat-card-title style="padding-right: 15px; font-size: 25px; padding-top: 15px">{{breed.name}}</mat-card-title>
+        <mat-card-title style="padding-right: 15px; font-size: 25px; padding-top: 15px; font-family: 'Montserrat';">{{breed.name}}</mat-card-title>
 
         <div style="padding-left: 5px; flex-direction: column; justify-content: center;">
 
@@ -31,11 +31,11 @@
     </mat-card-header>
 
     <div style="padding: 25px">
-      <ng-image-slider [images]="imageObject" [manageImageRatio]="true" #nav></ng-image-slider>
+      <ng-image-slider [images]="imageObject" [manageImageRatio]="true" [imageSize]="{width: 600, height: 500, space: 5}" #nav></ng-image-slider>
     </div>
 
     <mat-card-actions style="display: flex; flex-direction: column; justify-content: flex-end; padding: 8px;">
-      <button mat-raised-button color="primary" style="width: 100%; border-radius: 8px; font-size: large;"
+      <button mat-raised-button color="primary" style="width: 100%; border-radius: 8px; font-size: large; font-family: 'Montserrat'; font-weight: 700;"
         (click)="closeDialog()">Закрыть</button>
     </mat-card-actions>
   </mat-card>
