@@ -14,7 +14,7 @@
     </div>
 
     <mat-card-actions style="display: flex; flex-direction: column; justify-content: flex-end; padding: 8px;">
-      <button mat-raised-button color="primary" [routerLink]="['/breed-details', breed.id]" style="width: 100%; border-radius: 8px; font-size: large;">Подробнее</button>
+      <button mat-raised-button color="primary" (click)="openDetails(breed.id)" style="width: 100%; border-radius: 8px; font-size: large;">Подробнее</button>
     </mat-card-actions>
   </mat-card>
 </div>

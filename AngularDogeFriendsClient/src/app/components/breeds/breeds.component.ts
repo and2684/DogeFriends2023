@@ -1,9 +1,11 @@
 import { Images } from './../../models/images';
 import { BreedService } from './../../services/breed-service/breed.service';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Subscription, forkJoin, of } from 'rxjs';
 import { IBreed } from 'src/app/models/breeds';
 import { ImageService } from 'src/app/services/image-service/image.service';
+import { BreedDetailsComponent } from '../breed-details/breed-details.component';
 
 @Component({
   selector: 'app-breeds',
@@ -14,7 +16,9 @@ export class BreedsComponent implements OnInit {
   breeds: IBreed[];
   breedSubscription!: Subscription;
 
-  constructor(private breedService: BreedService, private imageService: ImageService) { }
+  constructor(private breedService: BreedService,
+              private imageService: ImageService,
+              private dialog: MatDialog) { }
 
   ngOnInit() {
     this.breedSubscription = this.breedService.getBreeds().subscribe((breeds) => {
@@ -35,6 +39,13 @@ export class BreedsComponent implements OnInit {
       return mainImage ? mainImage.base64Data : undefined;
     }
     return undefined;
+  }
+
+  openDetails(breedId: any): void {
+    this.dialog.open(BreedDetailsComponent, {
+      width: '700px',
+      data: { breedId : breedId }
+    })
   }
 
   ngOnDestroy() {

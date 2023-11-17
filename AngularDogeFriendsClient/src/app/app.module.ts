@@ -18,6 +18,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { HttpClientModule } from '@angular/common/http';
+import { MatDialogModule } from '@angular/material/dialog';
+import { NgImageSliderModule } from 'ng-image-slider';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,7 @@ import { HttpClientModule } from '@angular/common/http';
     BaseComponent,
     BreedsComponent,
     BreedDetailsComponent,
-    FriendsComponent
+    FriendsComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,7 +42,9 @@ import { HttpClientModule } from '@angular/common/http';
     MatDividerModule,
     MatButtonModule,
     MatCardModule,
-    HttpClientModule
+    HttpClientModule,
+    MatDialogModule,
+    NgImageSliderModule
   ],
   providers: [],
   bootstrap: [AppComponent]
