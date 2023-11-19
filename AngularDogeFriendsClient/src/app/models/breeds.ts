@@ -1,4 +1,4 @@
-import { Images } from "./images"
+import { Images } from "./Images"
 
 export interface IBreed {
   id: number

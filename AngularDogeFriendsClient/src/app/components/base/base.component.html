@@ -1,6 +1,19 @@
-<div style="margin-left: 10px; text-align: center; font:caption;">
-  <h1 style="font-size: 200%; font-weight: 600;">DogeFriends</h1>
+<div style="margin-left: 10px; text-align: center; font-size:large; font-family: 'Montserrat'; ">
+  <h1 style="font-size: 250%; font-weight: 700; font-family: 'Montserrat'; margin-bottom: 30px;">DogeFriends</h1>
   <p>Добро пожаловать на главную страницу сайта, посвященного нашим любимым собакам!</p>
-  <p>Доcтупные разделы сайта указаны в меню слева.</p>
+  <p>Доступные разделы сайта указаны в меню слева.</p>
   <img src="..\..\..\..\assets\Dauschund.png" alt="Logo" height="400" width="400" style="display: block; margin: 0 auto;">
+
+
+  <!-- TODO: показывать этот div только если пользователь не залогинен -->
+  <div>
+    <mat-divider style="background-color: #2c3c38; width: 200px; margin: 0 auto; margin-bottom: 20px;"></mat-divider>
+    <p>Выполни вход в свой аккаунт.</p>
+    <p>Аккаунта еще нет? Тогда регистрируйся :)</p>
+
+    <div style="margin: 20px auto;">
+      <a mat-raised-button color="primary" class="user-button" routerLink="/login" style="margin-right: 10px;">Вход</a>
+      <a mat-raised-button color="warn" class="user-button" routerLink="/register">Регистрация</a>
+    </div>
+  </div>
 </div>

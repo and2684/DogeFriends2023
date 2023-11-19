@@ -7,8 +7,8 @@
   src: url('/assets/fonts/Montserrat-Regular.ttf') format('truetype');
 }
 
-html,
-.body {
+.body
+{
   height: 100%;
   margin: 0;
   // font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -24,3 +24,16 @@ html,
   max-width: 400px;
   margin-bottom: 8px;
 }
+
+.user-button {
+  margin-right: 10px;
+  width: 150px;
+  font-family: 'Montserrat';
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.insert-label {
+  font-family: Montserrat;
+}
+

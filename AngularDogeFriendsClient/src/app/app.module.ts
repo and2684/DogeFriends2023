@@ -20,6 +20,11 @@ import { MatCardModule } from '@angular/material/card';
 import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgImageSliderModule } from 'ng-image-slider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
+import { RegisterComponent } from './components/register/register.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +35,8 @@ import { NgImageSliderModule } from 'ng-image-slider';
     BreedsComponent,
     BreedDetailsComponent,
     FriendsComponent,
+    RegisterComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +51,9 @@ import { NgImageSliderModule } from 'ng-image-slider';
     MatCardModule,
     HttpClientModule,
     MatDialogModule,
-    NgImageSliderModule
+    NgImageSliderModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]

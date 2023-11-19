@@ -2,7 +2,7 @@ import { BreedService } from './../../services/breed-service/breed.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { IBreed } from 'src/app/models/breeds';
-import { IImage } from 'src/app/models/images';
+import { IImage } from 'src/app/models/Images';
 import { ImageService } from 'src/app/services/image-service/image.service';
 
 @Component({

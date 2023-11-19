@@ -9,6 +9,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { UserComponent } from './components/user/user.component';
 
+
 const routes: Routes = [
   {path: '', component: BaseComponent},
   {path: 'breeds', component: BreedsComponent},
@@ -18,7 +19,9 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'user/:username', component: UserComponent},
-  {path: '**', redirectTo: "", component: BaseComponent}
+  {path: '**', redirectTo: "", component: BaseComponent},
+  {path: 'register', component: RegisterComponent},
+  {path: 'login', component: LoginComponent}
 ];
 
 @NgModule({

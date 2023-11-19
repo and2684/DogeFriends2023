@@ -1,8 +1,9 @@
-import { Images } from './../../models/images';
+import { IBreed } from 'src/app/models/breeds';
+import { Images } from '../../models/Images';
 import { ImageService } from './../image-service/image.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IBreed } from 'src/app/models/breeds';
+
 
 @Injectable({
   providedIn: 'root'
