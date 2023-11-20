@@ -22,6 +22,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { NgImageSliderModule } from 'ng-image-slider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
 
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
@@ -53,7 +54,8 @@ import { LoginComponent } from './components/login/login.component';
     MatDialogModule,
     NgImageSliderModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -9,14 +9,14 @@
 
       <mat-form-field style="width: 350px;">
         <mat-label class="insert-label">Логин</mat-label>
-        <input style="font-family: Montserrat" matInput>
+        <input [(ngModel)]="loginData.username" style="font-family: Montserrat" matInput>
       </mat-form-field>
 
       <br/>
 
       <mat-form-field style="width: 350px">
         <mat-label class="insert-label">Пароль</mat-label>
-        <input style="font-family: Montserrat" matInput [type]="hide ? 'password' : 'text'">
+        <input [(ngModel)]="loginData.password" style="font-family: Montserrat" matInput [type]="hide ? 'password' : 'text'">
         <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
@@ -33,7 +33,9 @@
           </div>
 
           <div style="display: flex; align-items: end;">
-            <button mat-raised-button color="primary" class="user-button" style="margin-left: 65px; margin-right: 0;">Войти</button>
+            <form (ngSubmit)="onSubmit()">
+              <button mat-raised-button color="primary" class="user-button" style="margin-left: 65px; margin-right: 0;" type="submit">Войти</button>
+            </form>
           </div>
         </div>
 

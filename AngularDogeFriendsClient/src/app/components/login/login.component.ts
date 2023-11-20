@@ -28,6 +28,7 @@ export class LoginComponent implements OnInit {
       .pipe(
         catchError(error => {
           console.error('Ошибка входа:', error);
+
           // Вывод сообщения об ошибке или другая логика обработки ошибки
           return throwError(() => new Error(error));
         })
