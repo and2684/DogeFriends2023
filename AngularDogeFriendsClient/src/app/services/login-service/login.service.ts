@@ -9,12 +9,12 @@ import { UserLoginResponseDto } from '../../models/UserLoginResponseDto';
 })
 export class LoginService {
 
-  url: string = 'https://localhost:5101/'; // Укажите полный URL для эндпоинта
+  url: string = 'https://localhost:7275/'; // Укажите полный URL для эндпоинта
 
   constructor(private http: HttpClient) { }
 
   login(loginData: LoginDto): Observable<UserLoginResponseDto> {
-    let response = this.http.post<UserLoginResponseDto>(this.url + '/api/login', loginData);
+    let response = this.http.post<UserLoginResponseDto>(this.url + 'api/users/login', loginData);
     return response;
   }
 }

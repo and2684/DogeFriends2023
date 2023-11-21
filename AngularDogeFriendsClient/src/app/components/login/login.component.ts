@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/services/login-service/login.service';
 import { LoginDto } from '../../models/LoginDto'
 import { catchError, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,7 @@ export class LoginComponent implements OnInit {
     password: ''
   };
 
-  constructor(private loginService: LoginService, private tokenService: TokenService) { }
+  constructor(private loginService: LoginService, private tokenService: TokenService, router: Router) { }
 
   ngOnInit() {
   }
