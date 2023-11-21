@@ -22,11 +22,12 @@ export class TokenService {
     if (accessToken) {
       const tokenPayload = this.decodeTokenPayload(accessToken);
       if (tokenPayload) {
-        localStorage.setItem(this.USERNAME_KEY, tokenPayload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']);
+        const username = tokenPayload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
+        localStorage.setItem(this.USERNAME_KEY, username);
+
         const rolesArray = tokenPayload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
         localStorage.setItem(this.ROLES_KEY, JSON.stringify(rolesArray));
 
-        const username = this.getUsername();
         if (username) {
           this.router.navigate([`/user/${username}`]);
         }
