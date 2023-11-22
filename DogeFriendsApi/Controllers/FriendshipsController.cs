@@ -16,66 +16,106 @@ namespace DogeFriendsApi.Controllers
         }
 
         /// <summary>
-        /// Получает информацию о дружбе пользователя.
+        /// Получает информацию о друзьях пользователя.
         /// </summary>
         /// <param name="userId">Идентификатор пользователя.</param>
         /// <returns>Список друзей пользователя.</returns>
-        [HttpGet]
+        [HttpGet("friends")]
         public async Task<IActionResult> GetFriendships(int userId)
         {
             var (friendships, answerCode) = await _friendshipsRepository.GetFriendsAsync(userId);
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:
-                    return NotFound($"Друзей не найдено. Это грустно.");
+                    return NotFound("У вас нет друзей. Это грустно.");
                 case RepoAnswer.Success:
                     return Ok(friendships);
                 default:
-                    return StatusCode(500, $"Произошла ошибка при получении списка друзей.");
+                    return StatusCode(500, "Произошла ошибка при получении списка друзей.");
             }
         }
 
         /// <summary>
-        /// Создает дружбу между пользователями.
+        /// Получает информацию о подписчиках пользователя.
         /// </summary>
         /// <param name="userId">Идентификатор пользователя.</param>
-        /// <param name="friendId">Идентификатор друга.</param>
-        /// <returns>Результат создания дружбы.</returns>
-        [HttpPost]
-        public async Task<IActionResult> CreateFriendship(int userId, int friendId)
+        /// <returns>Список подписчиков пользователя.</returns>
+        [HttpGet("subs")]
+        public async Task<IActionResult> GetSubscribers(int userId)
         {
-            var answerCode = await _friendshipsRepository.CreateFriendshipAsync(userId, friendId);
+            var (friendships, answerCode) = await _friendshipsRepository.GetSubscribersAsync(userId);
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:
-                    return NotFound("Идентификатор пользователя или друга не найден.");
+                    return NotFound("На вас никто не подписан");
+                case RepoAnswer.Success:
+                    return Ok(friendships);
+                default:
+                    return StatusCode(500, "Произошла ошибка при получении списка подписчиков.");
+            }
+        }
+
+        /// <summary>
+        /// Получает информацию о подписках пользователя.
+        /// </summary>
+        /// <param name="userId">Идентификатор пользователя.</param>
+        /// <returns>Список подписок пользователя.</returns>
+        [HttpGet("subscriptions")]
+        public async Task<IActionResult> GetSubscriptions(int userId)
+        {
+            var (friendships, answerCode) = await _friendshipsRepository.GetSubscribtionsAsync(userId);
+            switch (answerCode)
+            {
+                case RepoAnswer.NotFound:
+                    return NotFound("Вы ни на кого не подписаны");
+                case RepoAnswer.Success:
+                    return Ok(friendships);
+                default:
+                    return StatusCode(500, "Произошла ошибка при получении списка подписок.");
+            }
+        }
+
+        /// <summary>
+        /// Подписка.
+        /// </summary>
+        /// <param name="userId">Идентификатор пользователя.</param>
+        /// <param name="friendId">Идентификатор подписки.</param>
+        /// <returns>Результат подписки.</returns>
+        [HttpPost("sub")]
+        public async Task<IActionResult> Subscribe(int userId, int friendId)
+        {
+            var answerCode = await _friendshipsRepository.SubscribeAsync(userId, friendId);
+            switch (answerCode)
+            {
+                case RepoAnswer.NotFound:
+                    return NotFound("Идентификатор пользователя или подписки не найден.");
                 case RepoAnswer.AlreadyExist:
-                    return BadRequest("Пользователи уже являются друзьями.");
+                    return BadRequest("Вы уже подписаны.");
                 case RepoAnswer.Success:
-                    return Ok("Теперь вы друзья <3");
+                    return Ok("Подписка успешно выполнена.");
                 default:
-                    return StatusCode(500, "Произошла ошибка при установлении дружбы.");
+                    return StatusCode(500, "Произошла ошибка при подписке.");
             }
         }
 
         /// <summary>
-        /// Разрывает дружбу между пользователями.
+        /// Отписка.
         /// </summary>
         /// <param name="userId">Идентификатор пользователя.</param>
-        /// <param name="friendId">Идентификатор друга.</param>
-        /// <returns>Результат разрыва дружбы.</returns>
-        [HttpDelete]
-        public async Task<IActionResult> RemoveFriendship(int userId, int friendId)
+        /// <param name="friendId">Идентификатор подписки.</param>
+        /// <returns>Результат отписки.</returns>
+        [HttpDelete("unsub")]
+        public async Task<IActionResult> Unsubscribe(int userId, int friendId)
         {
-            var answerCode = await _friendshipsRepository.RemoveFriendshipAsync(userId, friendId);
+            var answerCode = await _friendshipsRepository.UnsubscribeAsync(userId, friendId);
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:
-                    return NotFound("Идентификатор пользователя или друга не найден.");
+                    return NotFound("Идентификатор пользователя или подписки не найден.");
                 case RepoAnswer.Success:
-                    return Ok("Дружбы больше нет. :(");
+                    return Ok("Подписка отменена");
                 default:
-                    return StatusCode(500, "Произошла ошибка при отмене дружбы.");
+                    return StatusCode(500, "Произошла ошибка при отмене подписки.");
             }
         }
     }

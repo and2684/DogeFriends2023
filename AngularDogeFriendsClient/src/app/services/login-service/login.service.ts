@@ -9,7 +9,7 @@ import { UserLoginResponseDto } from '../../models/UserLoginResponseDto';
 })
 export class LoginService {
 
-  url: string = 'https://localhost:7275/'; // Укажите полный URL для эндпоинта
+  url: string = 'https://localhost:7275/';
 
   constructor(private http: HttpClient) { }
 

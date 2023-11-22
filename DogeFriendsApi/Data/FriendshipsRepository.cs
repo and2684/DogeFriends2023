@@ -19,19 +19,60 @@ namespace DogeFriendsApi.Data
 
         public async Task<(List<UserInfoDto>?, RepoAnswer)> GetFriendsAsync(int userId)
         {
-            var friends = await _context.Friendships.Where(x => x.UserId == userId).Select(x => x.Friend).ToListAsync();
-            if (friends.Any())
+            var subscribers = await _context.Friendships.Where(x => x.FriendId == userId).Select(x => x.User).ToListAsync();
+            var subscriptions = await _context.Friendships.Where(x => x.UserId == userId).Select(x => x.Friend).ToListAsync();
+
+            if (subscribers != null && subscriptions != null)
             {
-                return (friends.Select(friend => _mapper.Map<UserInfoDto>(friend)).ToList(), RepoAnswer.Success);
+                var friends = subscribers.Intersect(subscriptions);
+
+                if (friends.Any())
+                {
+                    return (friends.Select(_mapper.Map<UserInfoDto>).ToList(), RepoAnswer.Success);
+                }
             }
+
+            return (null, RepoAnswer.NotFound);
+        }
+        public async Task<(List<UserInfoDto>?, RepoAnswer)> GetSubscribersAsync(int userId)
+        {
+            var subscribers = await _context.Friendships.Where(x => x.FriendId == userId).Select(x => x.User).ToListAsync();
+            var subscriptions = await _context.Friendships.Where(x => x.UserId == userId).Select(x => x.Friend).ToListAsync();
+
+            if (subscribers != null)
+            {
+                var result = subscribers.Except(subscriptions);
+                if (result.Any())
+                {
+                    return (result.Select(_mapper.Map<UserInfoDto>).ToList(), RepoAnswer.Success);
+                }
+            }
+
             return (null, RepoAnswer.NotFound);
         }
 
-        public async Task<RepoAnswer> CreateFriendshipAsync(int userId, int friendId)
+        public async Task<(List<UserInfoDto>?, RepoAnswer)> GetSubscribtionsAsync(int userId)
+        {
+            var subscribers = await _context.Friendships.Where(x => x.FriendId == userId).Select(x => x.User).ToListAsync();
+            var subscriptions = await _context.Friendships.Where(x => x.UserId == userId).Select(x => x.Friend).ToListAsync();
+
+            if (subscribers != null)
+            {
+                var result = subscriptions.Except(subscribers);
+                if (result.Any())
+                {
+                    return (result.Select(_mapper.Map<UserInfoDto>).ToList(), RepoAnswer.Success);
+                }
+            }
+
+            return (null, RepoAnswer.NotFound);
+        }
+
+        public async Task<RepoAnswer> SubscribeAsync(int userId, int friendId)
         {
             if (userId == friendId)
             {
-                return RepoAnswer.ActionFailed; // Нельзя дружить с собой
+                return RepoAnswer.ActionFailed; // Нельзя подписаться на себя
             }
 
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
@@ -42,36 +83,33 @@ namespace DogeFriendsApi.Data
                 return RepoAnswer.NotFound;
             }
 
-            var existingFriendships = await _context.Friendships
-                .AnyAsync(x => (x.UserId == userId && x.FriendId == friendId) || (x.UserId == friendId && x.FriendId == userId));
-            if (existingFriendships)
+            var existingSubscription = await _context.Friendships
+                .AnyAsync(x => (x.UserId == userId && x.FriendId == friendId));
+            if (existingSubscription)
             {
                 return RepoAnswer.AlreadyExist;
             }
 
-            _context.Friendships.AddRange(
-                new Friendship { UserId = userId, FriendId = friendId },
-                new Friendship { UserId = friendId, FriendId = userId }
-            );
+            _context.Friendships.Add(new Friendship { UserId = userId, FriendId = friendId });
 
             await _context.SaveChangesAsync();
             return RepoAnswer.Success;
         }
 
-        public async Task<RepoAnswer> RemoveFriendshipAsync(int userId, int friendId)
+        public async Task<RepoAnswer> UnsubscribeAsync(int userId, int friendId)
         {            
-            var friendship1 = await _context.Friendships.Where(x => x.UserId == userId && x.FriendId == friendId).FirstOrDefaultAsync();
-            var friendship2 = await _context.Friendships.Where(x => x.UserId == friendId && x.FriendId == userId).FirstOrDefaultAsync();
+            var subscription = await _context.Friendships.Where(x => x.UserId == userId && x.FriendId == friendId).FirstOrDefaultAsync();
 
-            if (friendship1 == null || friendship2 == null)
+            if (subscription == null)
             {
                 return RepoAnswer.NotFound;
             }
 
-            _context.RemoveRange(friendship1, friendship2);
+            _context.Remove(subscription);
 
             await _context.SaveChangesAsync();
             return RepoAnswer.Success;
         }
+
     }
 }

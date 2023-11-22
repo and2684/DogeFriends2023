@@ -2,7 +2,7 @@ import { BreedService } from './../../services/breed-service/breed.service';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription, forkJoin, of } from 'rxjs';
-import { IBreed } from'src/app/models/breeds';
+import { IBreed } from'src/app/models/Breeds';
 import { ImageService } from 'src/app/services/image-service/image.service';
 import { BreedDetailsComponent } from '../breed-details/breed-details.component';
 

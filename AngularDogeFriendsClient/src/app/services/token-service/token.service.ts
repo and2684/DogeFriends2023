@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +10,14 @@ export class TokenService {
   private readonly REFRESH_TOKEN_KEY = 'refresh_token';
   private readonly USERNAME_KEY = 'username';
   private readonly ROLES_KEY = 'roles';
+  private usernameSource = new BehaviorSubject<string | null>(null);
+  username$ = this.usernameSource.asObservable();
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+    const storedUsername = this.getUsername();
+    this.usernameSource = new BehaviorSubject<string | null>(storedUsername);
+    this.username$ = this.usernameSource.asObservable();
+  }
 
   public saveTokens(accessToken: string, refreshToken: string): void {
     localStorage.setItem(this.ACCESS_TOKEN_KEY, accessToken);
@@ -24,6 +31,7 @@ export class TokenService {
       if (tokenPayload) {
         const username = tokenPayload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
         localStorage.setItem(this.USERNAME_KEY, username);
+        this.usernameSource.next(username);
 
         const rolesArray = tokenPayload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
         localStorage.setItem(this.ROLES_KEY, JSON.stringify(rolesArray));
@@ -36,7 +44,10 @@ export class TokenService {
   }
 
   public getUsername(): string | null {
-    return localStorage.getItem(this.USERNAME_KEY);
+    let username = localStorage.getItem(this.USERNAME_KEY);
+    console.log('Получено имя пользователя из TokenService: ' + username);
+
+    return username ? username : null;
   }
 
   public getRoles(): string[] {

@@ -9,12 +9,12 @@
           </a>
           <mat-divider style="background-color: #2c3c38; width: 150px; margin: 0 auto"></mat-divider>
 
-          <a mat-list-item routerLink="/user/and2684" routerLinkActive="active">
+          <a mat-list-item *ngIf="this.username" routerLink="/user/{{this.username}}" routerLinkActive="active">
             <mat-icon>person</mat-icon>
             <span class="menu-span">Моя страница</span>
           </a>
 
-          <a mat-list-item routerLink="/friends" routerLinkActive="active">
+          <a mat-list-item *ngIf="this.username" routerLink="/friends" routerLinkActive="active">
             <mat-icon>group</mat-icon>
             <span class="menu-span">Друзья</span>
           </a>

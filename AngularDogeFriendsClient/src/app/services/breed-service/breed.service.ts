@@ -1,6 +1,4 @@
-import { IBreed } from 'src/app/models/breeds';
-import { Images } from '../../models/Images';
-import { ImageService } from './../image-service/image.service';
+import { IBreed } from 'src/app/models/Breeds';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
