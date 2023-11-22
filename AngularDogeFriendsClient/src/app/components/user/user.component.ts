@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UserInfoDto } from 'src/app/models/UserInfoDto';
 import { TokenService } from 'src/app/services/token-service/token.service';
@@ -11,16 +12,20 @@ import { UserService } from 'src/app/services/user-service/user.service';
 })
 export class UserComponent {
   user: UserInfoDto;
-  username: string | null;
+  usernameFromParams: string | null;
   usersubscription: Subscription;
+  mypage = false;
 
-  constructor(private userService: UserService, private tokenService: TokenService) {}
+  constructor(private userService: UserService,
+              private tokenService: TokenService,
+              private route: ActivatedRoute) {}
 
   ngOnInit() {
-      this.username = this.tokenService.getUsername();
-      console.log('Имя пользователя в user.component: ' + this.username);
-      if (this.username)
-        this.usersubscription = this.userService.getUserByUsername(this.username).subscribe((user) => {this.user = user;});
+    this.route.params.subscribe(params => {this.usernameFromParams = params['username']});
+
+    this.mypage = this.tokenService.getUsername() === this.usernameFromParams;
+    if (this.usernameFromParams)
+      this.usersubscription = this.userService.getUserByUsername(this.usernameFromParams).subscribe((user) => {this.user = user;});
   }
 
   ngOnDestroy() {
