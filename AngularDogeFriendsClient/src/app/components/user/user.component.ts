@@ -11,15 +11,16 @@ import { UserService } from 'src/app/services/user-service/user.service';
 })
 export class UserComponent {
   user: UserInfoDto;
-  username: string;
+  username: string | null;
   usersubscription: Subscription;
 
   constructor(private userService: UserService, private tokenService: TokenService) {}
 
   ngOnInit() {
-      this.username = this.tokenService.getUsername()!;
+      this.username = this.tokenService.getUsername();
       console.log('Имя пользователя в user.component: ' + this.username);
-      this.usersubscription = this.userService.getUserByUsername(this.username).subscribe((user) => {this.user = user;});
+      if (this.username)
+        this.usersubscription = this.userService.getUserByUsername(this.username).subscribe((user) => {this.user = user;});
   }
 
   ngOnDestroy() {

@@ -1,4 +1,6 @@
 <p>current user = {{this.username}}</p>
 
-<p>firstname = {{this.user.username}}</p>
-<p>showname = {{this.user.showname}}</p>
+<div *ngIf="this.user">
+  <p>firstname = {{this.user.username}}</p>
+  <p>showname = {{this.user.showname}}</p>
+</div>
