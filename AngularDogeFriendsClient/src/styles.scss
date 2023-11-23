@@ -7,8 +7,13 @@
   src: url('/assets/fonts/Montserrat-Regular.ttf') format('truetype');
 }
 
-.body
-{
+.main {
+  margin-left: -8px;
+  margin-top: -10px;
+  margin-bottom: -10px;
+}
+
+.body {
   height: 100%;
   margin: 0;
   // font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -37,3 +42,6 @@
   font-family: Montserrat;
 }
 
+.gradient-form {
+  background: linear-gradient(to top, #faf0ca, #2c3c38);
+}
