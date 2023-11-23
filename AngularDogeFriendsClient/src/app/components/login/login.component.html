@@ -1,5 +1,5 @@
 <div class="login-form-flex">
-  <form (ngSubmit)="onSubmit()">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <mat-card style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
       <img src="..\..\..\..\assets\Katz.png" alt="Logo" height="380" width="380"
         style="display: block; margin: 0 auto;">
@@ -12,24 +12,34 @@
 
         <mat-form-field style="width: 350px;">
           <mat-label class="insert-label">Логин</mat-label>
-          <input [(ngModel)]="loginData.username" style="font-family: Montserrat" matInput>
+          <input formControlName="username" style="font-family: Montserrat" matInput>
+          <mat-error class="insert-label" *ngIf="loginForm.controls['username'].hasError('required')">
+            Логин обязателен
+          </mat-error>
+          <mat-error class="insert-label"  *ngIf="loginForm.controls['password'].hasError('pattern')">
+            Логин - минимум 4 символа
+          </mat-error>
         </mat-form-field>
 
         <br />
 
         <mat-form-field style="width: 350px">
           <mat-label class="insert-label">Пароль</mat-label>
-          <input [(ngModel)]="loginData.password" style="font-family: Montserrat" matInput
-            [type]="hide ? 'password' : 'text'">
-          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hide">
+          <input formControlName="password" style="font-family: Montserrat" matInput [type]="hide ? 'password' : 'text'">
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
             <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
+          <mat-error class="insert-label" *ngIf="loginForm.controls['password'].hasError('required')">
+            Пароль обязателен
+          </mat-error>
+          <mat-error class="insert-label" *ngIf="loginForm.controls['password'].hasError('pattern')">
+            Пароль - минимум 4 символа
+          </mat-error>
         </mat-form-field>
 
       </mat-card-content>
 
-      <mat-card-actions style="margin-top: -15px;">
+      <mat-card-actions style="margin-top: 15px;">
         <!-- <div class="button-flex-container"> -->
         <div style="display: flex; flex-direction: row; justify-content: space-between;">
           <div style="display: flex; align-items: center; flex-direction: column;">
@@ -39,8 +49,7 @@
           </div>
 
           <div style="display: flex; align-items: end;">
-            <button mat-raised-button color="primary" class="user-button" style="margin-left: 65px; margin-right: 0;"
-              type="submit">Войти</button>
+            <button [disabled]="loginForm.invalid" mat-raised-button color="primary" class="user-button" style="margin-left: 65px; margin-right: 0;" type="submit">Войти</button>
           </div>
         </div>
 

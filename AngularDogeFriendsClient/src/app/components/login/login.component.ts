@@ -21,21 +21,16 @@ export class LoginComponent implements OnInit {
     password: ''
   };
 
-  constructor(private loginService: LoginService, private tokenService: TokenService, router: Router) { }
+  constructor(private loginService: LoginService, private tokenService: TokenService, private router: Router) { }
 
   ngOnInit() {
+    this.loginForm = new FormGroup({
+      'username': new FormControl('', [Validators.required, Validators.pattern(/^.{4,}$/)]),
+      'password': new FormControl('', [Validators.required, Validators.pattern(/^.{4,}$/)])
+    });
   }
 
   onSubmit(): void {
-    this.loginForm = new FormGroup({
-      'username': new FormControl('', [Validators.required]),
-      'password': new FormControl('',
-        [
-          Validators.required,
-          Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{4,}$/)
-        ])
-    });
-
     this.loginData.username = this.loginForm.get('username')!.value;
     this.loginData.password = this.loginForm.get('password')!.value;
 
@@ -43,13 +38,10 @@ export class LoginComponent implements OnInit {
       .pipe(
         catchError(error => {
           console.error('Ошибка входа:', error);
-
-          // Вывод сообщения об ошибке или другая логика обработки ошибки
           return throwError(() => new Error(error));
         })
       )
       .subscribe(response => {
-        // Обработка успешного входа
         console.log('Успешный вход:', response);
         this.tokenService.saveTokens(response.accessToken, response.refreshToken);
         this.tokenService.saveUserInfoFromAccessToken();
