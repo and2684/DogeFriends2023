@@ -16,7 +16,7 @@
           <mat-error class="insert-label" *ngIf="loginForm.controls['username'].hasError('required')">
             Логин обязателен
           </mat-error>
-          <mat-error class="insert-label"  *ngIf="loginForm.controls['password'].hasError('pattern')">
+          <mat-error class="insert-label"  *ngIf="loginForm.controls['username'].hasError('pattern')">
             Логин - минимум 4 символа
           </mat-error>
         </mat-form-field>
