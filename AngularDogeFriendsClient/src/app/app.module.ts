@@ -15,7 +15,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { NgImageSliderModule } from 'ng-image-slider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule, FormGroup, FormControl } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './components/register/register.component';
@@ -55,9 +55,7 @@ import { FriendsComponent } from './components/friends/friends.component';
     NgImageSliderModule,
     MatFormFieldModule,
     MatInputModule,
-    FormsModule,
-    FormGroup,
-    FormControl
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
