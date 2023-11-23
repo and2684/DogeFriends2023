@@ -4,6 +4,7 @@ import { LoginService } from 'src/app/services/login-service/login.service';
 import { LoginDto } from '../../models/LoginDto'
 import { catchError, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -11,6 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  loginForm: FormGroup;
 
   hide = true;
 
@@ -19,23 +21,27 @@ export class LoginComponent implements OnInit {
     password: ''
   };
 
-  constructor(private loginService: LoginService, private tokenService: TokenService, router: Router) { }
+  constructor(private loginService: LoginService, private tokenService: TokenService, private router: Router) { }
 
   ngOnInit() {
+    this.loginForm = new FormGroup({
+      'username': new FormControl('', [Validators.required, Validators.pattern(/^.{4,}$/)]),
+      'password': new FormControl('', [Validators.required, Validators.pattern(/^.{4,}$/)])
+    });
   }
 
   onSubmit(): void {
+    this.loginData.username = this.loginForm.get('username')!.value;
+    this.loginData.password = this.loginForm.get('password')!.value;
+
     this.loginService.login(this.loginData)
       .pipe(
         catchError(error => {
           console.error('Ошибка входа:', error);
-
-          // Вывод сообщения об ошибке или другая логика обработки ошибки
           return throwError(() => new Error(error));
         })
       )
       .subscribe(response => {
-        // Обработка успешного входа
         console.log('Успешный вход:', response);
         this.tokenService.saveTokens(response.accessToken, response.refreshToken);
         this.tokenService.saveUserInfoFromAccessToken();
