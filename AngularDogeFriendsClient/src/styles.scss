@@ -8,7 +8,7 @@
 }
 
 .main {
-  background: linear-gradient(to right, #faf0ca 40%, #ffff);
+  //background: linear-gradient(to right, #faf0ca 40%, #ffff);
   margin-left: -8px;
   margin-top: -10px;
   margin-bottom: -10px;
@@ -43,6 +43,15 @@
   font-family: Montserrat;
 }
 
+.white-text {
+  color:white;
+}
+
 .gradient-form {
-  background: linear-gradient(to top, #faf0ca, #2c3c38);
+  background: linear-gradient(to bottom, #faf0ca, #2c3c38);
+}
+
+.breed-card {
+  margin-bottom: 20px;
+  margin-right: 10px;
 }

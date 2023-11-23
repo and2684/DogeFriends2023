@@ -13,10 +13,10 @@
         <mat-form-field style="width: 350px;">
           <mat-label class="insert-label">Логин</mat-label>
           <input formControlName="username" style="font-family: Montserrat" matInput>
-          <mat-error class="insert-label" *ngIf="loginForm.controls['username'].hasError('required')">
+          <mat-error class="insert-label; white-text" *ngIf="loginForm.controls['username'].hasError('required')">
             Логин обязателен
           </mat-error>
-          <mat-error class="insert-label"  *ngIf="loginForm.controls['username'].hasError('pattern')">
+          <mat-error class="insert-label; white-text"  *ngIf="loginForm.controls['username'].hasError('pattern')">
             Логин - минимум 4 символа
           </mat-error>
         </mat-form-field>
@@ -29,10 +29,10 @@
           <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
             <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
-          <mat-error class="insert-label" *ngIf="loginForm.controls['password'].hasError('required')">
+          <mat-error class="insert-label; white-text" *ngIf="loginForm.controls['password'].hasError('required')">
             Пароль обязателен
           </mat-error>
-          <mat-error class="insert-label" *ngIf="loginForm.controls['password'].hasError('pattern')">
+          <mat-error class="insert-label; white-text" *ngIf="loginForm.controls['password'].hasError('pattern')">
             Пароль - минимум 4 символа
           </mat-error>
         </mat-form-field>
@@ -43,7 +43,7 @@
         <!-- <div class="button-flex-container"> -->
         <div style="display: flex; flex-direction: row; justify-content: space-between;">
           <div style="display: flex; align-items: center; flex-direction: column;">
-            <span style="font-size: 12px; font-family: Montserrat;">Нет учетной записи?</span>
+            <span style="font-size: 12px; font-family: Montserrat; color:white">Нет учетной записи?</span>
             <button mat-raised-button color="warn" class="user-button" style="margin-top: 5px; margin-right: 0;"
               routerLink="/register">Регистрация</button>
           </div>

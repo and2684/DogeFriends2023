@@ -1,7 +1,7 @@
-<h3 style="text-align: center; font-size: 1cm; font-family: 'Montserrat'; font-weight: 700;"> Породы </h3>
+<h3 style="text-align: center; font-size: 1cm; font-family: 'Montserrat'; font-weight: 500;"> Породы </h3>
 
 <div class="container">
-  <mat-card class="example-card" *ngFor="let breed of breeds">
+  <mat-card class="breed-card" style="background: transparent; box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2); border-radius: 12px;" *ngFor="let breed of breeds">
     <mat-card-header>
       <mat-card-title-group>
         <mat-card-title style="font-family: 'Montserrat';">{{breed.name}}</mat-card-title>
