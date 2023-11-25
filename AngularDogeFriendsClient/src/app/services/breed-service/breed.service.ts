@@ -1,6 +1,7 @@
-import { IBreed } from 'src/app/models/Breeds';
+import { IBreed, IBreedUpdate } from 'src/app/models/Breeds';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs';
 
 
 @Injectable({
@@ -20,5 +21,17 @@ export class BreedService {
   getBreed(id: number) {
     let breed = this.http.get<IBreed>(`${this.url}/${id}`);
     return breed;
+  }
+
+  updateBreed(id: number, updatedBreed: IBreedUpdate) {
+    var updateUrl = `${this.url}/${id}`;
+    console.log(updateUrl);
+
+    var jsonBreed = JSON.stringify(updatedBreed);
+    console.log(jsonBreed);
+
+
+    var res = this.http.put(updateUrl, jsonBreed, {headers: {'Content-Type': 'application/json'}});
+    return res;
   }
 }

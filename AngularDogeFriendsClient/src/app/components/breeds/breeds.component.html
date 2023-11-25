@@ -1,7 +1,59 @@
-<h3 style="text-align: center; font-size: 1cm; font-family: 'Montserrat'; font-weight: 500;"> Породы </h3>
+<h3 style="text-align: center; font-size: 1cm; font-family: 'Montserrat'; font-weight: 500; margin-left: 30px;"> Породы
+</h3>
+
+<div *ngIf="this.breedGroups && this.breedForm" style="margin-left: 30px; margin-bottom: 20px;">
+  <!-- <h3 *ngIf="isUserContentManager">CONTENT_MANAGER_RIGHTS_ON</h3> -->
+
+  <div style="display: flex; justify-content: left;">
+
+    <div [formGroup]="breedForm" style="width: 15%; margin-right: 30px;">
+      <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-label style="font-family: 'Montserrat';">Порода</mat-label>
+        <input formControlName="breedname" style="font-family: Montserrat" matInput>
+      </mat-form-field>
+    </div>
+
+    <div style="width: 15%; margin-right: 30px;">
+      <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-label style="font-family: 'Montserrat';">Вид шерсти</mat-label>
+        <mat-select style="font-family: 'Montserrat';" multiple [(ngModel)]="selectedCoats">
+          <mat-option style="font-family: 'Montserrat';" *ngFor="let coat of coats"
+            value="{{coat.name}}">{{coat.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div style="width: 15%;">
+      <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-label style="font-family: 'Montserrat';">Размер</mat-label>
+        <mat-select style="font-family: 'Montserrat';" multiple [(ngModel)]="selectedSizes">
+          <mat-option style="font-family: 'Montserrat';" *ngFor="let size of sizes"
+            value="{{size.name}}">{{size.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+  </div>
+
+  <mat-selection-list style="align-self: flex-start; width: 270px;" [(ngModel)]="selectedBreedGroups">
+    <mat-list-option class="mat-warn" checkboxPosition="before" *ngFor="let group of breedGroups" [value]="group.name">
+      {{ group.name }}
+    </mat-list-option>
+  </mat-selection-list>
+
+  <button [disabled]="areFiltersEmpty()" mat-raised-button color="primary" class="user-button"
+    style="margin-bottom: 30px; margin-top: 10px; width:250px" (click)="filterBreeds()">Применить фильтр</button>
+
+  <button [disabled]="areFiltersEmpty()" mat-raised-button color="warn" class="user-button"
+    style="margin-bottom: 30px; margin-top: 10px; width:250px" (click)="fillDirectories()">Сбросить фильтр</button>
+</div>
+
+
 
 <div class="container">
-  <mat-card class="breed-card" style="background: transparent; box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2); border-radius: 12px;" *ngFor="let breed of breeds">
+  <mat-card class="breed-card"
+    style="background: transparent; box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2); border-radius: 12px;"
+    *ngFor="let breed of breeds">
     <mat-card-header>
       <mat-card-title-group>
         <mat-card-title style="font-family: 'Montserrat';">{{breed.name}}</mat-card-title>
@@ -15,7 +67,7 @@
     </div>
 
     <mat-card-actions style="display: flex; flex-direction: column; justify-content: flex-end; padding: 8px;">
-      <button mat-raised-button color="primary" (click)="openDetails(breed.id)"
+      <button mat-raised-button color="primary" (click)="openDetails(breed.id, this.isUserContentManager, this.coats, this.sizes, this.breedGroups)"
         style="width: 100%; border-radius: 8px; font-size: 15px; font-family: 'Montserrat'; font-weight: 400;">Подробнее</button>
     </mat-card-actions>
   </mat-card>

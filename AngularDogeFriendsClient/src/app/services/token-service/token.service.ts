@@ -52,7 +52,7 @@ export class TokenService {
 
   public getRoles(): string[] {
     const roles = localStorage.getItem(this.ROLES_KEY);
-    return roles ? JSON.parse(roles) : [];
+    return roles ? JSON.parse(roles) as string[] : [];
   }
 
   private decodeTokenPayload(token: string): any {

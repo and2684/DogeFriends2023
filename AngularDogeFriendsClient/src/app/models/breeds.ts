@@ -10,3 +10,11 @@ export interface IBreed {
   externalId: string
   images: Images
 }
+
+export interface IBreedUpdate {
+  name: string
+  description: string
+  coat: string
+  size: string
+  breedGroups: string
+}

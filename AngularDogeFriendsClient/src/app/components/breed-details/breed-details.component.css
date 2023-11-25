@@ -8,3 +8,11 @@
 .slider-container {
   position: relative;
 }
+
+.breed-details-btn {
+  width: 100%;
+  border-radius: 8px;
+  font-family: 'Montserrat';
+  font-weight: 400;
+  font-size: 15px;
+}

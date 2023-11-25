@@ -1,7 +1,6 @@
 ﻿using DogeFriendsApi.Dto;
 using DogeFriendsApi.Interfaces;
 using DogeFriendsApi.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogeFriendsApi.Controllers
@@ -105,6 +104,23 @@ namespace DogeFriendsApi.Controllers
                 RepoAnswer.NotFound => NotFound($"Порода с идентификатором {id} не найдена."),
                 RepoAnswer.Success => Ok(),
                 _ => StatusCode(500, $"Произошла ошибка при удалении породы собаки с идентификатором {id}.")
+            };
+        }
+
+        /// <summary>
+        /// Получает все типы пород собак.
+        /// </summary>
+        /// <returns>Список типов пород.</returns>
+        [HttpGet("breedgroups")]
+        public async Task<IActionResult> GetAllBreedGroups()
+        {
+            var (breedsGroups, answerCode) = await _breedsRepository.GetBreedGroupsAsync();
+            _logger.LogDebug($"Получен список всех типов пород собак.");
+            return answerCode switch
+            {
+                RepoAnswer.NotFound => NotFound("Типы пород не найдены."),
+                RepoAnswer.Success => Ok(breedsGroups),
+                _ => StatusCode(500, "Произошла ошибка при получении списка типов пород собак.")
             };
         }
     }

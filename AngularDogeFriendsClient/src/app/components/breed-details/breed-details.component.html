@@ -1,46 +1,102 @@
 <div *ngIf="breed" style="font-size: 18px; font-family: 'Montserrat'; box-shadow: 0px 0px 25px rgba(0, 0, 0, 1.2);">
-  <mat-card style="background: #faf0ca;">
-    <mat-card-header>
-      <mat-card-title-group>
-        <mat-card-title style="padding-right: 15px; font-size: 25px; padding-top: 15px; font-family: 'Montserrat';">{{breed.name}}</mat-card-title>
+  <mat-tab-group style="background: #faf0ca;" mat-stretch-tabs="true" mat-align-tabs="center" dynamicHeight>
+    <mat-tab label="Карточка породы">
+      <mat-card style="background: #faf0ca;">
+        <mat-card-header>
+          <mat-card-title-group>
+            <mat-card-title
+              style="padding-right: 15px; font-size: 25px; padding-top: 15px; font-family: 'Montserrat';">{{breed.name}}</mat-card-title>
 
-        <div style="padding-left: 5px; flex-direction: column; justify-content: center;">
+            <div style="padding-left: 5px; flex-direction: column; justify-content: center;">
 
-          <div style="padding: 8px">
-            <mat-card-content> Тип породы: {{breed.breedGroups}} </mat-card-content>
+              <div style="padding: 8px">
+                <mat-card-content> Тип породы: {{breed.breedGroups}} </mat-card-content>
 
-            <div style="text-align: center;">
-              <div class="divider-card"></div>
+                <div style="text-align: center;">
+                  <div class="divider-card"></div>
+                </div>
+
+                <mat-card-content>
+                  <p>Размер: {{breed.size}}</p>
+                  <p>Шерсть: {{breed.coat}}</p>
+                </mat-card-content>
+
+                <div style="text-align: center;">
+                  <div class="divider-card"></div>
+                </div>
+
+                <mat-card-content style="text-align: start;">Описание: {{breed.description}}</mat-card-content>
+
+
+              </div>
             </div>
+          </mat-card-title-group>
+        </mat-card-header>
 
-            <mat-card-content>
-              <p>Размер: {{breed.size}}</p>
-              <p>Шерсть: {{breed.coat}}</p>
-            </mat-card-content>
-
-            <div style="text-align: center;">
-              <div class="divider-card"></div>
-            </div>
-
-            <mat-card-content style="text-align: start;">Описание: {{breed.description}}</mat-card-content>
-
-
-          </div>
+        <div style="padding: 25px; background: transparent;">
+          <ng-image-slider [images]="imageObject" [manageImageRatio]="true"
+            [imageSize]="{width: 600, height: 500, space: 7}"></ng-image-slider>
         </div>
-      </mat-card-title-group>
-    </mat-card-header>
 
-    <div style="padding: 25px; background: transparent;">
-      <ng-image-slider
-        [images]="imageObject"
-        [manageImageRatio]="true"
-        [imageSize]="{width: 600, height: 500, space: 7}"
-      ></ng-image-slider>
-    </div>
+        <!-- <mat-card-actions style="display: flex; flex-direction: column; justify-content: flex-end; padding: 8px;">
+          <button mat-raised-button color="primary" class="breed-details-btn" (click)="closeDialog()">Закрыть</button>
+        </mat-card-actions> -->
+      </mat-card>
+    </mat-tab>
 
-    <mat-card-actions style="display: flex; flex-direction: column; justify-content: flex-end; padding: 8px;">
-      <button mat-raised-button color="primary" style="width: 100%; border-radius: 8px; font-family: 'Montserrat'; font-weight: 400; font-size: 15px;"
-        (click)="closeDialog()">Закрыть</button>
-    </mat-card-actions>
-  </mat-card>
+    <!-- РЕЖИМ РЕДАКТИРОВАНИЯ ПОРОДЫ ДОСТУПЕН ТОЛЬКО КОНТЕНТ-МЕНЕДЖЕРУ -->
+
+    <mat-tab *ngIf="this.isUserContentManager" label="Режим редактирования">
+      <div style="height:fit-content; display: flex; flex-direction: column;">
+        <form [formGroup]="breedChangeForm" (ngSubmit)="onSubmit()">
+          <mat-card style="background: #faf0ca; padding: 8px">
+            <mat-form-field>
+              <mat-label class="insert-label">Название породы</mat-label>
+              <input formControlName="name" style="font-family: Montserrat" matInput>
+              <mat-error class="insert-label;" *ngIf="breedChangeForm.controls['name'].hasError('required')">
+                Название породы обязательно
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label class="insert-label">Описание</mat-label>
+              <textarea formControlName="description" style="font-family: Montserrat" matInput></textarea>
+              <mat-error class="insert-label;" *ngIf="breedChangeForm.controls['description'].hasError('required')">
+                Описание обязательно
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label style="font-family: 'Montserrat';">Вид шерсти</mat-label>
+              <mat-select style="font-family: 'Montserrat';" single formControlName="coat">
+                <mat-option style="font-family: 'Montserrat';" *ngFor="let coat of coats"
+                  value="{{coat.name}}">{{coat.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label style="font-family: 'Montserrat';">Размер</mat-label>
+              <mat-select style="font-family: 'Montserrat';" single formControlName="size">
+                <mat-option style="font-family: 'Montserrat';" *ngFor="let size of sizes"
+                  value="{{size.name}}">{{size.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label style="font-family: 'Montserrat';">Группы пород</mat-label>
+              <mat-select style="font-family: 'Montserrat';" multiple formControlName="breedGroups">
+                <mat-option style="font-family: 'Montserrat';" *ngFor="let breedGroup of breedGroups"
+                  value="{{breedGroup.name}}">{{breedGroup.name}}</mat-option>
+              </mat-select>
+              <mat-error class="insert-label;" *ngIf="breedChangeForm.controls['breedGroups'].hasError('required')">
+                Порода должна относиться хотя бы к одной группе
+              </mat-error>
+            </mat-form-field>
+
+            <button [disabled]="breedChangeForm.invalid" mat-raised-button color="primary" class="breed-details-btn" type="submit">Подтвердить изменения</button>
+          </mat-card>
+        </form>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 </div>

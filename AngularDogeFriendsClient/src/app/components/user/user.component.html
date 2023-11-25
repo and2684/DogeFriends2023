@@ -1,7 +1,33 @@
-<p>current user = {{this.usernameFromParams}}</p>
-
-<div *ngIf="this.user">
-  <p>firstname = {{this.user.firstName}}</p>
-  <p>showname = {{this.user.showname}}</p>
-  <p>mypage = {{this.mypage}}</p>
+<div *ngIf="this.user" style="display: flex; flex-direction: column; margin-left: 30px;">
+  <!-- Первый компонент -->
+  <div style="margin-top: 50px; font-family: 'Montserrat'; font-weight: 500;">
+    <div style="padding: 8px;">
+      <img src="..\..\..\..\assets\DefaultUserPic.png" alt="Logo" height="350" width="350" style="border-color: blueviolet; border-width: 1px;">
+    </div>
+    <p style="font-size: 10;">{{this.user.showname}}</p>
+    <p *ngIf="this.mypage" style="font-size: 5; margin-top: -5px">(Это Вы)</p>
+  </div>
 </div>
+
+
+
+<!-- <div class="container">
+  <mat-card class="breed-card" style="background: transparent; box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2); border-radius: 12px;" *ngFor="let breed of breeds">
+    <mat-card-header>
+      <mat-card-title-group>
+        <mat-card-title style="font-family: 'Montserrat';">{{breed.name}}</mat-card-title>
+        <mat-card-subtitle style="font-family: 'Montserrat';">{{breed.breedGroups}}</mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card-header>
+
+    <div style="padding: 8px;">
+      <img mat-card-lg-image [src]="getMainImage(breed)" *ngIf="getMainImage(breed)"
+        style="border-radius: 8px; width: 100%; height: auto; object-fit: cover;">
+    </div>
+
+    <mat-card-actions style="display: flex; flex-direction: column; justify-content: flex-end; padding: 8px;">
+      <button mat-raised-button color="primary" (click)="openDetails(breed.id)"
+        style="width: 100%; border-radius: 8px; font-size: 15px; font-family: 'Montserrat'; font-weight: 400;">Подробнее</button>
+    </mat-card-actions>
+  </mat-card>
+</div> -->

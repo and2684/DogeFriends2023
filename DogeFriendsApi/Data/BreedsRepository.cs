@@ -71,7 +71,7 @@ namespace DogeFriendsApi.Data
 
         public async Task<(BreedDto?, RepoAnswer)> UpdateBreedAsync(int id, BreedDto breed)
         {
-            var foundBreed = await _context.Breeds.FindAsync(id);
+            var foundBreed = await _context.Breeds.Include(b => b.BreedGroups).FirstOrDefaultAsync(b => b.Id == id);
             if (foundBreed == null)
             {
                 return (null, RepoAnswer.NotFound);
@@ -87,6 +87,12 @@ namespace DogeFriendsApi.Data
             foundBreed.Description = breed.Description;
             foundBreed.CoatId = _context.Coats.Where(x => x.Name == breed.Coat).Select(x => x.Id).FirstOrDefault();
             foundBreed.SizeId = _context.Sizes.Where(x => x.Name == breed.Size).Select(x => x.Id).FirstOrDefault();
+
+            // Получим список пород
+            var breedGroupNames = breed.BreedGroups.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());
+            var foundBreedGroups = await _context.BreedGroups.Where(x => breedGroupNames.Contains(x.Name)).ToListAsync();
+            foundBreed.BreedGroups!.Clear(); // Очистим список групп пород у найденной породы
+            foundBreed.BreedGroups.AddRange(foundBreedGroups); // Добавим новые группы пород
 
             await _context.SaveChangesAsync();
 
@@ -104,6 +110,17 @@ namespace DogeFriendsApi.Data
             _context.Breeds.Remove(foundBreed);
             await _context.SaveChangesAsync();
             return RepoAnswer.Success;
+        }
+
+        public async Task<(IEnumerable<BreedGroupDto>?, RepoAnswer)> GetBreedGroupsAsync()
+        {
+            var result = await _context.BreedGroups.ToListAsync();
+
+            if (result.Any())
+            {
+                return (result.Select(breedGroup => _mapper.Map<BreedGroupDto>(breedGroup)), RepoAnswer.Success);
+            }
+            return (null, RepoAnswer.NotFound);
         }
     }
 }
