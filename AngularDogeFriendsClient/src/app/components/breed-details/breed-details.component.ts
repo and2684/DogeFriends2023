@@ -89,7 +89,11 @@ export class BreedDetailsComponent implements OnInit {
 
       if (res)
       {
-        this.breed = await firstValueFrom(this.breedService.getBreed(this.data.breedId));
+        this.breed.name = this.updatedBreed.name;
+        this.breed.description = this.updatedBreed.description;
+        this.breed.coat = this.updatedBreed.coat;
+        this.breed.size = this.updatedBreed.size;
+        this.breed.breedGroups = this.updatedBreed.breedGroups;
         this.isBreedUpdated = true;
       }
     }
