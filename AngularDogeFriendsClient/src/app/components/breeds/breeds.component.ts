@@ -88,6 +88,7 @@ export class BreedsComponent implements OnInit {
         if (breedIndex !== -1) {
           this.breeds[breedIndex].name = updatedBreed.name;
           this.breeds[breedIndex].breedGroups = updatedBreed.breedGroups;
+          this.breeds[breedIndex].images = updatedBreed.images;
           console.log(this.breeds[breedIndex]);
         }
       }

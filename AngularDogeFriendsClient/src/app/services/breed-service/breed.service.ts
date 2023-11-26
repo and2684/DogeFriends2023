@@ -25,11 +25,10 @@ export class BreedService {
 
   updateBreed(id: number, updatedBreed: IBreedUpdate) {
     var updateUrl = `${this.url}/${id}`;
-    console.log(updateUrl);
+    //console.log(updateUrl);
 
     var jsonBreed = JSON.stringify(updatedBreed);
-    console.log(jsonBreed);
-
+    //console.log(jsonBreed);
 
     var res = this.http.put(updateUrl, jsonBreed, {headers: {'Content-Type': 'application/json'}});
     return res;

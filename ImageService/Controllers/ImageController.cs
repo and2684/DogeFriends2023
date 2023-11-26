@@ -59,12 +59,19 @@ namespace ImageService.Controllers
         [HttpPost("setmain")]
         public async Task<IActionResult> SetMainImage(string uid, string entityname, string imageId)
         {
-            var filter = Builders<ImageModel>.Filter.Eq("UID", uid) & Builders<ImageModel>.Filter.Eq("EntityName", entityname) & Builders<ImageModel>.Filter.Eq("Id", imageId);
-            var update = Builders<ImageModel>.Update.Set("IsMain", true);
-            await _imageCollection.UpdateOneAsync(filter, update);
+            // Шаг 1: IsMain в false для всех изображений данной сущности
+            var filterAll = Builders<ImageModel>.Filter.Eq("UID", uid) & Builders<ImageModel>.Filter.Eq("EntityName", entityname);
+            var updateAll = Builders<ImageModel>.Update.Set("IsMain", false);
+            await _imageCollection.UpdateManyAsync(filterAll, updateAll);
+
+            // Шаг 2: IsMain в true для выбранного изображения
+            var filterOne = Builders<ImageModel>.Filter.Eq("UID", uid) & Builders<ImageModel>.Filter.Eq("EntityName", entityname) & Builders<ImageModel>.Filter.Eq("Id", imageId);
+            var updateOne = Builders<ImageModel>.Update.Set("IsMain", true);
+            await _imageCollection.UpdateOneAsync(filterOne, updateOne);
 
             return Ok(true);
         }
+
 
         /// <summary>
         /// Получает все изображения по указанным UID и EntityName.

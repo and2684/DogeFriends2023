@@ -16,5 +16,6 @@ export interface IBreedUpdate {
   description: string
   coat: string
   size: string
-  breedGroups: string
+  breedGroups: string,
+  images?: Images
 }

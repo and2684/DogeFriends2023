@@ -16,3 +16,12 @@
   font-weight: 400;
   font-size: 15px;
 }
+
+.img-btn {
+  border-radius: 8px;
+  font-family: 'Montserrat';
+  font-weight: 400;
+  font-size: 15px;
+  margin: 5px;
+  /* height: 15px !important */
+}

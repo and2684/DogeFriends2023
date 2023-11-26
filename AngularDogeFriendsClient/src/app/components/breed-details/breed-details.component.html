@@ -93,10 +93,27 @@
               </mat-error>
             </mat-form-field>
 
+            <div style="max-height: 500px; overflow-y: scroll">
+              <div formArrayName="images" *ngFor="let image of breedChangeForm.controls['images'].value; let i = index">
+                <div [formGroupName]="i" style="text-align: center;">
+                  <img [src]="image.base64Data" alt="Image" width="50%" height="50%" style="display: block; margin-left: auto; margin-right: auto;">
+                  <div style="margin-top: 5px; margin-bottom: 5px;">
+                    <button mat-raised-button color="warn" class="img-btn" (click)="removeImage(image.uid, 'Breed', image.id)" [disabled]="image.isMain">Удалить</button>
+                    <button mat-raised-button color="primary" class="img-btn" (click)="setMainImage(image.uid, 'Breed', image.id);" [disabled]="image.isMain">Сделать основным</button>
+                  </div>
+                </div>
+              </div>
+
+              <div style="text-align: center;">
+                <button mat-raised-button color="accent" class="img-btn" (click)="addImage();">Добавить фотографию</button>
+              </div>
+            </div>
+
             <button [disabled]="breedChangeForm.invalid" mat-raised-button color="primary" class="breed-details-btn" type="submit">Подтвердить изменения</button>
           </mat-card>
         </form>
       </div>
     </mat-tab>
   </mat-tab-group>
+
 </div>
