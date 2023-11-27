@@ -36,6 +36,25 @@ namespace DogeFriendsApi.Controllers
         }
 
         /// <summary>
+        /// Получает список всех собак пользователя.
+        /// </summary>
+        /// <returns>Список всех собак пользователя.</returns>
+        [HttpGet("user")]
+        public async Task<IActionResult> GetUserDogs(string username)
+        {
+            var (dogs, answerCode) = await _dogRepository.GetDogsByUsernameAsync(username);
+            switch (answerCode)
+            {
+                case RepoAnswer.NotFound:
+                    return NotFound("Собаки не найдены.");
+                case RepoAnswer.Success:
+                    return Ok(dogs);
+                default:
+                    return StatusCode(500, "Произошла ошибка при получении списка собак.");
+            }
+        }
+
+        /// <summary>
         /// Получает информацию о собаке по идентификатору.
         /// </summary>
         /// <param name="id">Идентификатор собаки.</param>

@@ -27,7 +27,6 @@
 
                 <mat-card-content style="text-align: start;">Описание: {{breed.description}}</mat-card-content>
 
-
               </div>
             </div>
           </mat-card-title-group>
@@ -94,7 +93,7 @@
             </mat-form-field>
 
             <div style="max-height: 500px; overflow-y: scroll">
-              <div formArrayName="images" *ngFor="let image of breedChangeForm.controls['images'].value; let i = index">
+              <div formArrayName="images" *ngFor="let image of breedChangeForm.controls['images'].value; let i = index; trackBy: trackByFn">
                 <div [formGroupName]="i" style="text-align: center;">
                   <img [src]="image.base64Data" alt="Image" width="50%" height="50%" style="display: block; margin-left: auto; margin-right: auto;">
                   <div style="margin-top: 5px; margin-bottom: 5px;">

@@ -1,3 +1,7 @@
-<p>
+<p *ngIf="user">
   friends works!
+  user = {{user.username}}
+
+  <button mat-raised-button color="warn" class="user-button" style="margin-top: 5px; margin-right: 0;"
+  [routerLink]="'/user/' + username">Redirect</button>
 </p>

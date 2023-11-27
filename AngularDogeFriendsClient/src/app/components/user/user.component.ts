@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { UserInfoDto } from 'src/app/models/UserInfoDto';
 
 @Component({
   selector: 'app-user',
@@ -6,6 +7,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent {
+  user: UserInfoDto;
+
   constructor() {}
-  ngOnInit() {}
+
+  ngOnInit() {
+      console.log('user.component ngOnInit fired');
+  }
+
+  handleUserEvent(user: UserInfoDto) {
+    this.user = user;
+  }
 }

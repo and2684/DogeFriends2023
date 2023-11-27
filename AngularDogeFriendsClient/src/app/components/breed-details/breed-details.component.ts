@@ -149,6 +149,10 @@ export class BreedDetailsComponent implements OnInit {
     return res;
   }
 
+  trackByFn(index: any, item: any) {
+    return item.uid;
+  }
+
   closeDialog() {
     this.dialog.close({ isBreedUpdated: this.isBreedUpdated });
   }

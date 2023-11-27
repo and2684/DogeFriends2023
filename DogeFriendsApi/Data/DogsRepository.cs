@@ -30,6 +30,22 @@ namespace DogeFriendsApi.Data
             return (null, RepoAnswer.NotFound);
         }
 
+        public async Task<(IEnumerable<DogDto>?, RepoAnswer)> GetDogsByUsernameAsync(string username)
+        {
+            var result = await _context.Dogs
+                .Include(b => b.User)
+                .Include(b => b.Breed)
+                .Where(x => x.User!.Username == username)
+                .OrderBy(x => x.Name)
+                .ToListAsync();
+
+            if (result.Any())
+            {
+                return (result.Select(dog => _mapper.Map<DogDto>(dog)), RepoAnswer.Success);
+            }
+            return (null, RepoAnswer.NotFound);
+        }
+
         public async Task<(DogDto?, RepoAnswer)> GetDogAsync(int id)
         {
             //var result = await _context.Dogs

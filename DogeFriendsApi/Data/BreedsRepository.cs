@@ -40,6 +40,7 @@ namespace DogeFriendsApi.Data
                 .Include(b => b.Coat)
                 .Include(b => b.Size)
                 .FirstOrDefaultAsync(b => b.Id == id);
+
             if (result != null)
             {
                 return (_mapper.Map<BreedDto>(result), RepoAnswer.Success);

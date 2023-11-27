@@ -1,4 +1,7 @@
 <div style="display: flex; ">
-  <app-user-card></app-user-card>
-  <app-friends style="margin-left: 30px; margin-top:30px"></app-friends>
+  <app-user-card (userEvent)="handleUserEvent($event)"></app-user-card>
+  <div style="display: box; margin-left: 30px; margin-top:30px">
+    <app-dogs [user]="user"></app-dogs>
+    <app-friends [user]="user"></app-friends>
+  </div>
 </div>
