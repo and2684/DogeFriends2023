@@ -1,0 +1,31 @@
+.header {
+  display: flex;
+  align-items: center;
+  height: 75px;
+}
+
+.avatar {
+  width: 75px;
+  height: 75px;
+  background-size: cover;
+  margin-top: 18px;
+}
+
+.header-content {
+  margin-left: 10px; /* Adjust as needed */
+}
+
+.montserrat {
+  font-family: Montserrat;
+}
+
+.white-text {
+  color:white;
+  font-family: Montserrat;
+  font-weight: lighter;
+}
+
+.centered-actions {
+  display: flex;
+  justify-content: center;
+}

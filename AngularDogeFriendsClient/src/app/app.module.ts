@@ -31,6 +31,7 @@ import { BaseComponent } from './components/base/base.component';
 import { BreedsComponent } from './components/breeds/breeds.component';
 import { BreedDetailsComponent } from './components/breed-details/breed-details.component';
 import { FriendsComponent } from './components/friends/friends.component';
+import { UserCardComponent } from './components/UI/user-card/user-card.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { FriendsComponent } from './components/friends/friends.component';
     BreedDetailsComponent,
     FriendsComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    UserCardComponent
   ],
   imports: [
     BrowserModule,
