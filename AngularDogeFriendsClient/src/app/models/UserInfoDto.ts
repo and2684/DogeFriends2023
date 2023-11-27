@@ -1,3 +1,5 @@
+import { IImage } from "./Images";
+
 export interface UserInfoDto {
   id: number;
   username: string;

@@ -12,7 +12,7 @@ export class UserComponent {
   constructor() {}
 
   ngOnInit() {
-      console.log('user.component ngOnInit fired');
+    console.log('user.component ngOnInit fired');
   }
 
   handleUserEvent(user: UserInfoDto) {

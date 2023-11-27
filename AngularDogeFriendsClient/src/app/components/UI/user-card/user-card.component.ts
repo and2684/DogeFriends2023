@@ -1,7 +1,7 @@
 import { ImageService } from 'src/app/services/image-service/image.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription, firstValueFrom } from 'rxjs';
+import { Observable, Subscription, firstValueFrom, map } from 'rxjs';
 import { UserInfoDto } from 'src/app/models/UserInfoDto';
 import { TokenService } from 'src/app/services/token-service/token.service';
 import { UserService } from 'src/app/services/user-service/user.service';
@@ -16,14 +16,16 @@ import { IImage } from 'src/app/models/Images';
 })
 export class UserCardComponent implements OnInit, OnDestroy {
   @Output() userEvent = new EventEmitter<UserInfoDto>();
-  user: UserInfoDto;
+  user: UserInfoDto | null = null;
   mainImage: IImage | null = null;
+
+  @Input() username: string; // Получение имени пользователя для редиректа
 
   routeSubscription: Subscription;
 
   usernameFromParams: string | null;
   mypage = false;
-  dataLoaded: boolean = false;
+  dataLoaded = false;
 
   constructor(private userService: UserService,
     private tokenService: TokenService,
@@ -39,20 +41,15 @@ export class UserCardComponent implements OnInit, OnDestroy {
 
     this.mypage = this.tokenService.getUsername() === this.usernameFromParams;
     if (this.usernameFromParams)
+    {
       this.user = await firstValueFrom(this.userService.getUserByUsername(this.usernameFromParams));
-    this.userEvent.emit(this.user!);
-    console.log('user:' + this.user!.showname);
-
-    this.loadMainImage();
-    this.dataLoaded = true;
-  }
-
-  async loadMainImage() {
-    try {
+      console.log('user:' + this.user!.showname)
       this.mainImage = await firstValueFrom(this.imageService.getMainImage(this.user!.externalId, 'User'));
-    } catch (error) {
-      console.error('Error loading main image:', error);
     }
+
+
+
+    this.userEvent.emit(this.user!);
   }
 
   ngOnDestroy() {
