@@ -47,8 +47,6 @@ export class UserCardComponent implements OnInit, OnDestroy {
       this.mainImage = await firstValueFrom(this.imageService.getMainImage(this.user!.externalId, 'User'));
     }
 
-
-
     this.userEvent.emit(this.user!);
   }
 
