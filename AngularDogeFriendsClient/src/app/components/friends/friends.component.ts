@@ -17,7 +17,7 @@ export class FriendsComponent implements OnInit {
   }
 
   handleRedirectToFriend(username: string) {
-    this.redirectToFriendEvent.emit(username);
+    this.redirectToFriendEvent.emit(this.username);
   }
 
 }
