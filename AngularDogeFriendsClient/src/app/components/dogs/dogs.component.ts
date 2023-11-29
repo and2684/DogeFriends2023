@@ -18,7 +18,9 @@ export class DogsComponent implements OnInit {
               private userService: UserService) { }
 
 
-  ngOnInit() {
+  async ngOnInit() {
+
+
 
   }
 

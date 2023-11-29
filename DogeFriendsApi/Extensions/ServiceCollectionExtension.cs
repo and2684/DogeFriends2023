@@ -20,6 +20,9 @@ namespace DogeFriendsApi.Extensions
             services.AddHttpClient<ITokenService, TokenService>();
             services.AddScoped<ITokenService, TokenService>();
 
+            services.AddHttpClient<IImageService, Services.ImageService>();
+            services.AddScoped<IImageService, Services.ImageService>();
+
             services.AddScoped<ICoatsRepository, CoatsRepository>();
             services.AddScoped<ISizesRepository, SizesRepository>();
             services.AddScoped<IUsersRepository, UsersRepository>();

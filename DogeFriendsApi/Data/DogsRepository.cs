@@ -2,7 +2,11 @@
 using DogeFriendsApi.Dto;
 using DogeFriendsApi.Interfaces;
 using DogeFriendsApi.Models;
+using ImageService.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Http.Headers;
+using Newtonsoft.Json;
+using NLog.Fluent;
 
 namespace DogeFriendsApi.Data
 {
@@ -10,12 +14,16 @@ namespace DogeFriendsApi.Data
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
+        private readonly IImageService _imageService;
 
-        public DogsRepository(DataContext context, IMapper mapper)
+
+        public DogsRepository(DataContext context, IMapper mapper, IImageService imageService)
         {
             _context = context;
             _mapper = mapper;
+            _imageService = imageService;
         }
+
         public async Task<(IEnumerable<DogDto>?, RepoAnswer)> GetAllDogsAsync()
         {
             var result = await _context.Dogs
@@ -25,7 +33,23 @@ namespace DogeFriendsApi.Data
 
             if (result.Any())
             {
-                return (result.Select(dog => _mapper.Map<DogDto>(dog)), RepoAnswer.Success);
+                var mappedResult = result.Select(dog => _mapper.Map<DogDto>(dog)).ToList();
+
+                foreach (var dog in mappedResult)
+                {
+                    // Найдем главное фото собачки
+                    var uid = result.Where(x => x.Id == dog.Id).Select(x => x.ExternalId).FirstOrDefault().ToString();
+                    dog.Base64Image = await _imageService.GetMainImage64(uid, "Dog");
+
+                    // Если не нашли - берем из породы
+                    if (string.IsNullOrEmpty(dog.Base64Image))
+                    {
+                        uid = result.Where(x => x.Id == dog.Id).Select(x => x.Breed!.ExternalId).FirstOrDefault().ToString();
+                        dog.Base64Image = await _imageService.GetMainImage64(uid, "Breed"); ;
+                    }
+                }
+
+                return (mappedResult, RepoAnswer.Success);
             }
             return (null, RepoAnswer.NotFound);
         }
@@ -41,7 +65,23 @@ namespace DogeFriendsApi.Data
 
             if (result.Any())
             {
-                return (result.Select(dog => _mapper.Map<DogDto>(dog)), RepoAnswer.Success);
+                var mappedResult = result.Select(dog => _mapper.Map<DogDto>(dog)).ToList();
+
+                foreach (var dog in mappedResult)
+                {
+                    // Найдем главное фото собачки
+                    var uid = result.Where(x => x.Id == dog.Id).Select(x => x.ExternalId).FirstOrDefault().ToString();
+                    dog.Base64Image = await _imageService.GetMainImage64(uid, "Dog");
+
+                    // Если не нашли - берем из породы
+                    if (string.IsNullOrEmpty(dog.Base64Image))
+                    {
+                        uid = result.Where(x => x.Id == dog.Id).Select(x => x.Breed!.ExternalId).FirstOrDefault().ToString();
+                        dog.Base64Image = await _imageService.GetMainImage64(uid, "Breed"); ;
+                    }
+                }
+
+                return (mappedResult, RepoAnswer.Success);
             }
             return (null, RepoAnswer.NotFound);
         }
@@ -62,7 +102,20 @@ namespace DogeFriendsApi.Data
 
             if (result != null)
             {
-                return (_mapper.Map<DogDto>(result), RepoAnswer.Success);
+                var mappedResult = _mapper.Map<DogDto>(result);
+
+                // Найдем главное фото собачки
+                var uid = result.ExternalId.ToString();
+                mappedResult.Base64Image = await _imageService.GetMainImage64(uid, "Dog");
+
+                // Если не нашли - берем из породы
+                if (string.IsNullOrEmpty(mappedResult.Base64Image))
+                {
+                    uid = result.Breed!.ExternalId.ToString();
+                    mappedResult.Base64Image = await _imageService.GetMainImage64(uid, "Breed"); ;
+                }
+
+                return (mappedResult, RepoAnswer.Success);
             }
             return (null, RepoAnswer.NotFound);
         }
