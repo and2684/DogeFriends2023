@@ -33,6 +33,7 @@ import { BreedDetailsComponent } from './components/breed-details/breed-details.
 import { FriendsComponent } from './components/friends/friends.component';
 import { UserCardComponent } from './components/UI/user-card/user-card.component';
 import { DogsComponent } from './components/dogs/dogs.component';
+import { DogDetailsComponent } from './components/dog-details/dog-details.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { DogsComponent } from './components/dogs/dogs.component';
     RegisterComponent,
     LoginComponent,
     UserCardComponent,
-    DogsComponent
+    DogsComponent,
+    DogDetailsComponent
   ],
   imports: [
     BrowserModule,

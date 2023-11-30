@@ -1,0 +1,23 @@
+.dog-item {
+  text-align: center;
+  /* margin: 0 10px; */
+  font-family: 'Montserrat';
+  color: white;
+  font-size: 14px;
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+.dog-image {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 20%;
+  transition: opacity 0.3s, filter 0.3s; /* Анимация изменения прозрачности и фильтра */
+}
+
+  .dog-image:hover {
+    cursor: pointer; /* Изменение вида курсора на pointer */
+    opacity: 0.9; /* Уменьшение прозрачности */
+    filter: brightness(90%); /* Затемнение изображения */
+  }

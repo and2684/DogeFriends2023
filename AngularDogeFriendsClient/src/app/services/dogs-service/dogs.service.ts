@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DogDto } from 'src/app/models/DogDto';
 
@@ -12,7 +12,7 @@ export class DogsService {
   constructor(private http: HttpClient) { }
 
   getUserDogs(username: string) {
-    var res = this.http.get<DogDto>(this.url + '/user/' + username);
-    return res;
+    let params = new HttpParams().set('username', username);
+    return this.http.get<DogDto[]>(`${this.url}/user`, { params: params });
   }
 }

@@ -1,7 +1,7 @@
 import { ImageService } from 'src/app/services/image-service/image.service';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription, firstValueFrom, forkJoin } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { UserInfoDto } from 'src/app/models/UserInfoDto';
 import { TokenService } from 'src/app/services/token-service/token.service';
 import { UserService } from 'src/app/services/user-service/user.service';
@@ -14,10 +14,10 @@ import { IImage } from 'src/app/models/Images';
   templateUrl: './user-card.component.html',
   styleUrls: ['./user-card.component.css']
 })
-export class UserCardComponent implements OnInit, OnDestroy {
+export class UserCardComponent implements OnInit {
   @Output() userEvent = new EventEmitter<UserInfoDto>();
   user: UserInfoDto | null = null;
-  mainImage: IImage | null = null;
+  mainImage: IImage;
 
   @Input() username: string; // Получение имени пользователя для редиректа
 
@@ -32,16 +32,11 @@ export class UserCardComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.usernameFromParams = this.route.snapshot.params['username'];
-
     this.mypage = this.tokenService.getUsername() === this.usernameFromParams;
 
     this.user = await firstValueFrom(this.userService.getUserByUsername(this.usernameFromParams!));
-    this.mainImage = await firstValueFrom(this.imageService.getMainImage((await firstValueFrom(this.userService.getUserByUsername(this.usernameFromParams!))).externalId, 'User'));
+    this.mainImage = await firstValueFrom(this.imageService.getMainImage(this.user.externalId, 'User'));
 
     this.userEvent.emit(this.user!);
   }
-
-  ngOnDestroy() {
-  }
-
 }
