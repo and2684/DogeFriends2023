@@ -11,3 +11,8 @@ export interface UserInfoDto {
   description: string | null;
   externalId: string;
 }
+
+export interface UserInfoDtoWithMainImage extends UserInfoDto {
+  mainImage?: string | null;
+}
+

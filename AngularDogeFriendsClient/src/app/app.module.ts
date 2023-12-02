@@ -34,6 +34,7 @@ import { FriendsComponent } from './components/friends/friends.component';
 import { UserCardComponent } from './components/UI/user-card/user-card.component';
 import { DogsComponent } from './components/dogs/dogs.component';
 import { DogDetailsComponent } from './components/dog-details/dog-details.component';
+import { DogsPopupComponent } from './components/UI/dogs-popup/dogs-popup.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { DogDetailsComponent } from './components/dog-details/dog-details.compon
     LoginComponent,
     UserCardComponent,
     DogsComponent,
-    DogDetailsComponent
+    DogDetailsComponent,
+    DogsPopupComponent
   ],
   imports: [
     BrowserModule,

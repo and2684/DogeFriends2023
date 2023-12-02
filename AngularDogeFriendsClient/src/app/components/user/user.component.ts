@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output } from '@angular/core';
 import { UserInfoDto } from 'src/app/models/UserInfoDto';
 
 @Component({
@@ -7,7 +7,7 @@ import { UserInfoDto } from 'src/app/models/UserInfoDto';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent {
-  user: UserInfoDto;
+  @Output () user: UserInfoDto;
 
   constructor() {}
 

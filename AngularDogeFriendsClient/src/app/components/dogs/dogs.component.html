@@ -7,7 +7,7 @@
       <p>{{dog.name}}</p>
     </div>
 
-    <div *ngIf="this.mypage" style="display: block; justify-content: center; text-align: center;">
+    <div *ngIf="this.mypage && !this.hideAddButton" style="display: block; justify-content: center; text-align: center;">
       <button mat-raised-button color="accent" class="user-button" style="width:120px; height: 120px; border-radius: 20%; font-size: 55px; margin-bottom: 5px; margin-left:2px; margin-right: 0;" (click)="onAddDogClick()">+</button>
       <p style="font-family: Montserrat; font-size:14px; color: white; margin: 0;">Добавить</p>
     </div>

@@ -27,7 +27,7 @@ namespace DogeFriendsApi.Controllers
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:
-                    return NotFound("У вас нет друзей. Это грустно.");
+                    return Ok("У вас нет друзей. Это грустно.");
                 case RepoAnswer.Success:
                     return Ok(friendships);
                 default:
@@ -47,7 +47,7 @@ namespace DogeFriendsApi.Controllers
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:
-                    return NotFound("На вас никто не подписан");
+                    return Ok("На вас никто не подписан.");
                 case RepoAnswer.Success:
                     return Ok(friendships);
                 default:
@@ -67,7 +67,7 @@ namespace DogeFriendsApi.Controllers
             switch (answerCode)
             {
                 case RepoAnswer.NotFound:
-                    return NotFound("Вы ни на кого не подписаны");
+                    return Ok("Вы ни на кого не подписаны");
                 case RepoAnswer.Success:
                     return Ok(friendships);
                 default:

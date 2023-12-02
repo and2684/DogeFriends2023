@@ -159,7 +159,7 @@ namespace DogeFriendsApi.Data
 
             foundDog.Name = dog.Name;
             foundDog.BreedId = _context.Breeds.Where(x => x.Id == dog.BreedId).Select(x => x.Id).FirstOrDefault();
-            foundDog.UserId = _context.Sizes.Where(x => x.Id == dog.UserId).Select(x => x.Id).FirstOrDefault();
+            foundDog.UserId = _context.Users.Where(x => x.Id == dog.UserId).Select(x => x.Id).FirstOrDefault();
 
             await _context.SaveChangesAsync();
 

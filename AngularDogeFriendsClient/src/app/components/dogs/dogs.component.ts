@@ -3,7 +3,6 @@ import { UserInfoDto } from 'src/app/models/UserInfoDto';
 import { DogsService } from './../../services/dogs-service/dogs.service';
 import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { DogDto } from 'src/app/models/DogDto';
-import { UserService } from 'src/app/services/user-service/user.service';
 import { Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TokenService } from 'src/app/services/token-service/token.service';
@@ -17,11 +16,11 @@ import { DogDetailsComponent } from '../dog-details/dog-details.component';
 })
 export class DogsComponent implements OnInit {
   @Input() user: UserInfoDto; // получение данных от родительского компонента
+  @Input() hideAddButton: boolean;
   dogs: DogDto[];
   dogsLoaded: boolean = false;
 
   constructor(private dogsService: DogsService,
-    private userService: UserService,
     private tokenService: TokenService,
     private route: ActivatedRoute,
     private dialog: MatDialog) { }

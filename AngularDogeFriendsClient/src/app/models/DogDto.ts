@@ -13,4 +13,8 @@ export interface DogDto {
 
 export interface DogDtoDetailed extends DogDto {
   images: Images
+  coat: string,
+  size: string,
+  breedDescription: string,
+  breedGroups: string
 }

@@ -1,4 +1,52 @@
-<p *ngIf="user">
-  friends works!
-  user = {{user.username}}
-</p>
+<div (mouseleave)="hideDogs()">
+  <div *ngIf="user">
+    <div class="gradient-form" style="width: 105%; margin-bottom: 50px; flex-direction: row;">
+      <mat-card-header style="font-family: Montserrat; font-size: 16px; margin-bottom: 10px;">Друзья</mat-card-header>
+      <div style="display: flex; justify-content: center;">
+        <!-- Цикл для отображения списка друзей -->
+        <div class="friend-item" *ngFor="let friend of this.friends">
+          <ng-container *ngIf="friend.mainImage; else defaultFriendImage">
+            <img [src]="friend.mainImage" class="friend-image" (mouseenter)="showDogs(friend, $event)">
+          </ng-container>
+          <ng-template #defaultFriendImage>
+            <img src="../../../../assets/DefaultUserPic.png" class="friend-image" (mouseenter)="showDogs(friend, $event)">
+          </ng-template>
+          <p>{{friend.showname}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="gradient-form" style="width: 105%; margin-bottom: 50px;">
+      <mat-card-header style="font-family: Montserrat; font-size: 16px; margin-bottom: 10px;">Подписки</mat-card-header>
+      <div style="display: flex; justify-content: center;">
+        <div class="friend-item" *ngFor="let subscription of this.subscriptions">
+          <ng-container *ngIf="subscription.mainImage; else defaultSubscriptionImage">
+            <img [src]="subscription.mainImage" class="friend-image" (mouseenter)="showDogs(subscription, $event)">
+          </ng-container>
+          <ng-template #defaultSubscriptionImage>
+            <img src="../../../../assets/DefaultUserPic.png" class="friend-image"
+              (mouseenter)="showDogs(subscription, $event)">
+          </ng-template>
+          <p>{{subscription.showname}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="gradient-form" style="width: 105%; margin-bottom: 50px;">
+      <mat-card-header style="font-family: Montserrat; font-size: 16px; margin-bottom: 10px;">Подписчики</mat-card-header>
+      <div style="display: flex; justify-content: center;">
+        <div class="friend-item" *ngFor="let sub of this.subs">
+          <ng-container *ngIf="sub.mainImage; else defaultSubImage">
+            <img [src]="sub.mainImage" class="friend-image" (mouseenter)="showDogs(sub, $event)">
+          </ng-container>
+          <ng-template #defaultSubImage>
+            <img src="../../../../assets/DefaultUserPic.png" class="friend-image" (mouseenter)="showDogs(sub, $event)">
+          </ng-template>
+          <p>{{sub.showname}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-dogs-popup *ngIf="showDogsPopup" [user]="popupUser" class="dogs-popup"></app-dogs-popup>
+</div>
