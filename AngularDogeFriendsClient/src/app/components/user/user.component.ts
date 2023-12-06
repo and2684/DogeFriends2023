@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { filter, firstValueFrom } from 'rxjs';
 import { IImage } from 'src/app/models/Images';
 import { UserInfoDto, UserInfoDtoWithMainImage } from 'src/app/models/UserInfoDto';
 import { ImageService } from 'src/app/services/image-service/image.service';
@@ -20,7 +20,16 @@ export class UserComponent {
 
   constructor(private userService: UserService,
     private route: ActivatedRoute,
-    private imageService: ImageService) {}
+    private imageService: ImageService,
+    private router: Router)
+  {
+    // Подписываемся на события маршрутизатора
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.ngOnInit();
+    });
+  }
 
   async ngOnInit() {
     this.usernameFromParams = this.route.snapshot.params['username'];
