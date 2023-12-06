@@ -4,7 +4,6 @@ import { firstValueFrom } from 'rxjs';
 import { IImage } from 'src/app/models/Images';
 import { UserInfoDto, UserInfoDtoWithMainImage } from 'src/app/models/UserInfoDto';
 import { ImageService } from 'src/app/services/image-service/image.service';
-import { TokenService } from 'src/app/services/token-service/token.service';
 import { UserService } from 'src/app/services/user-service/user.service';
 
 @Component({
@@ -20,7 +19,6 @@ export class UserComponent {
   mainImage: IImage;
 
   constructor(private userService: UserService,
-    private tokenService: TokenService,
     private route: ActivatedRoute,
     private imageService: ImageService) {}
 
