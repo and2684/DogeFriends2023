@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { TokenService } from 'src/app/services/token-service/token.service';
 
@@ -11,7 +12,7 @@ export class LeftPanelComponent implements OnInit {
   username: string | null;
   private usernameSubscription: Subscription;
 
-  constructor(private tokenService: TokenService) { }
+  constructor(private tokenService: TokenService, private router: Router) { }
 
   ngOnInit() {
     //this.username = this.tokenService.getUsername();
@@ -22,5 +23,11 @@ export class LeftPanelComponent implements OnInit {
 
   ngOnDestroy() {
     this.usernameSubscription.unsubscribe();
+  }
+
+  routeToUser(routeUsername: string) {
+    this.router.navigate(['user', routeUsername]).then(() => {
+      window.location.reload();
+    });
   }
 }

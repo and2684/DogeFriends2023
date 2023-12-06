@@ -4,7 +4,6 @@ import { DogsService } from './../../services/dogs-service/dogs.service';
 import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { DogDto } from 'src/app/models/DogDto';
 import { Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { TokenService } from 'src/app/services/token-service/token.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DogDetailsComponent } from '../dog-details/dog-details.component';
@@ -22,15 +21,12 @@ export class DogsComponent implements OnInit {
 
   constructor(private dogsService: DogsService,
     private tokenService: TokenService,
-    private route: ActivatedRoute,
     private dialog: MatDialog) { }
 
-  usernameFromParams: string | null;
-  mypage = false;
+    tokenUsername: string | null = null;
 
   async ngOnInit() {
-    this.usernameFromParams = this.route.snapshot.params['username'];
-    this.mypage = this.tokenService.getUsername() === this.usernameFromParams;
+    this.tokenUsername = this.tokenService.getUsername();
   }
 
   ngOnChanges(changes: SimpleChanges) {

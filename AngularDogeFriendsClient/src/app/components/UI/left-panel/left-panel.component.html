@@ -9,7 +9,7 @@
           </a>
           <mat-divider style="background-color: #2c3c38; width: 150px; margin: 0 auto"></mat-divider>
 
-          <a mat-list-item *ngIf="this.username" routerLink="/user/{{this.username}}" routerLinkActive="active">
+          <a mat-list-item *ngIf="this.username" (click)="routeToUser(this.username)">
             <mat-icon>person</mat-icon>
             <span class="menu-span">Моя страница</span>
           </a>

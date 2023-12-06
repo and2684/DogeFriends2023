@@ -45,7 +45,7 @@ export class TokenService {
 
   public getUsername(): string | null {
     let username = localStorage.getItem(this.USERNAME_KEY);
-    console.log('Получено имя пользователя из TokenService: ' + username);
+    //console.log('Получено имя пользователя из TokenService: ' + username);
 
     return username ? username : null;
   }

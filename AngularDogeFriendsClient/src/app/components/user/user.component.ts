@@ -1,5 +1,11 @@
-import { Component, Output } from '@angular/core';
-import { UserInfoDto } from 'src/app/models/UserInfoDto';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
+import { IImage } from 'src/app/models/Images';
+import { UserInfoDto, UserInfoDtoWithMainImage } from 'src/app/models/UserInfoDto';
+import { ImageService } from 'src/app/services/image-service/image.service';
+import { TokenService } from 'src/app/services/token-service/token.service';
+import { UserService } from 'src/app/services/user-service/user.service';
 
 @Component({
   selector: 'app-user',
@@ -7,12 +13,24 @@ import { UserInfoDto } from 'src/app/models/UserInfoDto';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent {
-  @Output () user: UserInfoDto;
+  @Output () user: UserInfoDtoWithMainImage;
+  @Output() userEvent = new EventEmitter<UserInfoDtoWithMainImage>();
 
-  constructor() {}
+  usernameFromParams: string | null;
+  mainImage: IImage;
 
-  ngOnInit() {
-    console.log('user.component ngOnInit fired');
+  constructor(private userService: UserService,
+    private tokenService: TokenService,
+    private route: ActivatedRoute,
+    private imageService: ImageService) {}
+
+  async ngOnInit() {
+    this.usernameFromParams = this.route.snapshot.params['username'];
+    this.user = await firstValueFrom(this.userService.getUserByUsername(this.usernameFromParams!));
+    this.mainImage = await firstValueFrom(this.imageService.getMainImage(this.user.externalId, 'User'));
+    this.user.mainImage = this.mainImage.base64Data;
+
+    this.userEvent.emit(this.user!);
   }
 
   handleUserEvent(user: UserInfoDto) {

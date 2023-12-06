@@ -6,10 +6,10 @@
         <!-- Цикл для отображения списка друзей -->
         <div class="friend-item" *ngFor="let friend of this.friends">
           <ng-container *ngIf="friend.mainImage; else defaultFriendImage">
-            <img [src]="friend.mainImage" class="friend-image" (mouseenter)="showDogs(friend, $event)">
+            <img [src]="friend.mainImage" class="friend-image" (mouseenter)="showDogs(friend, $event)" (click)="sendUser(friend)">
           </ng-container>
           <ng-template #defaultFriendImage>
-            <img src="../../../../assets/DefaultUserPic.png" class="friend-image" (mouseenter)="showDogs(friend, $event)">
+            <img src="../../../../assets/DefaultUserPic.png" class="friend-image" (mouseenter)="showDogs(friend, $event)" (click)="sendUser(friend)">
           </ng-template>
           <p>{{friend.showname}}</p>
         </div>
@@ -21,11 +21,12 @@
       <div style="display: flex; justify-content: center;">
         <div class="friend-item" *ngFor="let subscription of this.subscriptions">
           <ng-container *ngIf="subscription.mainImage; else defaultSubscriptionImage">
-            <img [src]="subscription.mainImage" class="friend-image" (mouseenter)="showDogs(subscription, $event)">
+            <img [src]="subscription.mainImage" class="friend-image" (mouseenter)="showDogs(subscription, $event)" (click)="sendUser(subscription)">
           </ng-container>
           <ng-template #defaultSubscriptionImage>
             <img src="../../../../assets/DefaultUserPic.png" class="friend-image"
-              (mouseenter)="showDogs(subscription, $event)">
+              (mouseenter)="showDogs(subscription, $event)"
+              (click)="sendUser(subscription)">
           </ng-template>
           <p>{{subscription.showname}}</p>
         </div>
@@ -37,10 +38,10 @@
       <div style="display: flex; justify-content: center;">
         <div class="friend-item" *ngFor="let sub of this.subs">
           <ng-container *ngIf="sub.mainImage; else defaultSubImage">
-            <img [src]="sub.mainImage" class="friend-image" (mouseenter)="showDogs(sub, $event)">
+            <img [src]="sub.mainImage" class="friend-image" (mouseenter)="showDogs(sub, $event)" (click)="sendUser(sub)">
           </ng-container>
           <ng-template #defaultSubImage>
-            <img src="../../../../assets/DefaultUserPic.png" class="friend-image" (mouseenter)="showDogs(sub, $event)">
+            <img src="../../../../assets/DefaultUserPic.png" class="friend-image" (mouseenter)="showDogs(sub, $event)" (click)="sendUser(sub)">
           </ng-template>
           <p>{{sub.showname}}</p>
         </div>

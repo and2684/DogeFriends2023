@@ -4,13 +4,13 @@
       <!-- <div mat-card-avatar class="avatar" [ngStyle]="{'background-image': 'url(../../../../assets/DefaultUserPic.png)'}"></div> -->
       <div class="header-content">
         <mat-card-title class="montserrat">{{ user.showname }}</mat-card-title>
-        <mat-card-subtitle class="montserrat" *ngIf="mypage">(Это Вы)</mat-card-subtitle>
+        <mat-card-subtitle class="montserrat" *ngIf="tokenUsername == this.user.username">(Это Вы)</mat-card-subtitle>
       </div>
     </mat-card-header>
     <mat-divider style="background-color: #2c3c38; width: 150px; margin: 0 auto"></mat-divider>
 
-    <div style="display: flex; justify-content: center;" *ngIf="this.mainImage && this.mainImage.base64Data; else defaultImage">
-      <img mat-card-image [src]="this.mainImage.base64Data" style="border-radius: 10%; width:450px; height: 450px; object-fit: cover; margin-top: 30px;">
+    <div style="display: flex; justify-content: center;" *ngIf="this.user.mainImage; else defaultImage">
+      <img mat-card-image [src]="this.user.mainImage" style="border-radius: 10%; width:450px; height: 450px; object-fit: cover; margin-top: 30px;">
     </div>
     <ng-template #defaultImage>
       <div style="display: flex; justify-content: center;">
@@ -25,7 +25,7 @@
       <p>{{ user.description }}</p>
     </mat-card-content>
 
-    <mat-card-actions *ngIf="mypage" class="centered-actions">
+    <mat-card-actions *ngIf="user && tokenUsername == this.user.username" class="centered-actions">
       <button mat-raised-button color="" class="user-button" style="margin-top: 5px;" routerLink="/register">Изменить</button>
     </mat-card-actions>
   </mat-card>
