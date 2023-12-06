@@ -16,7 +16,7 @@ export class UserComponent {
   @Output() userEvent = new EventEmitter<UserInfoDtoWithMainImage>();
 
   usernameFromParams: string | null;
-  mainImage: IImage;
+  mainImage: IImage | null;
 
   constructor(private userService: UserService,
     private route: ActivatedRoute,
@@ -35,7 +35,10 @@ export class UserComponent {
     this.usernameFromParams = this.route.snapshot.params['username'];
     this.user = await firstValueFrom(this.userService.getUserByUsername(this.usernameFromParams!));
     this.mainImage = await firstValueFrom(this.imageService.getMainImage(this.user.externalId, 'User'));
-    this.user.mainImage = this.mainImage.base64Data;
+    if (this.mainImage)
+    {
+      this.user.mainImage = this.mainImage.base64Data;
+    }
 
     this.userEvent.emit(this.user!);
   }
