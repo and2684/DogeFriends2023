@@ -56,13 +56,19 @@ namespace DogeFriendsApi.Data
                 return (null, RepoAnswer.AlreadyExist);
             }
 
-            var newBreed = new Breed() 
-            { 
-                Name = breed.Name, 
-                Description = breed.Description,  
+            // Получим список пород
+            var breedGroupNames = breed.BreedGroups.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());
+            var foundBreedGroups = await _context.BreedGroups.Where(x => breedGroupNames.Contains(x.Name)).ToListAsync();
+
+
+            var newBreed = new Breed()
+            {
+                Name = breed.Name,
+                Description = breed.Description,
                 CoatId = _context.Coats.Where(x => x.Name == breed.Coat).Select(x => x.Id).FirstOrDefault(),
-                SizeId = _context.Sizes.Where(x => x.Name == breed.Size).Select(x => x.Id).FirstOrDefault()
-            };
+                SizeId = _context.Sizes.Where(x => x.Name == breed.Size).Select(x => x.Id).FirstOrDefault(),
+                BreedGroups = foundBreedGroups
+        };
 
             _context.Breeds.Add(newBreed);
             await _context.SaveChangesAsync();
@@ -122,6 +128,20 @@ namespace DogeFriendsApi.Data
                 return (result.Select(breedGroup => _mapper.Map<BreedGroupDto>(breedGroup)), RepoAnswer.Success);
             }
             return (null, RepoAnswer.NotFound);
+        }
+
+        // Каскадное удаление породы
+        public async Task<RepoAnswer> DeleteBreedCascadeAsync(int id)
+        {
+            var foundBreed = await _context.Breeds.FindAsync(id);
+            if (foundBreed == null)
+            {
+                return RepoAnswer.NotFound;
+            }
+
+            _context.Database.ExecuteSqlRaw($"CALL deletebreed({id})");
+            await _context.SaveChangesAsync();
+            return RepoAnswer.Success;
         }
     }
 }

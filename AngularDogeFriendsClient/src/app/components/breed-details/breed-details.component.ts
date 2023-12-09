@@ -1,6 +1,6 @@
 import { BreedService } from './../../services/breed-service/breed.service';
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { IBreed, IBreedUpdate } from 'src/app/models/Breeds';
 import { IImage } from 'src/app/models/Images';
 import { ImageService } from 'src/app/services/image-service/image.service';
@@ -9,6 +9,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { IBreedGroup, ICoat, ISize } from 'src/app/models/Directory';
 import { FormBuilder } from '@angular/forms';
+import { DialogBoxComponent } from '../UI/dialog-box/dialog-box.component';
 
 @Component({
   selector: 'app-breed-details',
@@ -22,6 +23,7 @@ export class BreedDetailsComponent implements OnInit {
     private breedService: BreedService,
     private imageService: ImageService,
     private dialog: MatDialogRef<BreedDetailsComponent>, // Внедряем MatDialogRef
+    private dialogBreedDeletion: MatDialog, // Диалог удаления породы
     private formBuilder: FormBuilder
   ) { }
 
@@ -30,6 +32,7 @@ export class BreedDetailsComponent implements OnInit {
   updatedBreed: IBreedUpdate;
   breedChangeForm: FormGroup;
   isBreedUpdated: boolean = false;
+  isBreedDeleted: boolean = false;
 
   coats: ICoat[] = [];
   sizes: ISize[] = [];
@@ -154,6 +157,26 @@ export class BreedDetailsComponent implements OnInit {
   }
 
   closeDialog() {
-    this.dialog.close({ isBreedUpdated: this.isBreedUpdated });
+    this.dialog.close({ isBreedUpdated: this.isBreedUpdated, isBreedDeleted: this.isBreedDeleted });
+  }
+
+  async deletecascade(breedId: number) {
+    const dialogRef = this.dialogBreedDeletion.open(DialogBoxComponent, {
+      data: { message: 'Вы уверены, что хотите удалить эту породу?' }
+    });
+
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result) {
+        try {
+          const res = await firstValueFrom(this.breedService.deleteCascadeBreed(this.breed.id));
+
+          this.isBreedDeleted = true;
+
+          this.closeDialog();
+        } catch (error) {
+          console.error('Ошибка при удалении породы:', error);
+        }
+      }
+    });
   }
 }

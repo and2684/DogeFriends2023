@@ -33,4 +33,9 @@ export class BreedService {
     var res = this.http.put(updateUrl, jsonBreed, {headers: {'Content-Type': 'application/json'}});
     return res;
   }
+
+  deleteCascadeBreed(id: number)  {
+    var res = this.http.delete(`${this.url}/deletecascade/${id}`);
+    return res;
+  }
 }

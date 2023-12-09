@@ -1,7 +1,7 @@
 import { TokenService } from './../../services/token-service/token.service';
 import { BreedService } from './../../services/breed-service/breed.service';
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription, forkJoin } from 'rxjs';
 import { IBreed } from 'src/app/models/Breeds';
 import { ImageService } from 'src/app/services/image-service/image.service';
@@ -36,7 +36,7 @@ export class BreedsComponent implements OnInit {
     private imageService: ImageService,
     private dialog: MatDialog,
     private tokenService: TokenService,
-    private directoryService: DirectoryService) {}
+    private directoryService: DirectoryService) { }
 
   ngOnInit() {
     this.breedForm = new FormGroup({
@@ -81,15 +81,31 @@ export class BreedsComponent implements OnInit {
     });
 
     dialogRef.backdropClick().subscribe(result => {
-      if (dialogRef.componentInstance.isBreedUpdated) {
-        var updatedBreed = dialogRef.componentInstance.breed;
-        var breedIndex = this.breeds.findIndex(breed => breed.id === updatedBreed.id);
+      var updatedBreed = dialogRef.componentInstance.breed;
+      var breedIndex = this.breeds.findIndex(breed => breed.id === updatedBreed.id);
 
+      // Порода обновилась
+      if (dialogRef.componentInstance.isBreedUpdated) {
         if (breedIndex !== -1) {
           this.breeds[breedIndex].name = updatedBreed.name;
           this.breeds[breedIndex].breedGroups = updatedBreed.breedGroups;
           this.breeds[breedIndex].images = updatedBreed.images;
           console.log(this.breeds[breedIndex]);
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('afterclosed fired');
+      var updatedBreed = dialogRef.componentInstance.breed;
+      var breedIndex = this.breeds.findIndex(breed => breed.id === updatedBreed.id);
+
+      // Порода удалилась
+      if (dialogRef.componentInstance.isBreedDeleted) {
+        if (breedIndex !== -1) {
+          console.log('breed deletion catcher fired');
+          // Удаляем породу из массива
+          this.breeds.splice(breedIndex, 1);
         }
       }
     });
@@ -118,16 +134,33 @@ export class BreedsComponent implements OnInit {
       }
     });
 
-    this.breedSubscription = this.breedService.getBreeds().subscribe((breeds) => {
-      this.breeds = breeds;
-      this.allbreeds = breeds;
-      const imageRequests = this.breeds.map(breed => this.imageService.getMainImage(breed.externalId, 'Breed'));
+    this.breedSubscription = this.breedService.getBreeds().subscribe({
+      next: (breeds) => {
+        this.breeds = breeds;
+        this.allbreeds = breeds;
 
-      forkJoin(imageRequests).subscribe(images => {
-        images.forEach((image, index) => {
-          this.breeds[index].images = [image];
+        const imageRequests = this.breeds.map(breed => this.imageService.getMainImage(breed.externalId, 'Breed'));
+
+        forkJoin(imageRequests).subscribe({
+          next: images => {
+            images.forEach((image, index) => {
+              if (image) {
+                this.breeds[index].images = [image];
+              } else {
+                this.breeds[index].images = [];
+              }
+            });
+          },
+          error: error => {
+            console.error('Error fetching images:', error);
+            // Handle the error here
+          }
         });
-      });
+      },
+      error: error => {
+        console.error('Error fetching breeds:', error);
+        // Handle the error here
+      }
     });
 
     this.selectedCoats = [];

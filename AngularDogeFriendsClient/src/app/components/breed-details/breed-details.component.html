@@ -108,7 +108,10 @@
               </div>
             </div>
 
-            <button [disabled]="breedChangeForm.invalid" mat-raised-button color="primary" class="breed-details-btn" type="submit">Подтвердить изменения</button>
+            <div style="flex-direction: row;">
+              <button [disabled]="breedChangeForm.invalid" mat-raised-button color="primary" class="breed-details-btn" type="submit">Подтвердить изменения</button>
+              <button [disabled]="breedChangeForm.invalid" mat-raised-button color="warn" class="breed-details-btn" (click)="deletecascade(breed.id)">УДАЛИТЬ КАСКАДНО</button>
+            </div>
           </mat-card>
         </form>
       </div>

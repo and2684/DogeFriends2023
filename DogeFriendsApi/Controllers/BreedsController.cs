@@ -123,5 +123,17 @@ namespace DogeFriendsApi.Controllers
                 _ => StatusCode(500, "Произошла ошибка при получении списка типов пород собак.")
             };
         }
+
+        [HttpDelete("deletecascade/{id:int}")]
+        public async Task<IActionResult> DeleteBreedCascade(int id)
+        {
+            var answerCode = await _breedsRepository.DeleteBreedCascadeAsync(id);
+            return answerCode switch
+            {
+                RepoAnswer.NotFound => NotFound($"Порода с идентификатором {id} не найдена."),
+                RepoAnswer.Success => Ok(),
+                _ => StatusCode(500, $"Произошла ошибка при каскадном удалении породы собаки с идентификатором {id}.")
+            };
+        }
     }
 }

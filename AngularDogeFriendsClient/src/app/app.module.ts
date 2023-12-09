@@ -35,6 +35,7 @@ import { UserCardComponent } from './components/UI/user-card/user-card.component
 import { DogsComponent } from './components/dogs/dogs.component';
 import { DogDetailsComponent } from './components/dog-details/dog-details.component';
 import { DogsPopupComponent } from './components/UI/dogs-popup/dogs-popup.component';
+import { DialogBoxComponent } from './components/UI/dialog-box/dialog-box.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { DogsPopupComponent } from './components/UI/dogs-popup/dogs-popup.compon
     UserCardComponent,
     DogsComponent,
     DogDetailsComponent,
-    DogsPopupComponent
+    DogsPopupComponent,
+    DialogBoxComponent
   ],
   imports: [
     BrowserModule,
